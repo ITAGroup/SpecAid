@@ -1,0 +1,17 @@
+Bin
+bin
+obj
+TestResults
+aspnet_client
+Deployment
+*.suo
+*.user
+*.cache
+~$*
+Thumbs.db
+thumbs.db
+*.ReSharper.user
+_ReSharper.*
+*.dbmdl
+*.docstates
+*.dotcover*
