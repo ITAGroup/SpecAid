@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecAid", "SpecAid\SpecAid.csproj", "{52853B49-4C74-4E4B-86A7-D75CCE405A4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecAidTests", "SpecAidTests\SpecAidTests.csproj", "{B7383838-E919-47FE-BBAB-3520C47EBCF7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52853B49-4C74-4E4B-86A7-D75CCE405A4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52853B49-4C74-4E4B-86A7-D75CCE405A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52853B49-4C74-4E4B-86A7-D75CCE405A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52853B49-4C74-4E4B-86A7-D75CCE405A4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7383838-E919-47FE-BBAB-3520C47EBCF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7383838-E919-47FE-BBAB-3520C47EBCF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7383838-E919-47FE-BBAB-3520C47EBCF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7383838-E919-47FE-BBAB-3520C47EBCF7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

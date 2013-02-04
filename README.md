@@ -1,4 +1,0 @@
-SpecAid
-=======
-
-SpecAid

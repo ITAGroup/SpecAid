@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{52853B49-4C74-4E4B-86A7-D75CCE405A4A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SpecAid</RootNamespace>
+    <AssemblyName>SpecAid</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TechTalk.SpecFlow">
+      <HintPath>..\packages\SpecFlow.1.9.0\lib\net35\TechTalk.SpecFlow.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\ColumnAction.cs" />
+    <Compile Include="Base\ColumnNameToActionContainer.cs" />
+    <Compile Include="Base\ColumnToActionContainer.cs" />
+    <Compile Include="Base\CompareColumnResult.cs" />
+    <Compile Include="Base\CompareRowResult.cs" />
+    <Compile Include="Base\CompareTableResult.cs" />
+    <Compile Include="Base\ConstantStrings.cs" />
+    <Compile Include="Base\IColumnAction.cs" />
+    <Compile Include="Base\IComparerColumnAction.cs" />
+    <Compile Include="Base\ICreatorColumnAction.cs" />
+    <Compile Include="Base\ITranslation.cs" />
+    <Compile Include="Base\ObjectField.cs" />
+    <Compile Include="Base\TypeConversion.cs" />
+    <Compile Include="ColumnActions\ColumnActionFactory.cs" />
+    <Compile Include="ColumnActions\CompareAction.cs" />
+    <Compile Include="ColumnActions\CompareColumnBuilder.cs" />
+    <Compile Include="ColumnActions\CreateColumnBuilder.cs" />
+    <Compile Include="ColumnActions\DeepCompareAction.cs" />
+    <Compile Include="ColumnActions\DeepSetAction.cs" />
+    <Compile Include="ColumnActions\IgnoreAction.cs" />
+    <Compile Include="ColumnActions\ListCompareAction.cs" />
+    <Compile Include="ColumnActions\SetAction.cs" />
+    <Compile Include="ColumnActions\TagAction.cs" />
+    <Compile Include="ColumnActions\UnknownAction.cs" />
+    <Compile Include="CustomCompare\CustomComparer.cs" />
+    <Compile Include="CustomCompare\CustomComparerHelpers.cs" />
+    <Compile Include="DynamicLinq\Dynamic.cs" />
+    <Compile Include="FieldAid.cs" />
+    <Compile Include="Helper\AssemblyEntryFinderInUnitTests.cs" />
+    <Compile Include="Helper\ObjectHelper.cs" />
+    <Compile Include="Helper\PropertyInfoHelper.cs" />
+    <Compile Include="Helper\TagHelper.cs" />
+    <Compile Include="Helper\ToStringHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecallAid.cs" />
+    <Compile Include="TableAid.cs" />
+    <Compile Include="Translations\BooleanTranslation.cs" />
+    <Compile Include="Translations\DateTimeTranslation.cs" />
+    <Compile Include="Translations\DateTranslation.cs" />
+    <Compile Include="Translations\DeepLinkTranslation.cs" />
+    <Compile Include="Translations\EnumTranslation.cs" />
+    <Compile Include="Translations\LinkTranslation.cs" />
+    <Compile Include="Translations\LinqTranslation.cs" />
+    <Compile Include="Translations\ListTranslation.cs" />
+    <Compile Include="Translations\NullableGenericTranslation.cs" />
+    <Compile Include="Translations\NullTranslation.cs" />
+    <Compile Include="Translations\StepArgumentBindingTransformation.cs" />
+    <Compile Include="Translations\StringTranslation.cs" />
+    <Compile Include="Translations\TodayTranslation.cs" />
+    <Compile Include="Translations\TomorrowTranslation.cs" />
+    <Compile Include="Translations\Translator.cs" />
+    <Compile Include="Translations\YesterdayTranslation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
