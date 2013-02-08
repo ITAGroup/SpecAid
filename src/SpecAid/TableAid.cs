@@ -31,6 +31,11 @@ namespace SpecAid
             return ObjectCreatorUpdaterInternal<T>(table, null, null, postFillActions, null);
         }
 
+        public static IEnumerable<T> ObjectCreator<T>(Table table, Action<TableRow, T> postFillActions, IEnumerable<ColumnToActionContainer<ICreatorColumnAction>> columnOverrides)
+        {
+            return ObjectCreatorUpdaterInternal<T>(table, null, null, postFillActions, columnOverrides);
+        }
+
         public static IEnumerable<T> ObjectCreator<T>(Table table, Func<T> defaultValue, Action<TableRow, T> postFillActions) 
         {
             return ObjectCreatorUpdaterInternal<T>(table, defaultValue, null, postFillActions, null);

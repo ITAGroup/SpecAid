@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecAid", "SpecAid\SpecAid.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecAidTests", "SpecAidTests\SpecAidTests.csproj", "{B7383838-E919-47FE-BBAB-3520C47EBCF7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecAidGitHubSamples", "SpecAidGitHubSamples\SpecAidGitHubSamples.csproj", "{2E7B5213-8C71-43AF-A2A8-34E16F6CA234}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{B7383838-E919-47FE-BBAB-3520C47EBCF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7383838-E919-47FE-BBAB-3520C47EBCF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7383838-E919-47FE-BBAB-3520C47EBCF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E7B5213-8C71-43AF-A2A8-34E16F6CA234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E7B5213-8C71-43AF-A2A8-34E16F6CA234}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E7B5213-8C71-43AF-A2A8-34E16F6CA234}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E7B5213-8C71-43AF-A2A8-34E16F6CA234}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
