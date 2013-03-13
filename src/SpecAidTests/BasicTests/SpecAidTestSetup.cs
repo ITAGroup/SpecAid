@@ -137,6 +137,15 @@ namespace SpecAid.SpecFlowTests
             TableAid.ObjectComparer<BananaSplit>(table, bananaSplits);
         }
 
+        [Then(@"BananaSplit '(.*)' looks like")]
+        public void ThenBananaSplitLooksLike(string tagBananaSplit, Table table)
+        {
+            var bananaSplit = (BananaSplit)RecallAid.It[tagBananaSplit];
+
+            TableAid.ObjectComparerOne(table,bananaSplit);
+        }
+
+
         [Then(@"There are '(.*)' BananaSplits are available to order WILL ASSERT '(.*)'")]
         public void ThenThereAreBananaSplitsAreAvailableToOrderWILLASSERT(string flavor, string message, Table table)
         {

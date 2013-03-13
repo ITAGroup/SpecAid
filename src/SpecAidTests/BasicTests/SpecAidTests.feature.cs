@@ -565,6 +565,51 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Then Tagging Works")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "SpecAid Testings")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("SpecAidTests")]
+        public virtual void ThenTaggingWorks()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Then Tagging Works", ((string[])(null)));
+#line 138
+this.ScenarioSetup(scenarioInfo);
+#line 5
+this.FeatureBackground();
+#line hidden
+            TechTalk.SpecFlow.Table table19 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Tag It",
+                        "Banana.Color",
+                        "IceCream.Flavor",
+                        "IceCream.BrandName.Name"});
+            table19.AddRow(new string[] {
+                        "<<VanillaBen>>",
+                        "Yellow",
+                        "Vanilla",
+                        "Ben and Jerry\'s"});
+            table19.AddRow(new string[] {
+                        "<<VanillaGeneric>>",
+                        "Yellow",
+                        "Vanilla",
+                        "Generic"});
+#line 140
+ testRunner.Then("There are \'Vanilla\' BananaSplits are available to order", ((string)(null)), table19, "Then ");
+#line hidden
+            TechTalk.SpecFlow.Table table20 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Field",
+                        "Value"});
+            table20.AddRow(new string[] {
+                        "Banana.Color",
+                        "Yellow"});
+            table20.AddRow(new string[] {
+                        "IceCream.Flavor",
+                        "Vanilla"});
+#line 145
+    testRunner.Then("BananaSplit \'<<VanillaBen>>\' looks like", ((string)(null)), table20, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore
