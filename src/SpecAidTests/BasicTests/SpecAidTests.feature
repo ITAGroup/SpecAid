@@ -146,3 +146,9 @@ Scenario: Then Tagging Works
         | Field           | Value   |
         | Banana.Color    | Yellow  |
         | IceCream.Flavor | Vanilla |
+
+Scenario: Then Symbolics Works
+	Then 'Vanilla' BananaSplits on the menu
+	    | IceCream Flavor | Brand of Ice Cream |
+	    | Vanilla         | Ben and Jerry's    |
+	    | Vanilla         | Generic            |

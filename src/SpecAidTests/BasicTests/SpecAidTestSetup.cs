@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SpecAid.ColumnActions;
 using TechTalk.SpecFlow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -129,6 +130,18 @@ namespace SpecAid.SpecFlowTests
         {
             var theSplits = bananaSplits.Where(x => x.IceCream.Flavor == flavor).ToList();
             TableAid.ObjectComparer<BananaSplit>(table, theSplits);
+        }
+
+        [Then(@"'(.*)' BananaSplits on the menu")]
+        public void ThenBananaSplitsOnTheMenu(string flavor, Table table)
+        {
+            var theSplits = bananaSplits.Where(x => x.IceCream.Flavor == flavor).ToList();
+
+            var ccb = new CompareColumnBuilder<BananaSplit>();
+            ccb.AddSymbolic("IceCream Flavor", "IceCream.Flavor");
+            ccb.AddSymbolic("Brand of Ice Cream", "IceCream.BrandName.Name");
+
+            TableAid.ObjectComparer<BananaSplit>(table, theSplits,ccb.Out);
         }
 
         [Then(@"There are BananaSplits are available to order")]

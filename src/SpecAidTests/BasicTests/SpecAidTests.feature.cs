@@ -610,6 +610,33 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Then Symbolics Works")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "SpecAid Testings")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("SpecAidTests")]
+        public virtual void ThenSymbolicsWorks()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Then Symbolics Works", ((string[])(null)));
+#line 150
+this.ScenarioSetup(scenarioInfo);
+#line 5
+this.FeatureBackground();
+#line hidden
+            TechTalk.SpecFlow.Table table21 = new TechTalk.SpecFlow.Table(new string[] {
+                        "IceCream Flavor",
+                        "Brand of Ice Cream"});
+            table21.AddRow(new string[] {
+                        "Vanilla",
+                        "Ben and Jerry\'s"});
+            table21.AddRow(new string[] {
+                        "Vanilla",
+                        "Generic"});
+#line 151
+ testRunner.Then("\'Vanilla\' BananaSplits on the menu", ((string)(null)), table21, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore
