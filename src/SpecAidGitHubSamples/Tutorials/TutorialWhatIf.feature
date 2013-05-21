@@ -37,4 +37,3 @@ Scenario: Making People With Spaces
 	|        | 3          | "Red's Brick and Landscaping             " |
 	|        | 4          | "  Fox Smith                            1" |
 	|        | 5          | "  Jayne Cobb                           0" |
-

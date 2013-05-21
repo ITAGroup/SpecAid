@@ -55,6 +55,18 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Common\RecallAidHelper.cs" />
+    <Compile Include="Templates\PeopleSetUp.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PeopleSetUp.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\PeopleSetUpSteps.cs" />
+    <Compile Include="Templates\StoreSetUp.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StoreSetUp.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\StoreSetUpSteps.cs" />
     <Compile Include="Versus\VersusTableRow.feature.cs">
       <DependentUpon>VersusTableRow.feature</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -109,6 +121,14 @@
     <None Include="SpecflowWiredUp\SpecflowWiredUp.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>SpecflowWiredUp.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\PeopleSetUp.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>PeopleSetUp.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\StoreSetUp.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>StoreSetUp.feature.cs</LastGenOutput>
     </None>
     <None Include="Versus\VersusTableRow.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
