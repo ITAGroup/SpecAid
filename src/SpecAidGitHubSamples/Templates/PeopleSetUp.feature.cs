@@ -33,7 +33,8 @@ namespace SpecAidGitHubSamples.Templates
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "PeopleSetUp", "", ProgrammingLanguage.CSharp, new string[] {
-                        "ignore"});
+                        "ignore",
+                        "TutorialGivenBasicSteps"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -73,10 +74,11 @@ namespace SpecAidGitHubSamples.Templates
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Setting up people")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "PeopleSetUp")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TutorialGivenBasicSteps")]
         public virtual void SettingUpPeople()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Setting up people", ((string[])(null)));
-#line 4
+#line 5
 this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -88,20 +90,44 @@ this.ScenarioSetup(scenarioInfo);
                         "YearsOfService"});
             table1.AddRow(new string[] {
                         "1",
-                        "\"Fox\"",
-                        "\"C\"",
-                        "\"Smith   \"",
+                        "Fox",
+                        "C",
+                        "Smith",
                         "<<Red>>",
                         "1"});
             table1.AddRow(new string[] {
                         "2",
-                        "\"Jayne\"",
+                        "Jayne",
                         "",
-                        "\"Cobb    \"",
+                        "Cobb",
                         "<<Red>>",
                         "0"});
-#line 5
+#line 7
  testRunner.Given("I have People", ((string)(null)), table1, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Emp Id",
+                        "First Name",
+                        "Middle Name",
+                        "Last Name",
+                        "Store",
+                        "YearsOfService"});
+            table2.AddRow(new string[] {
+                        "1",
+                        "Sue",
+                        "",
+                        "Smith",
+                        "<<Red>>",
+                        "25"});
+            table2.AddRow(new string[] {
+                        "2",
+                        "Jayne",
+                        "",
+                        "Cobb",
+                        "<<Red>>",
+                        "26"});
+#line 14
+ testRunner.Given("I have People", ((string)(null)), table2, "Given ");
 #line hidden
             this.ScenarioCleanup();
         }

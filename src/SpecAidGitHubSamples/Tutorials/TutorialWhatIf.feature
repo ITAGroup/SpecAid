@@ -19,8 +19,8 @@ Scenario: What If There Is No Spoon
 @TutorialSpacesForAllSteps
 Scenario: Making People With Spaces
 	Given I have Stores
-	  | Tag It  | StoreId | Name                        |
-	  | <<Red>> | 42      | Red's Brick and Landscaping |
+	  | Tag It   | StoreId | Name                         |
+	  | <<Red>>  | 42      | Red's Brick and Landscaping  |
 
 	Given I have People
       | Emp Id | First Name | Middle Name | Last Name  | Store   | YearsOfService |
