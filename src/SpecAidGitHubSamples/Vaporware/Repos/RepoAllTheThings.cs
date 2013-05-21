@@ -22,8 +22,19 @@ namespace SpecAidGitHubSamples.Vaporware.Repos
             return item;
         }
 
+        public List<TClass> GetAll()
+        {
+            return _data.Values.AsQueryable().ToList();
+        }
+
         public void Save(TClass oClass)
         {
+            if (oClass.Id == null)
+            {
+                var lastId = GetQueryible().Max(x => x.Id);
+                oClass.Id = lastId + 1;
+            }
+
             if (_data.ContainsKey(oClass.Id))
             {
                 _data[oClass.Id] = oClass;

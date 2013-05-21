@@ -55,6 +55,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Common\RecallAidHelper.cs" />
+    <Compile Include="JackAndJill\JackAndJill.feature.cs">
+      <DependentUpon>JackAndJill.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="JackAndJill\JackAndJillSteps.cs" />
     <Compile Include="Templates\PeopleSetUp.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -115,6 +121,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="JackAndJill\JackAndJill.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>JackAndJill.feature.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
     <None Include="SpecflowWiredUp\SpecflowWiredUp.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
