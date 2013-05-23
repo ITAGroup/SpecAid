@@ -38,7 +38,7 @@ namespace SpecAidGitHubSamples.Versus
             TableAid.ObjectCreator<Person>(
                 table, 
                 (tr, p) => {
-                        p.Store = storeRepo.GetById(tr["Store Id"]);
+                        p.Store = storeRepo.GetById(Convert.ToInt32(tr["Store Id"]));
                         peopleRepo.Save(p);
                     },
                 (new CreateColumnBuilder<Person>()).AddIgnore("Store Id").Out
@@ -50,7 +50,7 @@ namespace SpecAidGitHubSamples.Versus
         {
             var peopleRepo = RecallAidHelper.GetReal<PeopleRepo>();
 
-            var actualPeople = peopleRepo.GetQueryible();
+            var actualPeople = peopleRepo.GetAll();
 
             TableAid.ObjectComparer(table, actualPeople);
         }

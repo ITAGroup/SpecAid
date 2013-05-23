@@ -19,20 +19,20 @@ namespace SpecAidGitHubSamples.JackAndJill
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute()]
-    public partial class PeopleSetUpFeature
+    public partial class JackAndJillBptStyleFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "JackAndJill.feature"
+#line 1 "JackAndJillBptStyle.feature"
 #line hidden
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.ClassInitializeAttribute()]
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "PeopleSetUp", "", ProgrammingLanguage.CSharp, new string[] {
-                        "JackAndJillSteps"});
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Jack And Jill Bpt Style", "", ProgrammingLanguage.CSharp, new string[] {
+                        "JackAndJillBptStyleSteps"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -47,9 +47,9 @@ namespace SpecAidGitHubSamples.JackAndJill
         public virtual void TestInitialize()
         {
             if (((TechTalk.SpecFlow.FeatureContext.Current != null) 
-                        && (TechTalk.SpecFlow.FeatureContext.Current.FeatureInfo.Title != "PeopleSetUp")))
+                        && (TechTalk.SpecFlow.FeatureContext.Current.FeatureInfo.Title != "Jack And Jill Bpt Style")))
             {
-                SpecAidGitHubSamples.JackAndJill.PeopleSetUpFeature.FeatureSetup(null);
+                SpecAidGitHubSamples.JackAndJill.JackAndJillBptStyleFeature.FeatureSetup(null);
             }
         }
         
@@ -71,8 +71,8 @@ namespace SpecAidGitHubSamples.JackAndJill
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Jack and Jill Go Up the Hill")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "PeopleSetUp")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("JackAndJillSteps")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Jack And Jill Bpt Style")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("JackAndJillBptStyleSteps")]
         public virtual void JackAndJillGoUpTheHill()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Jack and Jill Go Up the Hill", ((string[])(null)));

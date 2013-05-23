@@ -12,10 +12,21 @@ namespace SpecAidGitHubSamples.Vaporware.Repos
 
     public class BaseRepo<TClass> where TClass : IVaporEntity
     {
-        private readonly Dictionary<string, TClass> _data = new Dictionary<string, TClass>();
+        private readonly Dictionary<int, TClass> _data = new Dictionary<int, TClass>();
 
-        public TClass GetById(string id)
+        public TClass GetById(int id)
         {
+            TClass item;
+            _data.TryGetValue(id, out item);
+
+            return item;
+        }
+        
+        /// <param name="idAsText">Must be Int Convertable</param>
+        public TClass GetById(string idAsText)
+        {
+            var id = Convert.ToInt32(idAsText);
+
             TClass item;
             _data.TryGetValue(id, out item);
 
@@ -29,10 +40,9 @@ namespace SpecAidGitHubSamples.Vaporware.Repos
 
         public void Save(TClass oClass)
         {
-            if (oClass.Id == null)
+            if (oClass.Id == 0)
             {
-                var lastId = GetQueryible().Max(x => x.Id);
-                oClass.Id = lastId + 1;
+                oClass.Id = NewId();
             }
 
             if (_data.ContainsKey(oClass.Id))
@@ -42,6 +52,15 @@ namespace SpecAidGitHubSamples.Vaporware.Repos
             }
 
             _data.Add(oClass.Id, oClass);
+        }
+
+        private int NewId()
+        {
+            if (!_data.Any())
+                return 1;
+
+            var lastId = GetQueryible().Max(x => x.Id);
+            return lastId + 1;
         }
 
         public IQueryable<TClass> GetQueryible()

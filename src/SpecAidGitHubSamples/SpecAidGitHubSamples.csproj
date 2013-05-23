@@ -55,12 +55,18 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Common\RecallAidHelper.cs" />
-    <Compile Include="JackAndJill\JackAndJill.feature.cs">
-      <DependentUpon>JackAndJill.feature</DependentUpon>
+    <Compile Include="JackAndJill\JackAndJillBddStyleSteps.cs" />
+    <Compile Include="JackAndJill\JackAndJillBddStyle.feature.cs">
+      <DependentUpon>JackAndJillBddStyle.feature</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="JackAndJill\JackAndJillSteps.cs" />
+    <Compile Include="JackAndJill\JackAndJillBptStyle.feature.cs">
+      <DependentUpon>JackAndJillBptStyle.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="JackAndJill\JackAndJillBptStyleSteps.cs" />
     <Compile Include="Templates\PeopleSetUp.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -121,9 +127,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="JackAndJill\JackAndJill.feature">
+    <None Include="JackAndJill\JackAndJillBddStyle.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>JackAndJill.feature.cs</LastGenOutput>
+      <LastGenOutput>JackAndJillBddStyle.feature.cs</LastGenOutput>
+    </None>
+    <None Include="JackAndJill\JackAndJillBptStyle.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>JackAndJillBptStyle.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
     <None Include="SpecflowWiredUp\SpecflowWiredUp.feature">

@@ -119,7 +119,7 @@ namespace SpecAidGitHubSamples.Tutorials
         {
             var peopleRepo = RecallAidHelper.GetReal<PeopleRepo>();
 
-            var actualPeople = peopleRepo.GetQueryible();
+            var actualPeople = peopleRepo.GetAll();
 
             TableAid.ObjectComparer(table, actualPeople);
         }
@@ -137,7 +137,7 @@ namespace SpecAidGitHubSamples.Tutorials
             {
                 var peopleRepo = RecallAidHelper.GetReal<PeopleRepo>();
 
-                var actualPeople = peopleRepo.GetQueryible();
+                var actualPeople = peopleRepo.GetAll();
 
                 TableAid.ObjectComparer(table, actualPeople);
             }
@@ -207,7 +207,7 @@ namespace SpecAidGitHubSamples.Tutorials
             var storeRepo = RecallAidHelper.GetReal<StoreRepo>();
             var peopleRepo = RecallAidHelper.GetReal<PeopleRepo>();
 
-            var allStores = storeRepo.GetQueryible().ToList();
+            var allStores = storeRepo.GetAll();
             var allPeople = peopleRepo.GetQueryible().OrderByDescending(p=>p.YearsOfService).ToList();
 
             var lineNumber = 0;

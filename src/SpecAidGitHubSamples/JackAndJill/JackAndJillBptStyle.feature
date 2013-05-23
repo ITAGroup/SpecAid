@@ -1,5 +1,5 @@
-﻿@JackAndJillSteps
-Feature: PeopleSetUp
+﻿@JackAndJillBptStyleSteps
+Feature: Jack And Jill Bpt Style
 
 Scenario: Jack and Jill Go Up the Hill
       Given I have people

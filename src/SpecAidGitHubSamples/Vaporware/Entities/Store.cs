@@ -2,9 +2,9 @@
 {
     public class Store : IVaporEntity
     {
-        public string Id { get { return StoreId.ToString(); } set { StoreId = int.Parse(value); } }
+        public int Id { get; set; }
 
-        public int StoreId { get; set; }
+        public int StoreId { get { return Id; } set { Id = value; } }
 
         public string Name { get; set; }
     }

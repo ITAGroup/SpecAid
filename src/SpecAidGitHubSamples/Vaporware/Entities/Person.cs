@@ -2,7 +2,7 @@
 {
     public class Person : IVaporEntity
     {
-        public string Id { get { return EmpId; } set { EmpId = value; } }
+        public int Id { get; set; }
 
         public string EmpId { get; set; }
 

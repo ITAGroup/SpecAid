@@ -54,7 +54,7 @@ namespace SpecAidGitHubSamples.Versus
         {
             var peopleRepo = RecallAidHelper.GetReal<PeopleRepo>();
 
-            var actualPeople = peopleRepo.GetQueryible();
+            var actualPeople = peopleRepo.GetAll();
 
             table.CompareToSet(actualPeople);
         }

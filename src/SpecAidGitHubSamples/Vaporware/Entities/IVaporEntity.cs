@@ -8,6 +8,6 @@ namespace SpecAidGitHubSamples.Vaporware.Entities
 {
     public interface IVaporEntity
     {
-        string Id { get; set; }
+        int Id { get; set; }
     }
 }

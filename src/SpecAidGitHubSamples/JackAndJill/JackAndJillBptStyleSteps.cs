@@ -9,8 +9,8 @@ using TechTalk.SpecFlow;
 namespace SpecAidGitHubSamples.JackAndJill
 {
     [Binding]
-    [Scope(Tag = "JackAndJillSteps")]
-    public class JackAndJillSteps
+    [Scope(Tag = "JackAndJillBptStyleSteps")]
+    public class JackAndJillBptStyleSteps
     {
         [Given(@"I have people")]
         public void GivenIHavePeople(Table table)
