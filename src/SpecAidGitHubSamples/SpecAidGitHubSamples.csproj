@@ -55,6 +55,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Common\RecallAidHelper.cs" />
+    <Compile Include="ImportExample\PersonImport.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PersonImport.feature</DependentUpon>
+    </Compile>
     <Compile Include="JackAndJill\JackAndJillBddStyleSteps.cs" />
     <Compile Include="JackAndJill\JackAndJillBddStyle.feature.cs">
       <DependentUpon>JackAndJillBddStyle.feature</DependentUpon>
@@ -67,6 +72,11 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="JackAndJill\JackAndJillBptStyleSteps.cs" />
+    <Compile Include="ReportExample\PersonReport.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PersonReport.feature</DependentUpon>
+    </Compile>
     <Compile Include="Templates\PeopleSetUp.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -127,6 +137,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ImportExample\PersonImport.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>PersonImport.feature.cs</LastGenOutput>
+    </None>
     <None Include="JackAndJill\JackAndJillBddStyle.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>JackAndJillBddStyle.feature.cs</LastGenOutput>
@@ -136,6 +150,10 @@
       <LastGenOutput>JackAndJillBptStyle.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="ReportExample\PersonReport.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>PersonReport.feature.cs</LastGenOutput>
+    </None>
     <None Include="SpecflowWiredUp\SpecflowWiredUp.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>SpecflowWiredUp.feature.cs</LastGenOutput>

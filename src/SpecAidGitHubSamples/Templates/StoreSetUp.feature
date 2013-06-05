@@ -1,4 +1,5 @@
-﻿@ignore
+﻿@TutorialStoresSteps
+@ignore
 Feature: StoreSetUp
 
 Scenario: Store Set up
