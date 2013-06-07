@@ -86,6 +86,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StoreSetUp.feature</DependentUpon>
     </Compile>
+    <Compile Include="Vaporware\Reports\PersonReport.cs" />
     <Compile Include="Versus\VersusTableRow.feature.cs">
       <DependentUpon>VersusTableRow.feature</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -192,6 +193,7 @@
       <Name>SpecAid</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

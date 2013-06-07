@@ -95,7 +95,7 @@ this.ScenarioSetup(scenarioInfo);
                         "43",
                         "Dig It"});
 #line 17
-testRunner.Given("I have Stores", ((string)(null)), table1, "Given ");
+ testRunner.Given("I have Stores", ((string)(null)), table1, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "Emp Id",
@@ -134,7 +134,7 @@ testRunner.Given("I have Stores", ((string)(null)), table1, "Given ");
                         "26"});
 #line 22
  testRunner.Given("I have People", ((string)(null)), table2, "Given ");
-#line 31
+#line 29
  testRunner.When("I view the Person Report", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -167,7 +167,7 @@ testRunner.Given("I have Stores", ((string)(null)), table1, "Given ");
                         "Dig It",
                         "26",
                         "Yes"});
-#line 33
+#line 31
  testRunner.Then("I have Person Report", ((string)(null)), table3, "Then ");
 #line hidden
             this.ScenarioCleanup();
