@@ -81,7 +81,8 @@ namespace SpecAid.ColumnActions
         /// <summary>
         /// Method to match columns in a table to properties in a object
         /// </summary>
-        public static IEnumerable<ColumnToActionContainer<T>> GetActionsFromColumns<T>(Table table, Type target, IEnumerable<ColumnToActionContainer<T>> overrides )
+        public static IEnumerable<ColumnToActionContainer<T>> GetActionsFromColumns<T>(
+            Table table, Type target, IEnumerable<ColumnToActionContainer<T>> overrides )
             where T : IColumnAction
         {
             //setup my return object
