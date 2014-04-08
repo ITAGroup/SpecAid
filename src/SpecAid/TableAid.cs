@@ -156,7 +156,7 @@ namespace SpecAid
         // B3
         public static void ObjectComparerSorted<T>(Table table, IEnumerable<T> data)
         {
-            ObjectComparerInternal<T>(table, data, null, null);
+            ObjectComparerInternalSorted<T>(table, data, null, null);
         }
 
         // C3
@@ -165,7 +165,7 @@ namespace SpecAid
             IEnumerable<T> data,
             IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
         {
-            ObjectComparerInternal<T>(table, data, null, columnOverrides);
+            ObjectComparerInternalSorted<T>(table, data, null, columnOverrides);
         }
 
         // D3
@@ -174,7 +174,7 @@ namespace SpecAid
             IEnumerable<T> data,
             Action<TableRow, T> postCompareActions)
         {
-            ObjectComparerInternal<T>(table, data, postCompareActions, null);
+            ObjectComparerInternalSorted<T>(table, data, postCompareActions, null);
         }
 
         // E3
@@ -184,13 +184,13 @@ namespace SpecAid
             IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides,
             Action<TableRow, T> postCompareActions)
         {
-            ObjectComparerInternal<T>(table, data, postCompareActions, columnOverrides);
+            ObjectComparerInternalSorted<T>(table, data, postCompareActions, columnOverrides);
         }
 
         // B4
         public static void ObjectComparer<T>(Table table, Func<TableRow, T> objectFinder)
         {
-            ObjectComparerInternal<T>(table, objectFinder, null, null);
+            ObjectComparerWithFinderInternal<T>(table, objectFinder, null, null);
         }
 
         // C4
@@ -199,7 +199,7 @@ namespace SpecAid
             Func<TableRow, T> objectFinder,
             IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
         {
-            ObjectComparerInternal<T>(table, objectFinder, null, columnOverrides);
+            ObjectComparerWithFinderInternal<T>(table, objectFinder, null, columnOverrides);
         }
 
         // D4
@@ -208,7 +208,7 @@ namespace SpecAid
             Func<TableRow, T> objectFinder,
             Action<TableRow, T> postCompareActions)
         {
-            ObjectComparerInternal<T>(table, objectFinder, postCompareActions, null);
+            ObjectComparerWithFinderInternal<T>(table, objectFinder, postCompareActions, null);
         }
 
         // E4
@@ -218,7 +218,7 @@ namespace SpecAid
             Action<TableRow, T> postCompareActions,
             IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
         {
-            ObjectComparerInternal<T>(table, objectFinder, postCompareActions, columnOverrides);
+            ObjectComparerWithFinderInternal<T>(table, objectFinder, postCompareActions, columnOverrides);
         }
 
         // B5
@@ -381,7 +381,7 @@ namespace SpecAid
             }
         }
 
-        private static void ObjectComparerInternal<T>(
+        private static void ObjectComparerWithFinderInternal<T>(
             Table table,
             Func<TableRow, T> objectFinder,
             Action<TableRow, T> postCompareActions,
@@ -418,8 +418,8 @@ namespace SpecAid
                         postCompareActions(table.Rows[tableRowIndex], dataItem);
                     }
                 }
-
             }
+
             compareTableResult.FinalAnalyst();
 
             // Perform Printing
@@ -435,7 +435,7 @@ namespace SpecAid
             IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
         {
             var compareTableResult = new CompareTableResult();
-            compareTableResult.InitCompare(table, table.RowCount);
+            compareTableResult.InitCompare(table, dataList.Count());
 
             // hold which column maps to which property
             var columnActions = ColumnActionFactory.GetActionsFromColumns(
@@ -472,7 +472,7 @@ namespace SpecAid
                 }
             }
 
-            for (var dataIndex = table.RowCount - 1; dataIndex < dataList.Count(); dataIndex++)
+            for (var dataIndex = table.RowCount; dataIndex < dataList.Count(); dataIndex++)
             {
                 var dataItem = dataList.ElementAt(dataIndex);
                 var compareRowResult = ObjectComparerInternalRow(columnActions, dataItem);

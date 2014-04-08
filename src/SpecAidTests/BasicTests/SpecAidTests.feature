@@ -10,11 +10,11 @@ Background:
 	    | <<Homemade>>  | Homemade        | 0             |
 
 	Given I have IceCreams
-	    | !IceCream            | Flavor    | BrandName     | 
-	    | <<BJVanilla>>        | Vanilla   | <<BenJerrys>> |      
-	    | <<BJChocolate>>      | Chocolate | <<BenJerrys>> |      
-	    | <<GenericVanilla>>   | Vanilla   | <<Generic>>   |      
-	    | <<GenericChocolate>> | Chocolate | <<Generic>>   |      
+	    | !IceCream            | Flavor    | BrandName     |
+	    | <<BJVanilla>>        | Vanilla   | <<BenJerrys>> |
+	    | <<BJChocolate>>      | Chocolate | <<BenJerrys>> |
+	    | <<GenericVanilla>>   | Vanilla   | <<Generic>>   |
+	    | <<GenericChocolate>> | Chocolate | <<Generic>>   |
 
 	Given I have Bananas
 	    | !Banana    | Color  |
@@ -122,6 +122,54 @@ Scenario: Verify ignore works
 Scenario: Basic Lists
 
 	Then There are Topping Choices '[Nuts,Chocolate Syrup,Strawberries,Whip cream]'
+
+Scenario: Basic List Compare Table Version
+	Then There are Topping Choices
+		| This            |
+		| Nuts            |
+		| Chocolate Syrup |
+		| Strawberries    |
+		| Whip cream      |
+
+Scenario: Basic List Compare Table Version with Assert
+	Then There are Topping Choices WILL ASSERT 'Expected 'Nuts2', Actual 'Nuts''
+		| This            |
+		| Nuts2           |
+		| Chocolate Syrup |
+		| Strawberries    |
+		| Whip cream      |
+
+Scenario: Basic List Compare Sorted Table Version
+	Then There are Sorted Topping Choices
+		| This            |
+		| Chocolate Syrup |
+		| Nuts            |
+		| Strawberries    |
+		| Whip cream      |
+
+Scenario: Basic List Compare Sorted Table Version with Assert Out of Order
+	Then There are Sorted Topping Choices WILL ASSERT 'Expected 'Nuts', Actual 'Chocolate Syrup''
+		| This            |
+		| Nuts            |
+		| Chocolate Syrup |
+		| Strawberries    |
+		| Whip cream      |
+
+Scenario: Basic List Compare Sorted Table Version with Assert Not Enough
+	Then There are Sorted Topping Choices WILL ASSERT 'Not Enough Table Rows.'
+		| This            |
+		| Chocolate Syrup |
+		| Nuts            |
+		| Strawberries    |
+
+Scenario: Basic List Compare Sorted Table Version with Assert Too Many
+	Then There are Sorted Topping Choices WILL ASSERT 'Not Enough Data.'
+		| This            |
+		| Chocolate Syrup |
+		| Nuts            |
+		| Strawberries    |
+		| Whip cream      |
+		| Sprinkles       |
 
 Scenario: Sick Lists
 

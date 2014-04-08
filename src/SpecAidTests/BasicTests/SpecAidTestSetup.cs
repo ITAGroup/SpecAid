@@ -212,6 +212,60 @@ namespace SpecAid.SpecFlowTests
             FieldAid.ObjectComparer(nameOfToppings, expectedToppings);
         }
 
+        [Then(@"There are Topping Choices")]
+        public void ThenThereAreToppingChoices(Table table)
+        {
+            var nameOfToppings = toppings.Select(x => x.Name).ToList();
+            TableAid.ObjectComparer(table,nameOfToppings);
+        }
+
+        [Then(@"There are Sorted Topping Choices")]
+        public void ThenThereAreSortedToppingChoices(Table table)
+        {
+            var nameOfToppings = toppings.Select(x => x.Name).OrderBy(x=>x).ToList();
+            TableAid.ObjectComparerSorted(table, nameOfToppings);
+        }
+
+        [Then(@"There are Topping Choices WILL ASSERT '(.*)'")]
+        public void ThenThereAreToppingChoicesWILLASSERTNutsNuts(string message, Table table)
+        {
+            var nameOfToppings = toppings.Select(x => x.Name).ToList();
+
+            try
+            {
+                TableAid.ObjectComparer(table, nameOfToppings);
+            }
+            catch (Exception exception)
+            {
+                if (exception.Message.Contains(message))
+                    Assert.AreEqual(true, true);
+                else
+                    Assert.Fail(exception.Message, message);
+                return;
+            }
+            Assert.Fail("I Assert... Not so much.");
+        }
+
+        [Then(@"There are Sorted Topping Choices WILL ASSERT '(.*)'")]
+        public void ThenThereSortedAreToppingChoicesWILLASSERTNutsNuts(string message, Table table)
+        {
+            var nameOfToppings = toppings.Select(x => x.Name).OrderBy(x => x).ToList();
+
+            try
+            {
+                TableAid.ObjectComparerSorted(table, nameOfToppings);
+            }
+            catch (Exception exception)
+            {
+                if (exception.Message.Contains(message))
+                    Assert.AreEqual(true, true);
+                else
+                    Assert.Fail(exception.Message, message);
+                return;
+            }
+            Assert.Fail("I Assert... Not so much.");
+        }
+
         [Then(@"Do Expression '(.*)' = '(.*)'")]
         public void ThenDoExpression(string expression, string expected)
         {
