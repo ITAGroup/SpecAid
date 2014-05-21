@@ -13,8 +13,9 @@ namespace SpecAid.Translations
     {
         public object Do(PropertyInfo info, string tableValue)
         {
-            var tableValueNoBrackets = tableValue.Substring(1, tableValue.Length - 2);
-            var tableValueEntries = tableValueNoBrackets.Split(',').ToList();
+            var tableValueNoBrackets = NoBrackets(tableValue);
+
+            var tableValueEntries = CsvHelper.Split(tableValueNoBrackets);
 
             Type genericType = info.PropertyType.GetGenericArguments()[0];
 
@@ -37,25 +38,42 @@ namespace SpecAid.Translations
             return objectList;
         }
 
+        private string NoBrackets(string theString)
+        {
+            if (theString.StartsWith("["))
+                return theString.Substring(1, theString.Length - 2);
+
+            return theString;
+        }
+
         public bool UseWhen(PropertyInfo info, string tableValue)
         {
-            // Tags are in the form <<TagName>>
-            // Tags can also have Deep-Linked properties using the Tag as a starting point
-            // eg.  <<Dealer001>>.SalesDistrict.Code
+            // Brackets are now Optional
 
-            
-            if (!tableValue.StartsWith("["))
+            //if (!tableValue.StartsWith("["))
+            //    return false;
+            //
+            //if (!tableValue.EndsWith("]"))
+            //    return false;
+
+            // Strings are Enumerable... But Compare Action is the one to use.
+            if (typeof(string).IsAssignableFrom(info.PropertyType))
                 return false;
 
-            if (!tableValue.EndsWith("]"))
-                return false;
-
-            if ((typeof(IList).IsAssignableFrom(info.PropertyType)) ||
-                typeof(IList<>).IsAssignableFrom(info.PropertyType) ||
-                (info.PropertyType.IsGenericType && info.PropertyType.GetGenericTypeDefinition() == typeof(IList<>)))
-            {
+            if (typeof (IList).IsAssignableFrom(info.PropertyType))
                 return true;
-            }
+
+            if (typeof (IList<>).IsAssignableFrom(info.PropertyType))
+                return true;
+
+            if (info.PropertyType.IsGenericType && info.PropertyType.GetGenericTypeDefinition() == typeof(IList<>))
+                return true;
+
+            if (typeof(IEnumerable).IsAssignableFrom(info.PropertyType))
+                return true;
+
+            if (typeof(IEnumerable<>).IsAssignableFrom(info.PropertyType))
+                return true;
 
             return false;
         }

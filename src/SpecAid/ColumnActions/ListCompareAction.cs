@@ -28,12 +28,12 @@ namespace SpecAid.Base.ColumnActions
             var compareResult = new CompareColumnResult();
 
             var expectedValue = (IList)Translator.Translate(Info, tableValue);
-            var actualValue = (IList)(target == null ? null : Info.GetValue(target, null));
+            var actualValue = GetActual(target);
 
             compareResult.ExpectedPrint = SafeListToString(expectedValue);
             compareResult.ActualPrint = SafeListToString(actualValue);
 
-            // Refactor to be blah = blah 
+            // Refactor to be blah = blah
             try
             {
                 CollectionAssert.AreEquivalent(expectedValue, actualValue);
@@ -45,6 +45,28 @@ namespace SpecAid.Base.ColumnActions
             }
 
             return compareResult;
+        }
+
+        private IList GetActual(object target)
+        {
+            if (typeof(IList).IsAssignableFrom(Info.PropertyType))
+                return (IList)(target == null ? null : Info.GetValue(target, null));
+
+            // Need to convert the Enumerable Information into a List for Collection Assert.
+            if (typeof(IEnumerable).IsAssignableFrom(Info.PropertyType))
+            {
+                var orginalEnumerable = (IEnumerable)(target == null ? null : Info.GetValue(target, null));
+
+                var actualValue = new ArrayList();
+                foreach (var item in orginalEnumerable)
+                {
+                    actualValue.Add(item);
+                }
+                return actualValue;
+            }
+
+            // This shouldn't happen
+            return null;
         }
 
         public CompareColumnResult GoGoCompareColumnAction(string tableValue)
@@ -78,18 +100,19 @@ namespace SpecAid.Base.ColumnActions
             var sb = new StringBuilder();
             sb.Append("[");
 
-            var IsFirst = true;
+            var isFirst = true;
 
             foreach (var item in items)
             {
-                if (IsFirst)
-                    IsFirst = false;
+                if (isFirst)
+                    isFirst = false;
                 else
                     sb.Append(",");
 
                 var outputString = ToStringHelper.SafeToString(item);
+                var csvSafeString = CsvHelper.ToCsv(outputString);
 
-                sb.Append(outputString);
+                sb.Append(csvSafeString);
             }
 
             sb.Append("]");
@@ -103,9 +126,16 @@ namespace SpecAid.Base.ColumnActions
             if (Info == null)
                 return false;
 
-            var assignable = (typeof (IList).IsAssignableFrom(Info.PropertyType));
+            if (typeof(string).IsAssignableFrom(Info.PropertyType))
+                return false;
 
-            return assignable;
+            if (typeof (IList).IsAssignableFrom(Info.PropertyType))
+                return true;
+
+            if (typeof(IEnumerable).IsAssignableFrom(Info.PropertyType))
+                return true;
+
+            return false;
         }
 
         public override int considerOrder

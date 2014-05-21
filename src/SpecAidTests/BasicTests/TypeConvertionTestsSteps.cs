@@ -31,6 +31,9 @@ namespace SpecAid.SpecFlowTests
     public class EveryThingObject
     {
         public Guid aGuid { get; set; }
+        public Guid? aNullableGuid { get; set; }
         public int aInt { get; set; }
+        public IList<string> ListStrings { get; set; }
+        public IEnumerable<string> SomeStrings { get; set; }
     }
 }

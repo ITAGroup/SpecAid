@@ -13,7 +13,11 @@ namespace SpecAid.Translations
 
         public bool UseWhen(PropertyInfo info, string tableValue)
         {
-            return info.PropertyType == typeof(Guid);
+            if (info.PropertyType == typeof (Guid))
+                return true;
+            if (info.PropertyType == typeof(Guid?))
+                return true;
+            return false;
         }
 
         public int considerOrder
