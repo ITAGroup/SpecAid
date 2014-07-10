@@ -84,7 +84,7 @@ this.ScenarioSetup(scenarioInfo);
             table1.AddRow(new string[] {
                         "[\"\"\"a\"\"\",b,c]"});
 #line 5
- testRunner.Given("I have EveryThing Objects", ((string)(null)), table1, "Given ");
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table1, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "ListStrings"});

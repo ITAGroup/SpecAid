@@ -2,7 +2,7 @@
 Feature: OutputTests
 
 Scenario: OutputTests - List
-	Given I have EveryThing Objects
+	Given There are EveryThing Objects
 	    | ListStrings   |
 	    | ["""a""",b,c] |
 

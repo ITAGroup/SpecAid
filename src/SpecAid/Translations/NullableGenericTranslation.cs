@@ -2,6 +2,7 @@
 using System.Reflection;
 using SpecAid.Base;
 using SpecAid.ColumnActions;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
@@ -36,7 +37,7 @@ namespace SpecAid.Translations
 
         public int considerOrder
         {
-            get { return 9; }
+            get { return TranslationOrder.NullableGeneric.ToInt32(); }
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpecAid.Base;
 using SpecAid.Helper;
 using SpecAid.Translations;
+using SpecAid.Extentions;
 
 namespace SpecAid.ColumnActions
 {
@@ -94,7 +95,7 @@ namespace SpecAid.ColumnActions
 
         public override int considerOrder
         {
-            get { return 3; }
+            get { return ActionOrder.ThisCompare.ToInt32(); }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using SpecAid.Base;
+using SpecAid.Extentions;
 
 namespace SpecAid.ColumnActions
 {
@@ -66,7 +67,7 @@ namespace SpecAid.ColumnActions
 
         public override int considerOrder
         {
-            get { return 3; }
+            get { return ActionOrder.Tag.ToInt32(); }
         }
 
     }

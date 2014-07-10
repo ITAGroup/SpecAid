@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using SpecAid.Base;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
@@ -20,7 +21,7 @@ namespace SpecAid.Translations
 
         public int considerOrder
         {
-            get { return 1; }
+            get { return TranslationOrder.Today.ToInt32(); }
         }
 
     }

@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Reflection;
 using SpecAid.Base;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using System.Linq;
 using SpecAid.Helper;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
-    //Used for symbollic links
-    public class LinkTranslation : ITranslation
+    // Used for symbolic links
+    public class TagTranslation : ITranslation
     {
-
         public object Do(PropertyInfo info, string tableValue)
         {
             if (!RecallAid.It.ContainsKey(tableValue))
             {
-                throw new Exception("Could not find tag/link: " + tableValue);
+                throw new Exception("Could not find tag: " + tableValue);
             }
 
             return RecallAid.It[tableValue];  
@@ -27,9 +24,10 @@ namespace SpecAid.Translations
             return TagHelper.IsTag(tableValue);
         }
 
+        // After String
         public int considerOrder
         {
-            get { return 1; }
+            get { return TranslationOrder.Tag.ToInt32(); }
         }
     }
 }

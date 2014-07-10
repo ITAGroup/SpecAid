@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
 using System.Linq;
 using SpecAid.Helper;
 using SpecAid.Base;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
@@ -49,31 +48,26 @@ namespace SpecAid.Translations
 
         public bool UseWhen(PropertyInfo info, string tableValue)
         {
-            // Tags are in the form <<TagName>>
+            // Tags are in the form #TagName or <<TagName>>
             // Tags can also have Deep-Linked properties using the Tag as a starting point
-            // eg.  <<Dealer001>>.SalesDistrict.Code
+            // Example:
+            //   #Dealer001.SalesDistrict.Code
+            //   - or -
+            //   <<Dealer001>>.SalesDistrict.Code
 
-            if (!tableValue.StartsWith("<<"))
+            var propertyNames = tableValue.Split('.');
+
+            // 2 = object (1) + property (1)
+            if (propertyNames.Length < 2)
                 return false;
 
-            if (tableValue.Contains(">>."))
-            {
-                var propertyNames = tableValue.Split('.');
-
-                if (propertyNames.Length <= 1)
-                {
-                    // have to have at least one property
-                    throw new Exception(string.Format("Can not find any property represented by deep-binding syntax: \"{0}\"", tableValue));
-                }
-
-                return true;
-            }
-            return false;
+            var tag = propertyNames[0];
+            return TagHelper.IsTag(tag);
         }
 
         public int considerOrder
         {
-            get { return 1; }
+            get { return TranslationOrder.DeepLink.ToInt32(); }
         }
     }
 }

@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using SpecAid;
 using SpecAid.ColumnActions;
 using TechTalk.SpecFlow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace SpecAid.SpecFlowTests
+namespace SpecAidTests.BasicTests
 {
     [Binding]
     [Scope(Tag = "SpecAidTests")]
     public class SpecAidTestSetup
     {
-        IList<BananaSplit> bananaSplits;
-        IList<Toppings> toppings;
-        IList<BrandName> brandNames;
+        IList<BananaSplit> _bananaSplits;
+        IList<Toppings> _toppings;
+        IList<BrandName> _brandNames;
 
         [Given(@"I have BrandNames")]
         public void GivenIHaveBrandNames(Table table)
@@ -25,11 +25,11 @@ namespace SpecAid.SpecFlowTests
                 (r, p) =>
                 {
                     RecallAid.It[r["!BrandName"]] = p;
-                    if (brandNames == null)
+                    if (_brandNames == null)
                     {
-                        brandNames = new List<BrandName>();
+                        _brandNames = new List<BrandName>();
                     }
-                    brandNames.Add(p);
+                    _brandNames.Add(p);
                 }
             );
         }
@@ -70,11 +70,11 @@ namespace SpecAid.SpecFlowTests
                 (r, p) =>
                 {
                     RecallAid.It[r["!Topping"]] = p;
-                    if (toppings == null)
+                    if (_toppings == null)
                     {
-                        toppings = new List<Toppings>();
+                        _toppings = new List<Toppings>();
                     }
-                    toppings.Add(p);
+                    _toppings.Add(p);
                 }
             );
         }
@@ -109,17 +109,17 @@ namespace SpecAid.SpecFlowTests
         [Given(@"a ice cream shop has a list of BananaSplits")]
         public void GivenAIceCreamShopHasAListOfBananaSplits()
         {
-            bananaSplits = new List<BananaSplit>();
-            bananaSplits.Add(RecallAid.It["<<BananaSplit1>>"] as BananaSplit);
-            bananaSplits.Add(RecallAid.It["<<BananaSplit2>>"] as BananaSplit);
-            bananaSplits.Add(RecallAid.It["<<BananaSplit3>>"] as BananaSplit);
-            bananaSplits.Add(RecallAid.It["<<BananaSplit4>>"] as BananaSplit);
+            _bananaSplits = new List<BananaSplit>();
+            _bananaSplits.Add(RecallAid.It["<<BananaSplit1>>"] as BananaSplit);
+            _bananaSplits.Add(RecallAid.It["<<BananaSplit2>>"] as BananaSplit);
+            _bananaSplits.Add(RecallAid.It["<<BananaSplit3>>"] as BananaSplit);
+            _bananaSplits.Add(RecallAid.It["<<BananaSplit4>>"] as BananaSplit);
         }
 
         [Given(@"All the IceCeam goes bad")]
         public void GivenAllTheIceCeamGoesBad()
         {
-            foreach (var bananaSplit in bananaSplits)
+            foreach (var bananaSplit in _bananaSplits)
             {
                 bananaSplit.IceCream = null;
             }
@@ -128,14 +128,14 @@ namespace SpecAid.SpecFlowTests
         [Then(@"There are '(.*)' BananaSplits are available to order")]
         public void ThenFlavorBananaSplits(string flavor, Table table)
         {
-            var theSplits = bananaSplits.Where(x => x.IceCream.Flavor == flavor).ToList();
+            var theSplits = _bananaSplits.Where(x => x.IceCream.Flavor == flavor).ToList();
             TableAid.ObjectComparer<BananaSplit>(table, theSplits);
         }
 
         [Then(@"'(.*)' BananaSplits on the menu")]
         public void ThenBananaSplitsOnTheMenu(string flavor, Table table)
         {
-            var theSplits = bananaSplits.Where(x => x.IceCream.Flavor == flavor).ToList();
+            var theSplits = _bananaSplits.Where(x => x.IceCream.Flavor == flavor).ToList();
 
             var ccb = new CompareColumnBuilder<BananaSplit>();
             ccb.AddSymbolic("IceCream Flavor", "IceCream.Flavor");
@@ -147,7 +147,7 @@ namespace SpecAid.SpecFlowTests
         [Then(@"There are BananaSplits are available to order")]
         public void ThenBananaSplits(Table table)
         {
-            TableAid.ObjectComparer<BananaSplit>(table, bananaSplits);
+            TableAid.ObjectComparer<BananaSplit>(table, _bananaSplits);
         }
 
         [Then(@"BananaSplit '(.*)' looks like")]
@@ -162,7 +162,7 @@ namespace SpecAid.SpecFlowTests
         [Then(@"There are '(.*)' BananaSplits are available to order WILL ASSERT '(.*)'")]
         public void ThenThereAreBananaSplitsAreAvailableToOrderWILLASSERT(string flavor, string message, Table table)
         {
-            var theSplits = bananaSplits.Where(x => x.IceCream.Flavor == flavor).ToList();
+            var theSplits = _bananaSplits.Where(x => x.IceCream.Flavor == flavor).ToList();
 
             try
             {
@@ -185,7 +185,7 @@ namespace SpecAid.SpecFlowTests
         {
             try
             {
-                TableAid.ObjectComparer<BananaSplit>(table, bananaSplits);
+                TableAid.ObjectComparer<BananaSplit>(table, _bananaSplits);
             }
             catch (Exception exception)
             {
@@ -202,34 +202,34 @@ namespace SpecAid.SpecFlowTests
         [Then(@"BrandNames Tests")]
         public void ThenBrandNamesTests(Table table)
         {
-            TableAid.ObjectComparer(table, brandNames);
+            TableAid.ObjectComparer(table, _brandNames);
         }
 
         [Then(@"There are Topping Choices '(.*)'")]
         public void ThenThereAreToppingChoices(string expectedToppings)
         {
-            var nameOfToppings = toppings.Select(x => x.Name).ToList();
+            var nameOfToppings = _toppings.Select(x => x.Name).ToList();
             FieldAid.ObjectComparer(nameOfToppings, expectedToppings);
         }
 
         [Then(@"There are Topping Choices")]
         public void ThenThereAreToppingChoices(Table table)
         {
-            var nameOfToppings = toppings.Select(x => x.Name).ToList();
+            var nameOfToppings = _toppings.Select(x => x.Name).ToList();
             TableAid.ObjectComparer(table,nameOfToppings);
         }
 
         [Then(@"There are Sorted Topping Choices")]
         public void ThenThereAreSortedToppingChoices(Table table)
         {
-            var nameOfToppings = toppings.Select(x => x.Name).OrderBy(x=>x).ToList();
+            var nameOfToppings = _toppings.Select(x => x.Name).OrderBy(x=>x).ToList();
             TableAid.ObjectComparerSorted(table, nameOfToppings);
         }
 
         [Then(@"There are Topping Choices WILL ASSERT '(.*)'")]
         public void ThenThereAreToppingChoicesWILLASSERTNutsNuts(string message, Table table)
         {
-            var nameOfToppings = toppings.Select(x => x.Name).ToList();
+            var nameOfToppings = _toppings.Select(x => x.Name).ToList();
 
             try
             {
@@ -249,7 +249,7 @@ namespace SpecAid.SpecFlowTests
         [Then(@"There are Sorted Topping Choices WILL ASSERT '(.*)'")]
         public void ThenThereSortedAreToppingChoicesWILLASSERTNutsNuts(string message, Table table)
         {
-            var nameOfToppings = toppings.Select(x => x.Name).OrderBy(x => x).ToList();
+            var nameOfToppings = _toppings.Select(x => x.Name).OrderBy(x => x).ToList();
 
             try
             {
@@ -290,7 +290,7 @@ namespace SpecAid.SpecFlowTests
         public void ThenThereIsInterfacedIceCreamAvailable(Table table)
         {
             var listWithInterfaces = new List<IBrandName>();
-            listWithInterfaces.AddRange(brandNames);
+            listWithInterfaces.AddRange(_brandNames);
 
             TableAid.ObjectComparer(table, listWithInterfaces);
         }

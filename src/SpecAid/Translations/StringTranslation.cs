@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Reflection;
 using SpecAid.Base;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
     public class StringTranslation : ITranslation
     {
-
         public object Do(PropertyInfo info, string tableValue)
         {
             return tableValue.Substring(1,tableValue.Length - 2);
@@ -24,7 +19,7 @@ namespace SpecAid.Translations
         // I am the ultimate override
         public int considerOrder
         {
-            get { return 0; }
+            get { return TranslationOrder.String.ToInt32(); }
         }
     }
 }

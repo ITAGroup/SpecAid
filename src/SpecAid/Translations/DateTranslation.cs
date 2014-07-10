@@ -2,6 +2,7 @@
 using System.Reflection;
 using SpecAid.Base;
 using System.Text.RegularExpressions;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
@@ -22,7 +23,7 @@ namespace SpecAid.Translations
 
         public int considerOrder
         {
-            get { return 1; }
+            get { return TranslationOrder.Date.ToInt32(); }
         }
     }
 }

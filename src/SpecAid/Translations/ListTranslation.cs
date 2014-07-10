@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using SpecAid.Helper;
 using SpecAid.Base;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
@@ -80,7 +79,7 @@ namespace SpecAid.Translations
 
         public int considerOrder
         {
-            get { return 2; }
+            get { return TranslationOrder.List.ToInt32(); }
         }
     }
 }

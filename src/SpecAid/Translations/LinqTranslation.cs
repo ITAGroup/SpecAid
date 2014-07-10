@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using SpecAid.Base;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using System.Linq;
-using SpecAid.Helper;
 using SpecAid.Linq.Dynamic;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
@@ -35,7 +32,6 @@ namespace SpecAid.Translations
             }
         }
 
-
         public object Do(PropertyInfo info, string tableValue)
         {
             var linqObject = new LinqObject();
@@ -63,7 +59,7 @@ namespace SpecAid.Translations
 
         public int considerOrder
         {
-            get { return 98; }
+            get { return TranslationOrder.Linq.ToInt32(); }
         }
     }
 }

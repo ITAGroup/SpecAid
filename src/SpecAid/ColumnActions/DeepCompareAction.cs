@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using SpecAid.Translations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpecAid.Base;
 using SpecAid.Helper;
+using SpecAid.Extentions;
 
 namespace SpecAid.ColumnActions
 {
     public class DeepCompareAction : ColumnAction, IComparerColumnAction
     {
         private PropertyInfo Info { get; set; }
-        private IComparerColumnAction deepAction;
+        private IComparerColumnAction _deepAction;
 
         public DeepCompareAction(Type targetType, string columnName)
             : base(targetType, columnName)
@@ -23,9 +22,9 @@ namespace SpecAid.ColumnActions
             if (tableValue == ConstantStrings.IgnoreCell)
                 return new CompareColumnResult();
 
-            if (deepAction != null)
+            if (_deepAction != null)
             {
-                return deepAction.GoGoCompareColumnAction(Info.GetValue(target, null), tableValue);
+                return _deepAction.GoGoCompareColumnAction(Info.GetValue(target, null), tableValue);
             }
             return new CompareColumnResult();
         }
@@ -35,23 +34,21 @@ namespace SpecAid.ColumnActions
             if (tableValue == ConstantStrings.IgnoreCell)
                 return new CompareColumnResult();
 
-            if (deepAction != null)
+            if (_deepAction != null)
             {
-                return deepAction.GoGoCompareColumnAction(tableValue);
+                return _deepAction.GoGoCompareColumnAction(tableValue);
             }
             return new CompareColumnResult();
         }
 
         public CompareColumnResult GoGoCompareColumnAction(object target)
         {
-            if (deepAction != null)
+            if (_deepAction != null)
             {
-                return deepAction.GoGoCompareColumnAction(Info.GetValue(target, null));
+                return _deepAction.GoGoCompareColumnAction(Info.GetValue(target, null));
             }
             return new CompareColumnResult();
         }
-
-
 
         public override bool UseWhen()
         {
@@ -72,19 +69,19 @@ namespace SpecAid.ColumnActions
 
             var nextColumnName = string.Join(".", propertyNames.Skip(1).ToList());
 
-            deepAction = ColumnActionFactory.GetAction<IComparerColumnAction>(Info.PropertyType, nextColumnName);
+            _deepAction = ColumnActionFactory.GetAction<IComparerColumnAction>(Info.PropertyType, nextColumnName);
 
-            if (deepAction == null)
+            if (_deepAction == null)
             {
                 return false;
             }
 
-            return deepAction.UseWhen();
+            return _deepAction.UseWhen();
         }
 
         public override int considerOrder
         {
-            get { return 9; }
+            get { return ActionOrder.DeepCompare.ToInt32(); }
         }
     }
 }

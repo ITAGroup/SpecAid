@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using SpecAid.Base;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
@@ -7,7 +8,7 @@ namespace SpecAid.Translations
     {
         public object Do(PropertyInfo info, string tableValue)
         {
-            return false;  
+            return false;
         }
 
         public bool UseWhen(PropertyInfo info, string tableValue)
@@ -17,8 +18,7 @@ namespace SpecAid.Translations
 
         public int considerOrder
         {
-            get { return 99; }
+            get { return TranslationOrder.Missing.ToInt32(); }
         }
-
     }
 }

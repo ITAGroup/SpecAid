@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-
 using SpecAid.Base;
-using SpecAid.Translations;
 using SpecAid.Helper;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SpecAid.Extentions;
 
 namespace SpecAid.ColumnActions
 {
     //Action for setting the value in the object
     public class DeepSetAction : ColumnAction, ICreatorColumnAction
     {
-        private ICreatorColumnAction deepAction;
+        private ICreatorColumnAction _deepAction;
 
         public DeepSetAction(Type targetType, string columnName)
             : base(targetType, columnName)
@@ -29,9 +24,9 @@ namespace SpecAid.ColumnActions
             if (tableValue == ConstantStrings.IgnoreCell)
                 return;
 
-            if (deepAction != null)
+            if (_deepAction != null)
             {
-                deepAction.GoGoCreateColumnAction(Info.GetValue(target, null), tableValue);
+                _deepAction.GoGoCreateColumnAction(Info.GetValue(target, null), tableValue);
             }
         }
 
@@ -54,20 +49,19 @@ namespace SpecAid.ColumnActions
 
             var nextColumnName = string.Join(".", propertyNames.Skip(1).ToList());
 
-            deepAction = ColumnActionFactory.GetAction<ICreatorColumnAction>(Info.PropertyType, nextColumnName);
+            _deepAction = ColumnActionFactory.GetAction<ICreatorColumnAction>(Info.PropertyType, nextColumnName);
 
-            if (deepAction == null)
+            if (_deepAction == null)
             {
                 return false;
             }
 
-            return deepAction.UseWhen();
+            return _deepAction.UseWhen();
         }
 
         public override int considerOrder
         {
-            get { return 9; }
+            get { return ActionOrder.DeepSet.ToInt32(); }
         }
-
     }
 }

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Text;
-using System.Linq;
 using System.Reflection;
 using System.Collections;
-using System.Collections.Generic;
 using SpecAid.Translations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpecAid.Base;
 using SpecAid.Helper;
+using SpecAid.Extentions;
 
-namespace SpecAid.Base.ColumnActions
+namespace SpecAid.ColumnActions
 {
     public class ListCompareAction : ColumnAction, IComparerColumnAction
     {
@@ -140,7 +139,7 @@ namespace SpecAid.Base.ColumnActions
 
         public override int considerOrder
         {
-            get { return 4; }
+            get { return ActionOrder.ListCompare.ToInt32(); }
         }
     }
 }

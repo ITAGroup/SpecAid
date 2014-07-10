@@ -80,14 +80,14 @@ namespace SpecAidTests.BasicTests
 this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
-                        "aInt"});
+                        "anInt"});
             table1.AddRow(new string[] {
                         "12"});
 #line 5
- testRunner.Given("I have EveryThing Objects", ((string)(null)), table1, "Given ");
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table1, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
-                        "aInt"});
+                        "anInt"});
             table2.AddRow(new string[] {
                         "12"});
 #line 9
@@ -103,21 +103,21 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void TypeConvertionTests_Guid()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TypeConvertionTests - Guid", ((string[])(null)));
-#line 14
+#line 13
 this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                         "aGuid"});
             table3.AddRow(new string[] {
                         "11ab0769-41cb-4655-b05d-621cc17585d4"});
-#line 15
- testRunner.Given("I have EveryThing Objects", ((string)(null)), table3, "Given ");
+#line 14
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table3, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                         "aGuid"});
             table4.AddRow(new string[] {
                         "11ab0769-41cb-4655-b05d-621cc17585d4"});
-#line 19
+#line 18
  testRunner.Then("There are EveryThing Objects", ((string)(null)), table4, "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -130,7 +130,7 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void TypeConvertionTests_NullableGuid()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TypeConvertionTests - Nullable Guid", ((string[])(null)));
-#line 23
+#line 22
 this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
@@ -139,8 +139,8 @@ this.ScenarioSetup(scenarioInfo);
                         "11ab0769-41cb-4655-b05d-621cc17585d4"});
             table5.AddRow(new string[] {
                         "null"});
-#line 24
- testRunner.Given("I have EveryThing Objects", ((string)(null)), table5, "Given ");
+#line 23
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table5, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                         "aNullableGuid"});
@@ -148,7 +148,7 @@ this.ScenarioSetup(scenarioInfo);
                         "11ab0769-41cb-4655-b05d-621cc17585d4"});
             table6.AddRow(new string[] {
                         "null"});
-#line 29
+#line 28
  testRunner.Then("There are EveryThing Objects", ((string)(null)), table6, "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -161,21 +161,21 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void TypeConvertionTests_Enumerable()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TypeConvertionTests - Enumerable", ((string[])(null)));
-#line 35
+#line 33
 this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
                         "someStrings"});
             table7.AddRow(new string[] {
                         "[a,b,c]"});
-#line 36
- testRunner.Given("I have EveryThing Objects", ((string)(null)), table7, "Given ");
+#line 34
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table7, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
                         "someStrings"});
             table8.AddRow(new string[] {
                         "[a,b,c]"});
-#line 40
+#line 38
  testRunner.Then("There are EveryThing Objects", ((string)(null)), table8, "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -188,21 +188,21 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void TypeConvertionTests_EnumerableNoBrackets()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TypeConvertionTests - Enumerable No Brackets", ((string[])(null)));
-#line 44
+#line 42
 this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
                         "someStrings"});
             table9.AddRow(new string[] {
                         "a,b,c"});
-#line 45
- testRunner.Given("I have EveryThing Objects", ((string)(null)), table9, "Given ");
+#line 43
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table9, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
                         "someStrings"});
             table10.AddRow(new string[] {
                         "a,b,c"});
-#line 49
+#line 47
  testRunner.Then("There are EveryThing Objects", ((string)(null)), table10, "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -215,21 +215,21 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void TypeConvertionTests_List()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TypeConvertionTests - List", ((string[])(null)));
-#line 53
+#line 51
 this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
                         "ListStrings"});
             table11.AddRow(new string[] {
                         "[a,b,c]"});
-#line 54
- testRunner.Given("I have EveryThing Objects", ((string)(null)), table11, "Given ");
+#line 52
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table11, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
                         "ListStrings"});
             table12.AddRow(new string[] {
                         "[a,b,c]"});
-#line 58
+#line 56
  testRunner.Then("There are EveryThing Objects", ((string)(null)), table12, "Then ");
 #line hidden
             this.ScenarioCleanup();
