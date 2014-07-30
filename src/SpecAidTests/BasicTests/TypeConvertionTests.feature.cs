@@ -209,28 +209,190 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TypeConvertionTests - Enumerable Null")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TypeConvertionTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TypeConvertionTestsSteps")]
+        public virtual void TypeConvertionTests_EnumerableNull()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TypeConvertionTests - Enumerable Null", ((string[])(null)));
+#line 51
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+                        "someStrings"});
+            table11.AddRow(new string[] {
+                        "null"});
+#line 52
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table11, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
+                        "someStrings"});
+            table12.AddRow(new string[] {
+                        "null"});
+#line 56
+ testRunner.Then("There are EveryThing Objects", ((string)(null)), table12, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TypeConvertionTests - List")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TypeConvertionTests")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TypeConvertionTestsSteps")]
         public virtual void TypeConvertionTests_List()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TypeConvertionTests - List", ((string[])(null)));
-#line 51
+#line 60
 this.ScenarioSetup(scenarioInfo);
 #line hidden
-            TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
                         "ListStrings"});
-            table11.AddRow(new string[] {
+            table13.AddRow(new string[] {
                         "[a,b,c]"});
-#line 52
- testRunner.Given("There are EveryThing Objects", ((string)(null)), table11, "Given ");
+#line 61
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table13, "Given ");
 #line hidden
-            TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
                         "ListStrings"});
-            table12.AddRow(new string[] {
+            table14.AddRow(new string[] {
                         "[a,b,c]"});
-#line 56
- testRunner.Then("There are EveryThing Objects", ((string)(null)), table12, "Then ");
+#line 65
+ testRunner.Then("There are EveryThing Objects", ((string)(null)), table14, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TypeConvertionTests - List Null")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TypeConvertionTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TypeConvertionTestsSteps")]
+        public virtual void TypeConvertionTests_ListNull()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TypeConvertionTests - List Null", ((string[])(null)));
+#line 69
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
+                        "ListStrings"});
+            table15.AddRow(new string[] {
+                        "null"});
+#line 70
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table15, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
+                        "ListStrings"});
+            table16.AddRow(new string[] {
+                        "null"});
+#line 74
+ testRunner.Then("There are EveryThing Objects", ((string)(null)), table16, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TypeConvertionTests - PlainList")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TypeConvertionTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TypeConvertionTestsSteps")]
+        public virtual void TypeConvertionTests_PlainList()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TypeConvertionTests - PlainList", ((string[])(null)));
+#line 78
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table17 = new TechTalk.SpecFlow.Table(new string[] {
+                        "PlainList"});
+            table17.AddRow(new string[] {
+                        "[a,b,c]"});
+#line 79
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table17, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table18 = new TechTalk.SpecFlow.Table(new string[] {
+                        "PlainList"});
+            table18.AddRow(new string[] {
+                        "[a,b,c]"});
+#line 83
+ testRunner.Then("There are EveryThing Objects", ((string)(null)), table18, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TypeConvertionTests - PlainList Null")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TypeConvertionTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TypeConvertionTestsSteps")]
+        public virtual void TypeConvertionTests_PlainListNull()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TypeConvertionTests - PlainList Null", ((string[])(null)));
+#line 87
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table19 = new TechTalk.SpecFlow.Table(new string[] {
+                        "PlainList"});
+            table19.AddRow(new string[] {
+                        "null"});
+#line 88
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table19, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table20 = new TechTalk.SpecFlow.Table(new string[] {
+                        "PlainList"});
+            table20.AddRow(new string[] {
+                        "null"});
+#line 92
+ testRunner.Then("There are EveryThing Objects", ((string)(null)), table20, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TypeConvertionTests - Array")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TypeConvertionTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TypeConvertionTestsSteps")]
+        public virtual void TypeConvertionTests_Array()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TypeConvertionTests - Array", ((string[])(null)));
+#line 96
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table21 = new TechTalk.SpecFlow.Table(new string[] {
+                        "ArrayStrings"});
+            table21.AddRow(new string[] {
+                        "[a,b,c]"});
+#line 97
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table21, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table22 = new TechTalk.SpecFlow.Table(new string[] {
+                        "ArrayStrings"});
+            table22.AddRow(new string[] {
+                        "[a,b,c]"});
+#line 101
+ testRunner.Then("There are EveryThing Objects", ((string)(null)), table22, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TypeConvertionTests - Array Null")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TypeConvertionTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TypeConvertionTestsSteps")]
+        public virtual void TypeConvertionTests_ArrayNull()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TypeConvertionTests - Array Null", ((string[])(null)));
+#line 105
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table23 = new TechTalk.SpecFlow.Table(new string[] {
+                        "ArrayStrings"});
+            table23.AddRow(new string[] {
+                        "null"});
+#line 106
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table23, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table24 = new TechTalk.SpecFlow.Table(new string[] {
+                        "ArrayStrings"});
+            table24.AddRow(new string[] {
+                        "null"});
+#line 110
+ testRunner.Then("There are EveryThing Objects", ((string)(null)), table24, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

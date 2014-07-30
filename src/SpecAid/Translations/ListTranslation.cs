@@ -12,20 +12,21 @@ namespace SpecAid.Translations
     {
         public object Do(PropertyInfo info, string tableValue)
         {
-            var tableValueNoBrackets = NoBrackets(tableValue);
+            var tableValueNoBrackets = ListHelper.NoBrackets(tableValue);
 
             var tableValueEntries = CsvHelper.Split(tableValueNoBrackets);
 
-            Type genericType = info.PropertyType.GetGenericArguments()[0];
+            // This will allow PlainLists to work.
+            Type innerType = typeof(object);
+
+            if (info.PropertyType.IsGenericType)
+                innerType = info.PropertyType.GetGenericArguments()[0];
 
             // Custom List to Return
-            Type customList = typeof(List<>).MakeGenericType(genericType);
+            Type customList = typeof(List<>).MakeGenericType(innerType);
             IList objectList = (IList)Activator.CreateInstance(customList);
 
-            // For a fake Property
-            Type customInstanceType = typeof(ObjectField<>).MakeGenericType(genericType);
-            var instance = Activator.CreateInstance(customInstanceType);
-            var propertyInfo = instance.GetType().GetProperty("field");
+            var propertyInfo = InstantProperty.FromType(innerType);
 
             foreach (var tableValueEntry in tableValueEntries)
             {
@@ -37,23 +38,9 @@ namespace SpecAid.Translations
             return objectList;
         }
 
-        private string NoBrackets(string theString)
-        {
-            if (theString.StartsWith("["))
-                return theString.Substring(1, theString.Length - 2);
-
-            return theString;
-        }
-
         public bool UseWhen(PropertyInfo info, string tableValue)
         {
-            // Brackets are now Optional
-
-            //if (!tableValue.StartsWith("["))
-            //    return false;
-            //
-            //if (!tableValue.EndsWith("]"))
-            //    return false;
+            // UseWhen does not test for Brackets because Brackets are optional
 
             // Strings are Enumerable... But Compare Action is the one to use.
             if (typeof(string).IsAssignableFrom(info.PropertyType))

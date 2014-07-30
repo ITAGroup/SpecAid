@@ -19,6 +19,7 @@ namespace SpecAid.Translations
         // Textual Triggers
         Tag = 60,              // #Entry       Tag
         DeepLink = 70,         // #Entry.Item
+        Array = 75,            // [this,that]
         List = 80,             // [this,that]
         Date = 90,             // 2014-06-25
 

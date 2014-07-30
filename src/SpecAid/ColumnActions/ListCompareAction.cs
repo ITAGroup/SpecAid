@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using System.Collections;
@@ -48,13 +49,22 @@ namespace SpecAid.ColumnActions
 
         private IList GetActual(object target)
         {
+            if (target == null)
+                return null;
+
             if (typeof(IList).IsAssignableFrom(Info.PropertyType))
-                return (IList)(target == null ? null : Info.GetValue(target, null));
+                return (IList)(Info.GetValue(target, null));
+
+            if (IsGenericList(Info.PropertyType))
+                return (IList)(Info.GetValue(target, null));
 
             // Need to convert the Enumerable Information into a List for Collection Assert.
             if (typeof(IEnumerable).IsAssignableFrom(Info.PropertyType))
             {
-                var orginalEnumerable = (IEnumerable)(target == null ? null : Info.GetValue(target, null));
+                var orginalEnumerable = (IEnumerable)(Info.GetValue(target, null));
+
+                if (orginalEnumerable == null)
+                    return null;
 
                 var actualValue = new ArrayList();
                 foreach (var item in orginalEnumerable)
@@ -131,10 +141,26 @@ namespace SpecAid.ColumnActions
             if (typeof (IList).IsAssignableFrom(Info.PropertyType))
                 return true;
 
+            if (IsGenericList(Info.PropertyType))
+                return true;
+
             if (typeof(IEnumerable).IsAssignableFrom(Info.PropertyType))
                 return true;
 
             return false;
+        }
+
+        //http://stackoverflow.com/questions/1177434/isnt-a-generic-ilist-assignable-from-a-generic-list
+        public static bool IsGenericList(Type type)
+        {
+            if (!type.IsGenericType)
+                return false;
+            var genericArguments = type.GetGenericArguments();
+            if (genericArguments.Length != 1)
+                return false;
+
+            var listType = typeof(IList<>).MakeGenericType(genericArguments);
+            return listType.IsAssignableFrom(type);
         }
 
         public override int considerOrder
