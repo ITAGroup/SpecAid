@@ -281,6 +281,74 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("LookUpTests - DeepLink With Angle Brackets")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "LookUpTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("CommonSteps")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("LookupTestsSteps")]
+        public virtual void LookUpTests_DeepLinkWithAngleBrackets()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("LookUpTests - DeepLink With Angle Brackets", ((string[])(null)));
+#line 75
+this.ScenarioSetup(scenarioInfo);
+#line 76
+ testRunner.Given("SpecAid Setting UseHashTag is \'true\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Tag It",
+                        "anInt"});
+            table13.AddRow(new string[] {
+                        "<<Everything>>",
+                        "12"});
+#line 78
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table13, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Recall",
+                        "anInt"});
+            table14.AddRow(new string[] {
+                        "<<Everything>>",
+                        "<<Everything>>.anInt"});
+#line 82
+ testRunner.Then("There are EveryThing Objects via Recall", ((string)(null)), table14, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("LookUpTests - DeepLink With Hash Tag")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "LookUpTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("CommonSteps")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("LookupTestsSteps")]
+        public virtual void LookUpTests_DeepLinkWithHashTag()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("LookUpTests - DeepLink With Hash Tag", ((string[])(null)));
+#line 87
+this.ScenarioSetup(scenarioInfo);
+#line 88
+ testRunner.Given("SpecAid Setting UseHashTag is \'true\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Tag It",
+                        "anInt"});
+            table15.AddRow(new string[] {
+                        "#Everything",
+                        "12"});
+#line 90
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table15, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Recall",
+                        "anInt"});
+            table16.AddRow(new string[] {
+                        "#Everything",
+                        "#Everything.anInt"});
+#line 94
+ testRunner.Then("There are EveryThing Objects via Recall", ((string)(null)), table16, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

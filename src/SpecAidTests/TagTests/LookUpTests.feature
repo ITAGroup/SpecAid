@@ -71,3 +71,26 @@ Scenario: LookUpTests - HashTag Works BracketTags With Periods
 	    | Recall      | anInt |
 	    | #Everything | 12    |
 
+
+Scenario: LookUpTests - DeepLink With Angle Brackets
+	Given SpecAid Setting UseHashTag is 'true'
+
+	Given There are EveryThing Objects
+	    | Tag It         | anInt |
+	    | <<Everything>> | 12    |
+
+	Then There are EveryThing Objects via Recall
+	    | Recall         | anInt                |
+	    | <<Everything>> | <<Everything>>.anInt |
+
+
+Scenario: LookUpTests - DeepLink With Hash Tag
+	Given SpecAid Setting UseHashTag is 'true'
+
+	Given There are EveryThing Objects
+	    | Tag It      | anInt |
+	    | #Everything | 12    |
+
+	Then There are EveryThing Objects via Recall
+	    | Recall      | anInt             |
+	    | #Everything | #Everything.anInt |
