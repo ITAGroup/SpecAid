@@ -28,6 +28,7 @@ namespace SpecAid.Translations
         DateTime = 110,        // 2014-06-25 08:21 AM
         Guid = 120,            // 7e764906-8689-4cc6-b290-461038681c7a
         Enum = 130,            // Blue
+        NullableEnum = 135,    // Blue
         NullableGeneric = 140, // true
 
         Linq = 980,            // {5 + 5}

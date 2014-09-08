@@ -13,7 +13,7 @@ namespace SpecAid.Translations
         {
             get
             {
-                return TranslationOrder.NullableGeneric.ToInt32();
+                return TranslationOrder.NullableEnum.ToInt32();
             }
         }
 
