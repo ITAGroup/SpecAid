@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using SpecAid.Base;
+using SpecAid.Helper;
 using TechTalk.SpecFlow;
 
 namespace SpecAid.ColumnActions
@@ -55,7 +56,7 @@ namespace SpecAid.ColumnActions
                     t => t.considerOrder);
 
 
-            var testAssembly = Assembly.GetExecutingAssembly();
+            var testAssembly = AssemblyEntryFinderInUnitTests.Go();
 
             var testTypes = testAssembly.GetTypes()
                 .Where(typeof(T).IsAssignableFrom)
