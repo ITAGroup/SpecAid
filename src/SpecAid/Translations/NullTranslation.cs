@@ -18,7 +18,7 @@ namespace SpecAid.Translations
         {
             return tableValue.Equals("null", StringComparison.InvariantCultureIgnoreCase);
         }
-        public int considerOrder
+        public int ConsiderOrder
         {
             get { return TranslationOrder.Null.ToInt32(); }
         }

@@ -1,14 +1,22 @@
 ﻿using System.Reflection;
 using SpecAid.Base;
 using SpecAid.Extentions;
+using SpecAid.Helper;
 
 namespace SpecAid.Translations
 {
-    public class StringTranslation : ITranslation
+    public class QuotedStringTranslation : ITranslation
     {
         public object Do(PropertyInfo info, string tableValue)
         {
-            return tableValue.Substring(1,tableValue.Length - 2);
+            // When using quotes we want the raw values.
+            // no translation
+            // no [datetime] alter.
+            // no {#tag} alter.
+
+            var trimmedString = tableValue.TrimAlphaOmega();
+
+            return trimmedString;
         }
 
         public bool UseWhen(PropertyInfo info, string tableValue)
@@ -17,9 +25,9 @@ namespace SpecAid.Translations
         }
 
         // I am the ultimate override
-        public int considerOrder
+        public int ConsiderOrder
         {
-            get { return TranslationOrder.String.ToInt32(); }
+            get { return TranslationOrder.QuotedString.ToInt32(); }
         }
     }
 }

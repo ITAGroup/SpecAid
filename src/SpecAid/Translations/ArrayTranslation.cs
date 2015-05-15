@@ -11,6 +11,7 @@ namespace SpecAid.Translations
         public object Do(PropertyInfo info, string tableValue)
         {
             var tableValueNoBrackets = ListHelper.NoBrackets(tableValue);
+
             var tableValueEntries = CsvHelper.Split(tableValueNoBrackets);
             
             var numEntries = tableValueEntries.Count;
@@ -37,9 +38,9 @@ namespace SpecAid.Translations
             return false;
         }
 
-        public int considerOrder
+        public int ConsiderOrder
         {
-            get { return TranslationOrder.List.ToInt32(); }
+            get { return TranslationOrder.Array.ToInt32(); }
         }
     }
 }

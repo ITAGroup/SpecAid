@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SpecAid.Translations
+﻿namespace SpecAid.Translations
 {
     public enum TranslationOrder
     {
@@ -8,7 +6,7 @@ namespace SpecAid.Translations
         Ignore = 0,            // [ignore]
 
         // Ultimate override for string
-        String = 10,           // "Hello"      Quoted String
+        QuotedString = 10,     // "Hello"
 
         // Single word replacements
         Null = 20,             // null
@@ -17,7 +15,7 @@ namespace SpecAid.Translations
         Yesterday = 50,        // [yesterday]
 
         // Textual Triggers
-        Tag = 60,              // #Entry       Tag
+        Tag = 60,              // #Entry
         DeepLink = 70,         // #Entry.Item
         Array = 75,            // [this,that]
         List = 80,             // [this,that]
@@ -32,6 +30,8 @@ namespace SpecAid.Translations
         NullableGeneric = 140, // true
 
         Linq = 980,            // {5 + 5}
+        TagSwapped = 995,      // {#Employee.Id} Needs to be after Linq as it consumes the '{}'s
+
         Missing = 990
     }
 }

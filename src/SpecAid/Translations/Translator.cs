@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using SpecAid.Base;
@@ -13,11 +12,9 @@ namespace SpecAid.Translations
         /// <summary>
         /// Gets the appropriate value for the cell
         /// </summary>
-        /// <param name="tableValue"></param>
-        /// <returns></returns>
         public static object Translate(PropertyInfo info, string tableValue)
         {
-            var translations = getTranslations();
+            var translations = GetTranslations();
 
             foreach (var action in translations)
             {
@@ -34,7 +31,7 @@ namespace SpecAid.Translations
         /// Do all of the cell actions
         /// </summary>
         /// <returns></returns>
-        private static IEnumerable<ITranslation> getTranslations()
+        private static IEnumerable<ITranslation> GetTranslations()
         {
             if (_cellActions == null)
             {
@@ -45,8 +42,7 @@ namespace SpecAid.Translations
                     .Where(x => !x.IsAbstract).ToList();
 
                 var specAidTranlations =
-                    specAidTypes.Select(action => (ITranslation)Activator.CreateInstance(action)).OrderBy(t => t.considerOrder);
-
+                    specAidTypes.Select(action => (ITranslation)Activator.CreateInstance(action)).OrderBy(t => t.ConsiderOrder);
 
                 var testAssembly = AssemblyEntryFinderInUnitTests.Go();
 
@@ -55,7 +51,7 @@ namespace SpecAid.Translations
                     .Where(x => !x.IsAbstract).ToList();
 
                 var testTranlations =
-                    testTypes.Select(action => (ITranslation)Activator.CreateInstance(action)).OrderBy(t => t.considerOrder);
+                    testTypes.Select(action => (ITranslation)Activator.CreateInstance(action)).OrderBy(t => t.ConsiderOrder);
 
                 _cellActions = testTranlations.Union(specAidTranlations);
             }

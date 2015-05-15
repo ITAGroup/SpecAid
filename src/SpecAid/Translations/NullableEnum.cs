@@ -2,6 +2,7 @@
 using System.Reflection;
 using SpecAid.Base;
 using SpecAid.Extentions;
+using SpecAid.Helper;
 
 namespace SpecAid.Translations
 {
@@ -9,7 +10,7 @@ namespace SpecAid.Translations
     {
         #region Properties
 
-        public int considerOrder
+        public int ConsiderOrder
         {
             get
             {

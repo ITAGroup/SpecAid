@@ -1,4 +1,5 @@
-﻿using SpecAid;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SpecAid;
 using SpecAidTests.Vaporware;
 using TechTalk.SpecFlow;
 
@@ -35,5 +36,6 @@ namespace SpecAidTests.TagTests
         {
             TableAid.ObjectComparerRecall<EveryThingObject>(table);
         }
+
     }
 }

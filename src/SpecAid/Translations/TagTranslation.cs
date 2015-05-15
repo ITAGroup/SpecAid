@@ -25,7 +25,7 @@ namespace SpecAid.Translations
         }
 
         // After String
-        public int considerOrder
+        public int ConsiderOrder
         {
             get { return TranslationOrder.Tag.ToInt32(); }
         }

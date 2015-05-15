@@ -7,7 +7,6 @@ namespace SpecAid.Translations
 {
     public class TomorrowTranslation : ITranslation
     {
-
         public object Do(PropertyInfo info, string tableValue)
         {
             return DateTime.Today.AddDays(1);  
@@ -19,10 +18,9 @@ namespace SpecAid.Translations
             return tableValue.Equals("[tomorrow]", StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public int considerOrder
+        public int ConsiderOrder
         {
             get { return TranslationOrder.Tomorrow.ToInt32(); }
         }
-
     }
 }

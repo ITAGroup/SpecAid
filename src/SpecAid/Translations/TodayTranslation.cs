@@ -7,7 +7,6 @@ namespace SpecAid.Translations
 {
     public class TodayTranslation : ITranslation
     {
-
         public object Do(PropertyInfo info, string tableValue)
         {
             return DateTime.Today;  
@@ -18,11 +17,9 @@ namespace SpecAid.Translations
             return tableValue.Equals("[today]", StringComparison.InvariantCultureIgnoreCase);
         }
 
-
-        public int considerOrder
+        public int ConsiderOrder
         {
             get { return TranslationOrder.Today.ToInt32(); }
         }
-
     }
 }

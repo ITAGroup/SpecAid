@@ -10,26 +10,6 @@ Scenario: TypeConvertionTests - Int
 	    | anInt |
 	    | 12    |
 
-Scenario: TypeConvertionTests - Guid
-	Given There are EveryThing Objects
-	    | aGuid                                |
-	    | 11ab0769-41cb-4655-b05d-621cc17585d4 |
-
-	Then There are EveryThing Objects
-	    | aGuid                                |
-	    | 11ab0769-41cb-4655-b05d-621cc17585d4 |
-
-Scenario: TypeConvertionTests - Nullable Guid
-	Given There are EveryThing Objects
-	    | aNullableGuid                        |
-	    | 11ab0769-41cb-4655-b05d-621cc17585d4 |
-	    | null                                 |
-
-	Then There are EveryThing Objects
-	    | aNullableGuid                        |
-	    | 11ab0769-41cb-4655-b05d-621cc17585d4 |
-	    | null                                 |
-
 Scenario: TypeConvertionTests - Enumerable
 	Given There are EveryThing Objects
 	    | someStrings |

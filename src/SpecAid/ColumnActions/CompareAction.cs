@@ -2,6 +2,7 @@
 using System.Reflection;
 using SpecAid.Base;
 using SpecAid.Helper;
+using SpecAid.SetTranslations;
 using SpecAid.Translations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpecAid.Extentions;
@@ -26,6 +27,8 @@ namespace SpecAid.ColumnActions
             var compareResult = new CompareColumnResult();
 
             var expectedValue = Translator.Translate(Info, tableValue);
+            expectedValue = SetTranslator.Translate(Info, target, expectedValue);
+
             var actualValue = target == null ? null : Info.GetValue(target, null);
 
             compareResult.ExpectedPrint = ToStringHelper.SafeToString(expectedValue);

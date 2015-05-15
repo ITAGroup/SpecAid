@@ -266,11 +266,19 @@ namespace SpecAidTests.BasicTests
             Assert.Fail("I Assert... Not so much.");
         }
 
-        [Then(@"Do Expression '(.*)' = '(.*)'")]
+        [Then(@"Do Expression for Int '(.*)' = '(.*)'")]
         public void ThenDoExpression(string expression, string expected)
         {
             var actual = FieldAid.ObjectCreator<int>(expression);
             
+            FieldAid.ObjectComparer(actual, expected);
+        }
+
+        [Then(@"Do Expression for String '(.*)' = '(.*)'")]
+        public void ThenDoExpressionForString(string expression, string expected)
+        {
+            var actual = FieldAid.ObjectCreator<string>(expression);
+
             FieldAid.ObjectComparer(actual, expected);
         }
 
@@ -284,6 +292,12 @@ namespace SpecAidTests.BasicTests
         public void GivenTagThisAsAsInt(string value, string tag)
         {
             RecallAid.It[tag] = Convert.ToInt32(value);
+        }
+
+        [Given(@"Tag This '(.*)' as '(.*)' As Guid")]
+        public void GivenTagThisAsAsGuid(string value, string tag)
+        {
+            RecallAid.It[tag] = Guid.Parse(value);
         }
 
         [Then(@"There is Interfaced IceCream Available")]

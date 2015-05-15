@@ -2,6 +2,7 @@
 using System.Reflection;
 using SpecAid.Base;
 using SpecAid.Extentions;
+using SpecAid.Helper;
 
 namespace SpecAid.Translations
 {
@@ -17,7 +18,7 @@ namespace SpecAid.Translations
             return info.PropertyType == typeof(Boolean);
         }
 
-        public int considerOrder
+        public int ConsiderOrder
         {
             get { return TranslationOrder.Boolean.ToInt32(); }
         }

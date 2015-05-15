@@ -21,7 +21,7 @@ namespace SpecAid.Translations
             return r.IsMatch(tableValue);
         }
 
-        public int considerOrder
+        public int ConsiderOrder
         {
             get { return TranslationOrder.Date.ToInt32(); }
         }

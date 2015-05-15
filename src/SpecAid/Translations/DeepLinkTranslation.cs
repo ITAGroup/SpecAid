@@ -65,7 +65,7 @@ namespace SpecAid.Translations
             return TagHelper.IsTag(tag);
         }
 
-        public int considerOrder
+        public int ConsiderOrder
         {
             get { return TranslationOrder.DeepLink.ToInt32(); }
         }

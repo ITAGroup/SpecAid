@@ -3,6 +3,7 @@ using System.Reflection;
 using SpecAid.Base;
 using SpecAid.ColumnActions;
 using SpecAid.Extentions;
+using SpecAid.Helper;
 
 namespace SpecAid.Translations
 {
@@ -32,10 +33,10 @@ namespace SpecAid.Translations
 
             return info.PropertyType.IsGenericType && 
                    info.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) &&
-                   SetAction.ImplementsIConvertible(innerType);
+                   TypeHelpers.ImplementsIConvertible(innerType);
         }
 
-        public int considerOrder
+        public int ConsiderOrder
         {
             get { return TranslationOrder.NullableGeneric.ToInt32(); }
         }

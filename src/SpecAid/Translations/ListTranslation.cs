@@ -64,7 +64,7 @@ namespace SpecAid.Translations
             return false;
         }
 
-        public int considerOrder
+        public int ConsiderOrder
         {
             get { return TranslationOrder.List.ToInt32(); }
         }

@@ -2,6 +2,7 @@
 using System.Reflection;
 using SpecAid.Base;
 using SpecAid.Helper;
+using SpecAid.SetTranslations;
 using SpecAid.Translations;
 using SpecAid.Extentions;
 
@@ -25,15 +26,10 @@ namespace SpecAid.ColumnActions
 
             var value = Translator.Translate(Info, tableValue);
 
-            try
-            {
-                if (ImplementsIConvertible(Info.PropertyType))
-                    value = Convert.ChangeType(value, Info.PropertyType);
-            }
-            catch
-            {
-                //If we cannot change to the type explicitly then we'll default to the exception when an implicit conversion is attempted.
-            }
+            // Convert the Translated value to the type of the targeted property.
+            // Translators guilty of not honoring the PropertyInfo ... Tag, Deep Link, Dates, etcetera
+
+            value = SetTranslator.Translate(Info, target, value);
 
             try
             {
@@ -59,20 +55,9 @@ namespace SpecAid.ColumnActions
             return (Info != null);
         }
 
-        /// <summary>
-        /// Does type T implement IConvertible?? 
-        /// </summary>
-        /// <param name="t"></param>
-        /// <returns></returns>
-        internal static bool ImplementsIConvertible(Type t)
-        {
-            return t.GetInterface(typeof(IConvertible).Name) != null;
-        }
-
         public override int considerOrder
         {
             get { return ActionOrder.Set.ToInt32(); }
         }
-
     }
 }

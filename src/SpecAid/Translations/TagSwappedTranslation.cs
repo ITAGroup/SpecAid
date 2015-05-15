@@ -1,26 +1,26 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using SpecAid.Base;
 using SpecAid.Extentions;
 using SpecAid.Helper;
 
 namespace SpecAid.Translations
 {
-    public class DateTimeTranslation : ITranslation
+    public class TagSwappedTranslation : ITranslation
     {
         public object Do(PropertyInfo info, string tableValue)
         {
-            return DateTime.Parse(tableValue);
+            var tableValueTagSwapped = TagToStringSwapper.Swap(tableValue);
+            return tableValueTagSwapped;
         }
 
         public bool UseWhen(PropertyInfo info, string tableValue)
         {
-            return info.PropertyType == typeof(DateTime);
+            return tableValue.Contains("{") && tableValue.Contains("}");
         }
 
         public int ConsiderOrder
         {
-            get { return TranslationOrder.DateTime.ToInt32(); }
+            get { return TranslationOrder.TagSwapped.ToInt32(); }
         }
     }
 }
