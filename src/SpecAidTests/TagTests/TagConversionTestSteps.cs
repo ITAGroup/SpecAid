@@ -6,8 +6,8 @@ using TechTalk.SpecFlow;
 namespace SpecAidTests.TagTests
 {
     [Binding]
-    [Scope(Tag = "TagConvertionTestSteps")]
-    public class TagConvertionTestSteps
+    [Scope(Tag = "TagConversionTestSteps")]
+    public class TagConversionTestSteps
     {
         private const string TheTagTag = "theTag";
 
@@ -29,7 +29,7 @@ namespace SpecAidTests.TagTests
         public void ThenTagIs(string expectTag)
         {
             var actualTag = (string)RecallAid.It[TheTagTag];
-            Assert.AreEqual(expectTag,actualTag);
+            Assert.AreEqual(expectTag, actualTag);
         }
     }
 }

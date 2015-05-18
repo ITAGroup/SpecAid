@@ -74,3 +74,28 @@ Scenario: SwappedTranslationTests Text Does not Have to Swap
 		| !LookUp     | AString   |
 		| #Everything | {AString} |
 
+Scenario: SwappedTranslationTests Swap Array
+	Given Tag This 'Some' as '#Some'
+	Given Tag This 'Big' as '#Big'
+	Given Tag This 'String' as '#String'
+
+	Given There are EveryThing Objects
+		| Tag It      | ArrayStrings               |
+		| #Everything | [{#Some},{#Big},{#String}] |
+
+	Then There are EveryThing Objects via Lookup
+		| !LookUp     | ArrayStrings      |
+		| #Everything | [Some,Big,String] |
+
+Scenario: SwappedTranslationTests Swap List
+	Given Tag This 'Some' as '#Some'
+	Given Tag This 'Big' as '#Big'
+	Given Tag This 'String' as '#String'
+
+	Given There are EveryThing Objects
+		| Tag It      | SomeStrings                |
+		| #Everything | [{#Some},{#Big},{#String}] |
+
+	Then There are EveryThing Objects via Lookup
+		| !LookUp     | SomeStrings       |
+		| #Everything | [Some,Big,String] |

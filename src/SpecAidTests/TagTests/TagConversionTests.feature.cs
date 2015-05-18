@@ -19,21 +19,21 @@ namespace SpecAidTests.TagTests
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute()]
-    public partial class TagConvertionTestsFeature
+    public partial class TagConversionTestsFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "TagConvertionTests.feature"
+#line 1 "TagConversionTests.feature"
 #line hidden
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.ClassInitializeAttribute()]
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TagConvertionTests", "", ProgrammingLanguage.CSharp, new string[] {
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TagConversionTests", "", ProgrammingLanguage.CSharp, new string[] {
                         "CommonSteps",
-                        "TagConvertionTestSteps"});
+                        "TagConversionTestSteps"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -48,9 +48,9 @@ namespace SpecAidTests.TagTests
         public virtual void TestInitialize()
         {
             if (((TechTalk.SpecFlow.FeatureContext.Current != null) 
-                        && (TechTalk.SpecFlow.FeatureContext.Current.FeatureInfo.Title != "TagConvertionTests")))
+                        && (TechTalk.SpecFlow.FeatureContext.Current.FeatureInfo.Title != "TagConversionTests")))
             {
-                SpecAidTests.TagTests.TagConvertionTestsFeature.FeatureSetup(null);
+                SpecAidTests.TagTests.TagConversionTestsFeature.FeatureSetup(null);
             }
         }
         
@@ -71,13 +71,13 @@ namespace SpecAidTests.TagTests
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TagConvertionTests - UseHashTag True Hash Changes")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TagConvertionTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TagConversionTests - UseHashTag True Hash Changes")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TagConversionTests")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("CommonSteps")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TagConvertionTestSteps")]
-        public virtual void TagConvertionTests_UseHashTagTrueHashChanges()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TagConversionTestSteps")]
+        public virtual void TagConversionTests_UseHashTagTrueHashChanges()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TagConvertionTests - UseHashTag True Hash Changes", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TagConversionTests - UseHashTag True Hash Changes", ((string[])(null)));
 #line 5
 this.ScenarioSetup(scenarioInfo);
 #line 6
@@ -93,13 +93,13 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TagConvertionTests - UseHashTag True No Hash Change.")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TagConvertionTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TagConversionTests - UseHashTag True No Hash Change.")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TagConversionTests")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("CommonSteps")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TagConvertionTestSteps")]
-        public virtual void TagConvertionTests_UseHashTagTrueNoHashChange_()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TagConversionTestSteps")]
+        public virtual void TagConversionTests_UseHashTagTrueNoHashChange_()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TagConvertionTests - UseHashTag True No Hash Change.", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TagConversionTests - UseHashTag True No Hash Change.", ((string[])(null)));
 #line 11
 this.ScenarioSetup(scenarioInfo);
 #line 12
@@ -115,13 +115,13 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TagConvertionTests - UseHashTag False No Bracket Change.")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TagConvertionTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TagConversionTests - UseHashTag False No Bracket Change.")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TagConversionTests")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("CommonSteps")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TagConvertionTestSteps")]
-        public virtual void TagConvertionTests_UseHashTagFalseNoBracketChange_()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TagConversionTestSteps")]
+        public virtual void TagConversionTests_UseHashTagFalseNoBracketChange_()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TagConvertionTests - UseHashTag False No Bracket Change.", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TagConversionTests - UseHashTag False No Bracket Change.", ((string[])(null)));
 #line 17
 this.ScenarioSetup(scenarioInfo);
 #line 18
@@ -137,13 +137,13 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TagConvertionTests - UseHashTag False No Hash Change.")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TagConvertionTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("TagConversionTests - UseHashTag False No Hash Change.")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "TagConversionTests")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("CommonSteps")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TagConvertionTestSteps")]
-        public virtual void TagConvertionTests_UseHashTagFalseNoHashChange_()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TagConversionTestSteps")]
+        public virtual void TagConversionTests_UseHashTagFalseNoHashChange_()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TagConvertionTests - UseHashTag False No Hash Change.", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TagConversionTests - UseHashTag False No Hash Change.", ((string[])(null)));
 #line 23
 this.ScenarioSetup(scenarioInfo);
 #line 24

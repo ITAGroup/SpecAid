@@ -308,6 +308,88 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("SwappedTranslationTests Swap Array")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "SwappedTranslationTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("CommonSteps")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("LookupTestsSteps")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("SpecAidTests")]
+        public virtual void SwappedTranslationTestsSwapArray()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("SwappedTranslationTests Swap Array", ((string[])(null)));
+#line 77
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 78
+ testRunner.Given("Tag This \'Some\' as \'#Some\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 79
+ testRunner.Given("Tag This \'Big\' as \'#Big\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 80
+ testRunner.Given("Tag This \'String\' as \'#String\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Tag It",
+                        "ArrayStrings"});
+            table13.AddRow(new string[] {
+                        "#Everything",
+                        "[{#Some},{#Big},{#String}]"});
+#line 82
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table13, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
+                        "!LookUp",
+                        "ArrayStrings"});
+            table14.AddRow(new string[] {
+                        "#Everything",
+                        "[Some,Big,String]"});
+#line 86
+ testRunner.Then("There are EveryThing Objects via Lookup", ((string)(null)), table14, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("SwappedTranslationTests Swap List")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "SwappedTranslationTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("CommonSteps")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("LookupTestsSteps")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("SpecAidTests")]
+        public virtual void SwappedTranslationTestsSwapList()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("SwappedTranslationTests Swap List", ((string[])(null)));
+#line 90
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 91
+ testRunner.Given("Tag This \'Some\' as \'#Some\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 92
+ testRunner.Given("Tag This \'Big\' as \'#Big\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 93
+ testRunner.Given("Tag This \'String\' as \'#String\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Tag It",
+                        "SomeStrings"});
+            table15.AddRow(new string[] {
+                        "#Everything",
+                        "[{#Some},{#Big},{#String}]"});
+#line 95
+ testRunner.Given("There are EveryThing Objects", ((string)(null)), table15, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
+                        "!LookUp",
+                        "SomeStrings"});
+            table16.AddRow(new string[] {
+                        "#Everything",
+                        "[Some,Big,String]"});
+#line 99
+ testRunner.Then("There are EveryThing Objects via Lookup", ((string)(null)), table16, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore
