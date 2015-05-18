@@ -14,11 +14,19 @@ namespace SpecAid.Translations
         /// </summary>
         public static object Translate(PropertyInfo info, string tableValue)
         {
+            return TranslateContinueAfterOperation(info, tableValue, -1);
+        }
+
+        public static object TranslateContinueAfterOperation(PropertyInfo info, string tableValue, int operationToContinueAfter)
+        {
             var translations = GetTranslations();
 
             foreach (var action in translations)
             {
-                if (!(action.UseWhen(info,tableValue)))
+                if (action.ConsiderOrder <= operationToContinueAfter)
+                    continue;
+
+                if (!(action.UseWhen(info, tableValue)))
                     continue;
 
                 return action.Do(info, tableValue);
@@ -38,7 +46,7 @@ namespace SpecAid.Translations
                 var specAidAssembly = Assembly.GetExecutingAssembly();
 
                 var specAidTypes = specAidAssembly.GetTypes()
-                    .Where(typeof (ITranslation).IsAssignableFrom)
+                    .Where(typeof(ITranslation).IsAssignableFrom)
                     .Where(x => !x.IsAbstract).ToList();
 
                 var specAidTranlations =

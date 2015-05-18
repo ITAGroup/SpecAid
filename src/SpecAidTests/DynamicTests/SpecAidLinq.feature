@@ -2,35 +2,40 @@
 Feature: SpecAid Linq Testings
 
 Scenario: Linq Math
-    Then Do Expression for Int '{5 + 5}' = '10'
+    Then Do Expression for Int 'do(5 + 5)' = '10'
 
 Scenario: Linq Recall Test
     Given Tag This '15' as '<<fifteen>>'
 
-    Then Do Expression for Int '{(Recall["<<fifteen>>"])}' = '15'
+    Then Do Expression for Int 'do((Recall["<<fifteen>>"]))' = '15'
 
 Scenario: Linq Recall Add Test
     Given Tag This '15' as '<<fifteen>>' As Int
 
-    Then Do Expression for Int '{Int32(Recall["<<fifteen>>"]) + 5}' = '20'
+    Then Do Expression for Int 'do(Int32(Recall["<<fifteen>>"]) + 5)' = '20'
 
 Scenario: Linq Recall Convert Test
     Given Tag This '15' as '<<fifteen>>'
 
-    Then Do Expression for Int '{Convert.ToInt32(Recall["<<fifteen>>"]) + 5}' = '20'
+    Then Do Expression for Int 'do(Convert.ToInt32(Recall["<<fifteen>>"]) + 5)' = '20'
 
 Scenario: Linq With Old Tag Replace
     Given Tag This '15' as '<<fifteen>>'
 
-    Then Do Expression for Int '{{<<fifteen>>} + 5}' = '20'
-
+    Then Do Expression for Int 'do({<<fifteen>>} + 5)' = '20'
+	
 Scenario: Linq With New Tag Replace
     Given Tag This '15' as '#fifteen'
 
-    Then Do Expression for Int '{{#fifteen} + 5}' = '20'
+    Then Do Expression for Int 'do({#fifteen} + 5)' = '20'
+
+Scenario: Linq nested
+    Given Tag This '15' as '#fifteen15'
+
+    Then Do Expression for Int '#fifteen{do(10 + 5)}' = '15'
 
 Scenario: Linq dont break on a bad lookup
-    Then Do Expression for String '{"{#unbroken}" + "5"}' = '{#unbroken}5'
+    Then Do Expression for String 'do("{#unbroken}" + "5")' = '{#unbroken}5'
 
 Scenario: Linq Recall Aid Test
     Given Tag This 'Ben' as '<<firstName>>'
@@ -53,11 +58,8 @@ Scenario: Linq Recall Aid Test
         | FoodTruck       | 3             |
     
     Then BrandNames Tests
-        | Name                                                                      | EmployeeCount                            |
-        | {StringAid["<<firstName>>"] + " and " + StringAid["<<lastName>>"] + "'s"} | {5 + 5}                                  |
-        | Generic                                                                   | {StringAid["<<Generic>>.EmployeeCount"]} |
-        | {"{<<Homemade>>.Name}"}                                                   | 0                                        |
-        | {"{#Food}{#Truck}"}                                                       | 3                                        |
-
-
-     
+        | Name                                                                        | EmployeeCount                              |
+        | do(StringAid["<<firstName>>"] + " and " + StringAid["<<lastName>>"] + "'s") | do(5 + 5)                                  |
+        | Generic                                                                     | do(StringAid["<<Generic>>.EmployeeCount"]) |
+        | do("{<<Homemade>>.Name}")                                                   | 0                                          |
+        | do("{#Food}{#Truck}")                                                       | 3                                          |

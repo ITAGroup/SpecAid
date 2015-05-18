@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using SpecAid.Extentions;
 
 namespace SpecAid.Helper
 {
-    public static class TagToStringSwapper
+    public static class StringSwapper
     {
         public static string Swap(string code)
         {
@@ -27,18 +24,25 @@ namespace SpecAid.Helper
                 {
                     var textToReplace = group.Value;
 
-                    var tag = textToReplace.TrimAlphaOmega();
+                    var textToSwap = textToReplace.TrimAlphaOmega();
 
                     try
                     {
-                        var stuff = FieldAid.ObjectCreator<string>(tag);
-                        innerCode = innerCode.Replace(textToReplace, stuff);
+                        var replaceResult = FieldAid.ObjectCreator<string>(textToSwap);
+
+                        // we didn't actually do anything.
+                        // don't replace the tag.
+                        if (textToSwap == replaceResult)
+                            continue;
+
+                        innerCode = innerCode.Replace(textToReplace, replaceResult);
                         ididsomething = true;
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Warning: " + ex.Message);
-                    }
+                    // ReSharper disable once EmptyGeneralCatchClause
+                    // Test might be checking for output containing '{' and '}' don't break or crash.
+                    // Maybe, consider logging result.
+                    catch (Exception)
+                    { }
                 }
 
                 matches = regex.Match(innerCode);
@@ -46,7 +50,5 @@ namespace SpecAid.Helper
 
             return innerCode;
         }
-
-
     }
 }

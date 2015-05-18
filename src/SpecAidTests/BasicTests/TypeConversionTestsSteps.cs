@@ -6,8 +6,8 @@ using TechTalk.SpecFlow;
 namespace SpecAidTests.BasicTests
 {
     [Binding]
-    [Scope(Tag = "TypeConvertionTestsSteps")]
-    public class TypeConvertionTestsSteps
+    [Scope(Tag = "TypeConversionTestsSteps")]
+    public class TypeConversionTestsSteps
     {
         private readonly List<EveryThingObject> allEverything = new List<EveryThingObject>();
 

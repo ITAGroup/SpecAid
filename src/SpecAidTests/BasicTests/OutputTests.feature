@@ -1,4 +1,4 @@
-﻿@TypeConvertionTestsSteps
+﻿@TypeConversionTestsSteps
 Feature: OutputTests
 
 Scenario: OutputTests - List

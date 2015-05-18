@@ -26,7 +26,7 @@ namespace SpecAid.Helper
                 return true;
 
             if (IsHashTag(s))
-               return true;
+                return true;
 
             return false;
         }

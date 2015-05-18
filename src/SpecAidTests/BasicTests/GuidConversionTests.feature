@@ -1,5 +1,5 @@
-﻿@TypeConvertionTestsSteps
-Feature: GuidConvertionTests
+﻿@TypeConversionTestsSteps
+Feature: GuidConversionTests
 
 Scenario: GuidConvertionTests - Regular Guid
     Given There are EveryThing Objects
@@ -43,6 +43,15 @@ Scenario: GuidConvertionTests - Lower Case Guid to Upper Case String
     Given There are EveryThing Objects
         | Tag It | A String                             | A Nullable Guid                      |
         | #eto1  | 11AB0769-41CB-4655-B05D-621CC17585D4 | 11ab0769-41cb-4655-b05d-621cc17585d4 |
+
+    Then There are EveryThing Objects
+        | A String            |
+        | #eto1.ANullableGuid |
+
+Scenario: GuidConvertionTests - Upper Case Guid to lower Case String
+    Given There are EveryThing Objects
+        | Tag It | A String                             | A Nullable Guid                      |
+        | #eto1  | 11ab0769-41cb-4655-b05d-621cc17585d4 | 11AB0769-41CB-4655-B05D-621CC17585D4 |
 
     Then There are EveryThing Objects
         | A String            |

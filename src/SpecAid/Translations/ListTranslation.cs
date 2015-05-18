@@ -30,9 +30,9 @@ namespace SpecAid.Translations
 
             foreach (var tableValueEntry in tableValueEntries)
             {
-                var expectedValue = Translator.Translate(propertyInfo, tableValueEntry);
+                var item = Translator.Translate(propertyInfo, tableValueEntry);
 
-                objectList.Add(expectedValue);
+                objectList.Add(item);
             }
 
             return objectList;
@@ -46,10 +46,10 @@ namespace SpecAid.Translations
             if (typeof(string).IsAssignableFrom(info.PropertyType))
                 return false;
 
-            if (typeof (IList).IsAssignableFrom(info.PropertyType))
+            if (typeof(IList).IsAssignableFrom(info.PropertyType))
                 return true;
 
-            if (typeof (IList<>).IsAssignableFrom(info.PropertyType))
+            if (typeof(IList<>).IsAssignableFrom(info.PropertyType))
                 return true;
 
             if (info.PropertyType.IsGenericType && info.PropertyType.GetGenericTypeDefinition() == typeof(IList<>))

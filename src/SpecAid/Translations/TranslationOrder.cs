@@ -8,6 +8,8 @@
         // Ultimate override for string
         QuotedString = 10,     // "Hello"
 
+        Swapped = 15,          // {#Employee.Id}
+
         // Single word replacements
         Null = 20,             // null
         Today = 30,            // [today]
@@ -29,8 +31,7 @@
         NullableEnum = 135,    // Blue
         NullableGeneric = 140, // true
 
-        Linq = 980,            // {5 + 5}
-        TagSwapped = 995,      // {#Employee.Id} Needs to be after Linq as it consumes the '{}'s
+        Linq = 980,            // do(5 + 5)
 
         Missing = 990
     }

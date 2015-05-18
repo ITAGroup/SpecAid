@@ -1,7 +1,7 @@
-﻿@TypeConvertionTestsSteps
-Feature: TypeConvertionTests
+﻿@TypeConversionTestsSteps
+Feature: TypeConversionTests
 
-Scenario: TypeConvertionTests - Int
+Scenario: TypeConversionTests - Int
 	Given There are EveryThing Objects
 	    | anInt |
 	    | 12    |
@@ -10,7 +10,7 @@ Scenario: TypeConvertionTests - Int
 	    | anInt |
 	    | 12    |
 
-Scenario: TypeConvertionTests - Enumerable
+Scenario: TypeConversionTests - Enumerable
 	Given There are EveryThing Objects
 	    | someStrings |
 	    | [a,b,c]     |
@@ -19,7 +19,7 @@ Scenario: TypeConvertionTests - Enumerable
 	    | someStrings |
 	    | [a,b,c]     |
 
-Scenario: TypeConvertionTests - Enumerable No Brackets
+Scenario: TypeConversionTests - Enumerable No Brackets
 	Given There are EveryThing Objects
 	    | someStrings |
 	    | a,b,c       |
@@ -28,7 +28,7 @@ Scenario: TypeConvertionTests - Enumerable No Brackets
 	    | someStrings |
 	    | a,b,c       |
 
-Scenario: TypeConvertionTests - Enumerable Null
+Scenario: TypeConversionTests - Enumerable Null
 	Given There are EveryThing Objects
 	    | someStrings |
 	    | null        |
@@ -37,7 +37,7 @@ Scenario: TypeConvertionTests - Enumerable Null
 	    | someStrings |
 	    | null        |
 
-Scenario: TypeConvertionTests - List
+Scenario: TypeConversionTests - List
 	Given There are EveryThing Objects
 	    | ListStrings |
 	    | [a,b,c]     |
@@ -46,7 +46,7 @@ Scenario: TypeConvertionTests - List
 	    | ListStrings |
 	    | [a,b,c]     |
 
-Scenario: TypeConvertionTests - List Null
+Scenario: TypeConversionTests - List Null
 	Given There are EveryThing Objects
 	    | ListStrings |
 	    | null        |
@@ -55,7 +55,7 @@ Scenario: TypeConvertionTests - List Null
 	    | ListStrings |
 	    | null        |
 
-Scenario: TypeConvertionTests - PlainList
+Scenario: TypeConversionTests - PlainList
 	Given There are EveryThing Objects
 	    | PlainList |
 	    | [a,b,c]   |
@@ -64,7 +64,7 @@ Scenario: TypeConvertionTests - PlainList
 	    | PlainList |
 	    | [a,b,c]   |
 
-Scenario: TypeConvertionTests - PlainList Null
+Scenario: TypeConversionTests - PlainList Null
 	Given There are EveryThing Objects
 	    | PlainList |
 	    | null      |
@@ -73,7 +73,7 @@ Scenario: TypeConvertionTests - PlainList Null
 	    | PlainList |
 	    | null      |
 
-Scenario: TypeConvertionTests - Array
+Scenario: TypeConversionTests - Array
 	Given There are EveryThing Objects
 	    | ArrayStrings |
 	    | [a,b,c]      |
@@ -82,7 +82,7 @@ Scenario: TypeConvertionTests - Array
 	    | ArrayStrings |
 	    | [a,b,c]      |
 
-Scenario: TypeConvertionTests - Array Null
+Scenario: TypeConversionTests - Array Null
 	Given There are EveryThing Objects
 	    | ArrayStrings |
 	    | null         |

@@ -32,7 +32,7 @@ namespace SpecAidTests.BasicTests
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "OutputTests", "", ProgrammingLanguage.CSharp, new string[] {
-                        "TypeConvertionTestsSteps"});
+                        "TypeConversionTestsSteps"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -72,7 +72,7 @@ namespace SpecAidTests.BasicTests
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("OutputTests - List")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "OutputTests")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TypeConvertionTestsSteps")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("TypeConversionTestsSteps")]
         public virtual void OutputTests_List()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("OutputTests - List", ((string[])(null)));

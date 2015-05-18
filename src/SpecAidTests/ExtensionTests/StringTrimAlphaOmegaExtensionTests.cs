@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpecAid.Extentions;
 
-namespace SpecAidTests.ExtentionTests
+namespace SpecAidTests.ExtensionTests
 {
     [TestClass]
-    public class StringTrimAlphaOmegaExtentionTests
+    public class StringTrimAlphaOmegaExtensionTests
     {
         [TestMethod]
         public void RemoveFirstAndLast()
