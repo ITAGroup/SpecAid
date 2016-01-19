@@ -1,7 +1,6 @@
 ﻿@SpecAidTests
 Feature: SpecAid Testings
 
-
 Background: 
 	Given I have BrandNames
 	    | !BrandName    | Name            | EmployeeCount |

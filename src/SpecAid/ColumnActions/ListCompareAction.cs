@@ -16,9 +16,7 @@ namespace SpecAid.ColumnActions
         private PropertyInfo Info { get; set; }
 
         public ListCompareAction(Type targetType, string columnName)
-            : base(targetType, columnName)
-        {
-        }
+            : base(targetType, columnName) { }
 
         public CompareColumnResult GoGoCompareColumnAction(object target, string tableValue)
         {
@@ -155,6 +153,7 @@ namespace SpecAid.ColumnActions
         {
             if (!type.IsGenericType)
                 return false;
+
             var genericArguments = type.GetGenericArguments();
             if (genericArguments.Length != 1)
                 return false;

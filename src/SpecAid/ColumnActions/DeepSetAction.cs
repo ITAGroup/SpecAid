@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using SpecAid.Base;
 using SpecAid.Helper;
@@ -7,15 +6,13 @@ using SpecAid.Extentions;
 
 namespace SpecAid.ColumnActions
 {
-    //Action for setting the value in the object
+    // Action for setting the value in the object nested in other objects
     public class DeepSetAction : ColumnAction, ICreatorColumnAction
     {
         private ICreatorColumnAction _deepAction;
 
         public DeepSetAction(Type targetType, string columnName)
-            : base(targetType, columnName)
-        {
-        }
+            : base(targetType, columnName) { }
 
         private PropertyInfo Info { get; set; }
 
@@ -25,36 +22,26 @@ namespace SpecAid.ColumnActions
                 return;
 
             if (_deepAction != null)
-            {
                 _deepAction.GoGoCreateColumnAction(Info.GetValue(target, null), tableValue);
-            }
         }
 
         public override bool UseWhen()
         {
-            // do deep property binding
-            if (!(ColumnName.Contains('.')))
-            {
+            if (!DeepHelper.IsDeep(ColumnName))
                 return false;
-            }
 
-            var propertyNames = ColumnName.Split('.');
+            var columnNameParts = DeepHelper.SplitColumnName(ColumnName);
 
-            if (propertyNames.Count() <= 1)
-            {
-                throw new Exception(string.Format("Can not find any property represented by deep-binding syntax: \"{0}\"", ColumnName));
-            }
+            Info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(
+                TargetType, columnNameParts.FirstColumn);
 
-            Info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(TargetType, propertyNames[0]);
+            //if (Info == null) it might be indexer
 
-            var nextColumnName = string.Join(".", propertyNames.Skip(1).ToList());
-
-            _deepAction = ColumnActionFactory.GetAction<ICreatorColumnAction>(Info.PropertyType, nextColumnName);
+            _deepAction = ColumnActionFactory.GetAction<ICreatorColumnAction>(
+                Info.PropertyType, columnNameParts.OtherColumns);
 
             if (_deepAction == null)
-            {
                 return false;
-            }
 
             return _deepAction.UseWhen();
         }

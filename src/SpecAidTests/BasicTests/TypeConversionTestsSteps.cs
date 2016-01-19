@@ -9,18 +9,18 @@ namespace SpecAidTests.BasicTests
     [Scope(Tag = "TypeConversionTestsSteps")]
     public class TypeConversionTestsSteps
     {
-        private readonly List<EveryThingObject> allEverything = new List<EveryThingObject>();
+        private readonly List<EveryThingObject> _allEverything = new List<EveryThingObject>();
 
         [Given(@"There are EveryThing Objects")]
         public void GivenIHaveEveryThingObjects(Table table)
         {
-            TableAid.ObjectCreator<EveryThingObject>(table, (tr, o) => { allEverything.Add(o); });
+            TableAid.ObjectCreator<EveryThingObject>(table, (tr, o) => { _allEverything.Add(o); });
         }
 
         [Then(@"There are EveryThing Objects")]
         public void ThenThereAreEveryThingObjects(Table table)
         {
-            TableAid.ObjectComparer<EveryThingObject>(table, allEverything);
+            TableAid.ObjectComparer(table, _allEverything);
         }
     }
 }

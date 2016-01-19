@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Reflection;
 using SpecAid.Base;
-using SpecAid.Helper;
 using SpecAid.SetTranslations;
 using SpecAid.Translations;
 using SpecAid.Extentions;
 
 namespace SpecAid.ColumnActions
 {
-    //Action for setting the value in the object
-    public class SetAction : ColumnAction, ICreatorColumnAction
+    public class IndexerSetAction : ColumnAction, ICreatorColumnAction
     {
-        public SetAction(Type targetType, string columnName)
+        public IndexerSetAction(Type targetType, string columnName)
             : base(targetType, columnName) { }
 
         private PropertyInfo Info { get; set; }
@@ -23,20 +21,15 @@ namespace SpecAid.ColumnActions
 
             var value = Translator.Translate(Info, tableValue);
 
-            // Convert the Translated value to the type of the targeted property.
-            // Translators guilty of not honoring the PropertyInfo ... Tag, Deep Link, Dates, etcetera
-
             value = SetTranslator.Translate(Info, target, value);
 
             try
             {
-                Info.SetValue(target, value, null);
+                Info.SetValue(target, value, new object[] { ColumnName });
             }
             catch (ArgumentException e)
             {
-                var message = string.Format(
-                    "Unable to set value of property {0} on {1} to value of \"{2}\" to type {3}",
-                    Info.Name,
+                var message = string.Format("Unable to set value of indexer on {0} to value of \"{1}\" to type {2}",
                     target.GetType(),
                     value == null ? "null" : value.ToString(),
                     Info.PropertyType.FullName);
@@ -47,15 +40,15 @@ namespace SpecAid.ColumnActions
 
         public override bool UseWhen()
         {
-            Info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(TargetType, ColumnName);
+            Info = TargetType.GetProperty("Item");
 
-            //could not find the property on the object
+            // no indexer to use
             return (Info != null);
         }
 
         public override int considerOrder
         {
-            get { return ActionOrder.Set.ToInt32(); }
+            get { return ActionOrder.IndexerSet.ToInt32(); }
         }
     }
 }

@@ -11,11 +11,8 @@ namespace SpecAid.ColumnActions
 {
     public class CompareAction : ColumnAction, IComparerColumnAction
     {
-
         public CompareAction(Type targetType, string columnName)
-            : base(targetType, columnName)
-        {
-        }
+            : base(targetType, columnName) { }
 
         private PropertyInfo Info { get; set; }
 
@@ -29,7 +26,7 @@ namespace SpecAid.ColumnActions
             var expectedValue = Translator.Translate(Info, tableValue);
             expectedValue = SetTranslator.Translate(Info, target, expectedValue);
 
-            var actualValue = target == null ? null : Info.GetValue(target, null);
+            var actualValue = GetActual(target);
 
             compareResult.ExpectedPrint = ToStringHelper.SafeToString(expectedValue);
             compareResult.ActualPrint = ToStringHelper.SafeToString(actualValue);
@@ -66,10 +63,18 @@ namespace SpecAid.ColumnActions
         {
             // While the record is missing... this column isn't an error as it is n/a
             var compareResult = new CompareColumnResult();
-            var actualValue = target == null ? null : Info.GetValue(target, null);
+            var actualValue = GetActual(target);
             compareResult.ActualPrint = ToStringHelper.SafeToString(actualValue);
             compareResult.IsError = false;
             return compareResult;
+        }
+
+        private object GetActual(object target)
+        {
+            if (target == null)
+                return null;
+
+            return Info.GetValue(target, null);
         }
 
         public override bool UseWhen()
@@ -84,6 +89,5 @@ namespace SpecAid.ColumnActions
         {
             get { return ActionOrder.Compare.ToInt32(); }
         }
-
     }
 }

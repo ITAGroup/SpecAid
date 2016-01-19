@@ -2,23 +2,41 @@
 {
     public enum ActionOrder
     {
+        // object for examples:
+        //  "person" : {
+        //    "firstName" : "John",
+        //    "address" : {
+        //      "city" : "anywhere"
+        //    },
+        //    "roles" : [
+        //      {"role" : "admin"}
+        //    ],
+        //    "[]" : [
+        //      {"key" : "aka","value" : "Jake"}
+        //    ]
+        //  }
+
         // Ultimate override
-        Ignore = 0,
+        Ignore = 0,             // !Key
 
         // Textual Triggers
-        Tag = 10,          // #Hello
-        ThisCompare = 20,  // This
-        DeepCompare = 30,  // #Hello.Kitty
-        DeepSet = 40,      // #Hello.Kitty
-        // Iterator        // #Hello.Cats[0]
-        // Linq            // {This.Cats.First()}
+        Tag = 10,               // Tag It
+        ThisCompare = 20,       // This
+
+        // "." Triggers
+        DeepCompare = 30,       // address.city
+        DeepSet = 40,           // address.city
 
         // Specific Type Handlers
-        ListCompare = 110,
+        ListCompare = 110,      // roles
 
-        // Generic Type Handlers
-        Set = 1110,
-        Compare = 1120,
+        // Generic Type Handlers Based on Property
+        Set = 1110,             // firstName
+        Compare = 1120,         // firstName
+
+        // Generic Type Handlers Based on Indexers
+        IndexerSet = 1110,      // aka
+        IndexerCompare = 1120,  // aka
 
         // Unknown
         Unknown = 9999

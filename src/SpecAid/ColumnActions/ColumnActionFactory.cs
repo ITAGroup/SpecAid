@@ -10,7 +10,6 @@ namespace SpecAid.ColumnActions
 {
     public class ColumnActionFactory
     {
-
         /// <summary>
         /// Gets the appropriate action for the given interface and column name
         /// </summary>
@@ -141,6 +140,5 @@ namespace SpecAid.ColumnActions
             //return the mappings of the successful columns
             return sortedActions;
         }
-
     }
 }

@@ -8,9 +8,7 @@ namespace SpecAid.ColumnActions
     public class SetLinkAction : ColumnAction, ICreatorColumnAction, IComparerColumnAction
     {
         public SetLinkAction(Type targetType, string columnName)
-            : base(targetType, columnName)
-        {
-        }
+            : base(targetType, columnName) { }
 
         public CompareColumnResult GoGoCompareColumnAction(object obj, string tableValue)
         {
@@ -69,6 +67,5 @@ namespace SpecAid.ColumnActions
         {
             get { return ActionOrder.Tag.ToInt32(); }
         }
-
     }
 }

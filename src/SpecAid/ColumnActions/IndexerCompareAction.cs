@@ -1,28 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpecAid.Base;
 using SpecAid.Helper;
+using SpecAid.SetTranslations;
 using SpecAid.Translations;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpecAid.Extentions;
 
 namespace SpecAid.ColumnActions
 {
-    //Action for storing items in the dictionary
-    public class ThisCompareAction : ColumnAction, IComparerColumnAction
+    public class IndexerCompareAction : ColumnAction, IComparerColumnAction
     {
-        // Convert a Object to a Property
-        private class ThisObject
-        {
-            public ThisObject(object obj)
-            {
-                This = obj;
-            }
-
-            public object This { get; set; }
-        }
-
-        public ThisCompareAction(Type targetType, string columnName)
+        public IndexerCompareAction(Type targetType, string columnName)
             : base(targetType, columnName) { }
 
         private PropertyInfo Info { get; set; }
@@ -32,11 +22,12 @@ namespace SpecAid.ColumnActions
             if (tableValue == ConstantStrings.IgnoreCell)
                 return new CompareColumnResult();
 
-            var thisObject = new ThisObject(target);
-
             var compareResult = new CompareColumnResult();
+
             var expectedValue = Translator.Translate(Info, tableValue);
-            var actualValue = thisObject == null ? null : Info.GetValue(thisObject, null);
+            expectedValue = SetTranslator.Translate(Info, target, expectedValue);
+
+            var actualValue = GetActual(target);
 
             compareResult.ExpectedPrint = ToStringHelper.SafeToString(expectedValue);
             compareResult.ActualPrint = ToStringHelper.SafeToString(actualValue);
@@ -44,12 +35,12 @@ namespace SpecAid.ColumnActions
             // Refactor to be blah = blah 
             try
             {
-                Assert.AreEqual(TypeConversion.SafeConvert(expectedValue, actualValue), actualValue);
+                Assert.AreEqual(TypeConversion.SafeConvert(expectedValue,actualValue), actualValue);
             }
             catch (Exception)
             {
                 compareResult.IsError = true;
-                compareResult.ErrorMessage = "Error on Property " + Info.Name + ", Expected '" + compareResult.ExpectedPrint + "', Actual '" + compareResult.ActualPrint + "'";
+                compareResult.ErrorMessage = "Error on Indexer, Expected '" + compareResult.ExpectedPrint + "', Actual '" + compareResult.ActualPrint + "'";
             }
 
             return compareResult;
@@ -71,11 +62,9 @@ namespace SpecAid.ColumnActions
 
         public CompareColumnResult GoGoCompareColumnAction(object target)
         {
-            var thisObject = new ThisObject(target);
-
             // While the record is missing... this column isn't an error as it is n/a
             var compareResult = new CompareColumnResult();
-            var actualValue = thisObject == null ? null : Info.GetValue(thisObject, null);
+            var actualValue = GetActual(target);
             compareResult.ActualPrint = ToStringHelper.SafeToString(actualValue);
             compareResult.IsError = false;
             return compareResult;
@@ -83,17 +72,51 @@ namespace SpecAid.ColumnActions
 
         public override bool UseWhen()
         {
-            if (!"This".Equals(ColumnName, StringComparison.InvariantCultureIgnoreCase))
-                return false;
+            Info = TargetType.GetProperty("Item");
 
-            Info = typeof (ThisObject).GetProperty("This");
-
-            return true;
+            // no indexer to use
+            return (Info != null);
         }
 
         public override int considerOrder
         {
-            get { return ActionOrder.ThisCompare.ToInt32(); }
+            get { return ActionOrder.IndexerCompare.ToInt32(); }
+        }
+
+        private object GetActual(object target)
+        {
+            if (target == null)
+                return null;
+
+            try
+            {
+                var item = Info.GetValue(target, new object[] { ColumnName });
+                return item;
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null && ex.InnerException.GetType() == typeof (KeyNotFoundException))
+                {
+                    Console.WriteLine(
+                        "Key {0} for Indexer on {1} not found.",
+                        ColumnName,
+                        target.GetType());
+                    return null;
+                }
+
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine(
+                        "Key {0} for Indexer on {1} blew stuff up: {2}",
+                        ColumnName,
+                        target.GetType(),
+                        ex.Message);
+                    return null;
+                }
+
+                // not certain how we get here with reflection.
+                throw;
+            }
         }
     }
 }

@@ -47,6 +47,5 @@ namespace SpecAid.ColumnActions
         {
             get { return ActionOrder.Unknown.ToInt32(); }
         }
-
     }
 }

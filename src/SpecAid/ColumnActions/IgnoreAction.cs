@@ -8,7 +8,7 @@ namespace SpecAid.ColumnActions
     {
         public IgnoreAction(Type targetType, string columnName) : base(targetType, columnName)
         {
-            //intentionally do nothing
+            // Intentionally do nothing
         }
 
         public CompareColumnResult GoGoCompareColumnAction(object obj, string tableValue)
