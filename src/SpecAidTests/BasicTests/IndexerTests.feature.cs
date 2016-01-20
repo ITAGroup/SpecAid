@@ -127,36 +127,32 @@ this.ScenarioSetup(scenarioInfo);
 this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Field 1",
-                        "Field 2",
-                        "Field 3",
-                        "Field 4",
-                        "Field 5",
-                        "Field 6"});
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5"});
             table3.AddRow(new string[] {
                         "I",
                         "can",
                         "set",
                         "any",
-                        "field",
-                        ""});
+                        "field"});
 #line 14
  testRunner.Given("The Int String Dictionary", ((string)(null)), table3, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Field 1",
-                        "Field 2",
-                        "Field 3",
-                        "Field 4",
-                        "Field 5",
-                        "Field 6"});
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5"});
             table4.AddRow(new string[] {
                         "I",
                         "can",
                         "set",
                         "any",
-                        "field",
-                        ""});
+                        "field"});
 #line 18
  testRunner.Then("The Int String Dictionary", ((string)(null)), table4, "Then ");
 #line hidden
@@ -204,6 +200,41 @@ this.ScenarioSetup(scenarioInfo);
                         "null"});
 #line 27
  testRunner.Then("The String String Dictionary", ((string)(null)), table6, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("IndexerTests - Match To Indexers to Type")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "IndexerTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("IndexerTestsSteps")]
+        public virtual void IndexerTests_MatchToIndexersToType()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("IndexerTests - Match To Indexers to Type", ((string[])(null)));
+#line 31
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "0",
+                        "Zero"});
+            table7.AddRow(new string[] {
+                        "One",
+                        "Zero"});
+#line 32
+ testRunner.Given("The Complex Indexer Object", ((string)(null)), table7, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                        "0",
+                        "Zero",
+                        "CountOfIntLookups",
+                        "CountOfStringLookups"});
+            table8.AddRow(new string[] {
+                        "One",
+                        "Zero",
+                        "1",
+                        "1"});
+#line 36
+ testRunner.Then("The Complex Indexer Object", ((string)(null)), table8, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

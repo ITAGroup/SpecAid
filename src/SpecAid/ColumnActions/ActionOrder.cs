@@ -35,8 +35,8 @@
         Compare = 1120,         // firstName
 
         // Generic Type Handlers Based on Indexers
-        IndexerSet = 1110,      // aka
-        IndexerCompare = 1120,  // aka
+        IndexerSet = 2110,      // aka
+        IndexerCompare = 2120,  // aka
 
         // Unknown
         Unknown = 9999

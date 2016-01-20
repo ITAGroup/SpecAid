@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using SpecAid.Base;
 using SpecAid.SetTranslations;
 using SpecAid.Translations;
 using SpecAid.Extentions;
+using SpecAid.Helper;
 
 namespace SpecAid.ColumnActions
 {
@@ -13,6 +15,7 @@ namespace SpecAid.ColumnActions
             : base(targetType, columnName) { }
 
         private PropertyInfo Info { get; set; }
+        private object LookUp { get; set; }
 
         public void GoGoCreateColumnAction(object target, string tableValue)
         {
@@ -25,7 +28,7 @@ namespace SpecAid.ColumnActions
 
             try
             {
-                Info.SetValue(target, value, new object[] { ColumnName });
+                Info.SetValue(target, value, new object[] { LookUp });
             }
             catch (ArgumentException e)
             {
@@ -40,10 +43,15 @@ namespace SpecAid.ColumnActions
 
         public override bool UseWhen()
         {
-            Info = TargetType.GetProperty("Item");
+            Info = PropertyInfoHelper.GetIndexerPropertyInfo(TargetType, ColumnName);
 
-            // no indexer to use
-            return (Info != null);
+            if (Info == null)
+                return false;
+
+            var parameterType = Info.GetIndexParameters().First().ParameterType;
+            LookUp = Convert.ChangeType(ColumnName, parameterType);
+
+            return true;
         }
 
         public override int considerOrder

@@ -18,7 +18,7 @@ namespace SpecAid.SetTranslations
 
             foreach (var action in translations)
             {
-                if (!(action.UseWhen(info,target,newItem)))
+                if (!action.UseWhen(info,target,newItem))
                     continue;
 
                 return action.Do(info, target, newItem);

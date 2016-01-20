@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using SpecAid.Base;
 using SpecAid.Helper;
@@ -16,6 +17,7 @@ namespace SpecAid.ColumnActions
             : base(targetType, columnName) { }
 
         private PropertyInfo Info { get; set; }
+        private object LookUp { get; set; }
 
         public CompareColumnResult GoGoCompareColumnAction(object target, string tableValue)
         {
@@ -72,10 +74,15 @@ namespace SpecAid.ColumnActions
 
         public override bool UseWhen()
         {
-            Info = TargetType.GetProperty("Item");
+            Info = PropertyInfoHelper.GetIndexerPropertyInfo(TargetType, ColumnName);
 
-            // no indexer to use
-            return (Info != null);
+            if (Info == null)
+                return false;
+
+            var parameterType = Info.GetIndexParameters().First().ParameterType;
+            LookUp = Convert.ChangeType(ColumnName, parameterType);
+
+            return true;
         }
 
         public override int considerOrder
@@ -90,7 +97,7 @@ namespace SpecAid.ColumnActions
 
             try
             {
-                var item = Info.GetValue(target, new object[] { ColumnName });
+                var item = Info.GetValue(target, new object[] { LookUp });
                 return item;
             }
             catch (Exception ex)
