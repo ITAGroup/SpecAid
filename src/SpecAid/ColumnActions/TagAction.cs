@@ -41,7 +41,6 @@ namespace SpecAid.ColumnActions
             return compareResults;
         }
 
-
         public void GoGoCreateColumnAction(object target, string tableValue)
         {
             if (tableValue == ConstantStrings.IgnoreCell)

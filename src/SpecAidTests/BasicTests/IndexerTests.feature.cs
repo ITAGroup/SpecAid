@@ -238,6 +238,66 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("IndexerTests - Properly Convert Fields")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "IndexerTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("IndexerTestsSteps")]
+        public virtual void IndexerTests_ProperlyConvertFields()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("IndexerTests - Properly Convert Fields", ((string[])(null)));
+#line 40
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                        "aField"});
+            table9.AddRow(new string[] {
+                        "00012.34"});
+#line 41
+ testRunner.Given("The String Decimal Dictionary", ((string)(null)), table9, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
+                        "aField"});
+            table10.AddRow(new string[] {
+                        "12.34000"});
+#line 45
+ testRunner.Then("The String Decimal Dictionary", ((string)(null)), table10, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("IndexerTests - Deep Link Indexer To Item")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "IndexerTests")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("IndexerTestsSteps")]
+        public virtual void IndexerTests_DeepLinkIndexerToItem()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("IndexerTests - Deep Link Indexer To Item", ((string[])(null)));
+#line 49
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Sanrio",
+                        "Sanrio.FirstName",
+                        "Sanrio.LastName"});
+            table11.AddRow(new string[] {
+                        "Sanrio",
+                        "Hello",
+                        "Kitty"});
+#line 50
+ testRunner.Given("The String Informant Dictionary", ((string)(null)), table11, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Sanrio.FirstName",
+                        "Sanrio.LastName"});
+            table12.AddRow(new string[] {
+                        "Hello",
+                        "Kitty"});
+#line 54
+ testRunner.Then("The String Informant Dictionary", ((string)(null)), table12, "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

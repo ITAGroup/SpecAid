@@ -11,10 +11,10 @@ namespace SpecAid.ColumnActions
 {
     public class CompareAction : ColumnAction, IComparerColumnAction
     {
+        private PropertyInfo _info;
+
         public CompareAction(Type targetType, string columnName)
             : base(targetType, columnName) { }
-
-        private PropertyInfo Info { get; set; }
 
         public CompareColumnResult GoGoCompareColumnAction(object target, string tableValue)
         {
@@ -23,8 +23,8 @@ namespace SpecAid.ColumnActions
 
             var compareResult = new CompareColumnResult();
 
-            var expectedValue = Translator.Translate(Info, tableValue);
-            expectedValue = SetTranslator.Translate(Info, target, expectedValue);
+            var expectedValue = Translator.Translate(_info, tableValue);
+            expectedValue = SetTranslator.Translate(_info, target, expectedValue);
 
             var actualValue = GetActual(target);
 
@@ -39,7 +39,7 @@ namespace SpecAid.ColumnActions
             catch (Exception)
             {
                 compareResult.IsError = true;
-                compareResult.ErrorMessage = "Error on Property " + Info.Name + ", Expected '" + compareResult.ExpectedPrint + "', Actual '" + compareResult.ActualPrint + "'";
+                compareResult.ErrorMessage = "Error on Property " + _info.Name + ", Expected '" + compareResult.ExpectedPrint + "', Actual '" + compareResult.ActualPrint + "'";
             }
 
             return compareResult;
@@ -52,7 +52,7 @@ namespace SpecAid.ColumnActions
 
             // While the record is missing... this column isn't an error as it is n/a
             var compareResult = new CompareColumnResult();
-            var expectedValue = Translator.Translate(Info, tableValue);
+            var expectedValue = Translator.Translate(_info, tableValue);
 
             compareResult.ExpectedPrint = ToStringHelper.SafeToString(expectedValue);
             compareResult.IsError = false;
@@ -74,15 +74,15 @@ namespace SpecAid.ColumnActions
             if (target == null)
                 return null;
 
-            return Info.GetValue(target, null);
+            return _info.GetValue(target, null);
         }
 
         public override bool UseWhen()
         {
-            Info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(TargetType, ColumnName);
+            _info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(TargetType, ColumnName);
 
             //could not find the property on the object
-            return (Info != null);
+            return (_info != null);
         }
 
         public override int considerOrder

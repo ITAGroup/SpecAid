@@ -13,7 +13,7 @@ namespace SpecAid.ColumnActions
 {
     public class ListCompareAction : ColumnAction, IComparerColumnAction
     {
-        private PropertyInfo Info { get; set; }
+        private PropertyInfo _info;
 
         public ListCompareAction(Type targetType, string columnName)
             : base(targetType, columnName) { }
@@ -25,7 +25,7 @@ namespace SpecAid.ColumnActions
 
             var compareResult = new CompareColumnResult();
 
-            var expectedValue = (IList)Translator.Translate(Info, tableValue);
+            var expectedValue = (IList)Translator.Translate(_info, tableValue);
             var actualValue = GetActual(target);
 
             compareResult.ExpectedPrint = SafeListToString(expectedValue);
@@ -39,7 +39,7 @@ namespace SpecAid.ColumnActions
             catch (Exception)
             {
                 compareResult.IsError = true;
-                compareResult.ErrorMessage = "Error on Property " + Info.Name + ", Expected '" + compareResult.ExpectedPrint + "', Actual '" + compareResult.ActualPrint + "'";
+                compareResult.ErrorMessage = "Error on Property " + _info.Name + ", Expected '" + compareResult.ExpectedPrint + "', Actual '" + compareResult.ActualPrint + "'";
             }
 
             return compareResult;
@@ -50,16 +50,16 @@ namespace SpecAid.ColumnActions
             if (target == null)
                 return null;
 
-            if (typeof(IList).IsAssignableFrom(Info.PropertyType))
-                return (IList)(Info.GetValue(target, null));
+            if (typeof(IList).IsAssignableFrom(_info.PropertyType))
+                return (IList)(_info.GetValue(target, null));
 
-            if (IsGenericList(Info.PropertyType))
-                return (IList)(Info.GetValue(target, null));
+            if (IsGenericList(_info.PropertyType))
+                return (IList)(_info.GetValue(target, null));
 
             // Need to convert the Enumerable Information into a List for Collection Assert.
-            if (typeof(IEnumerable).IsAssignableFrom(Info.PropertyType))
+            if (typeof(IEnumerable).IsAssignableFrom(_info.PropertyType))
             {
-                var orginalEnumerable = (IEnumerable)(Info.GetValue(target, null));
+                var orginalEnumerable = (IEnumerable)(_info.GetValue(target, null));
 
                 if (orginalEnumerable == null)
                     return null;
@@ -82,7 +82,7 @@ namespace SpecAid.ColumnActions
                 return new CompareColumnResult();
 
             var compareResult = new CompareColumnResult();
-            var expectedValue = (IList)Translator.Translate(Info, tableValue);
+            var expectedValue = (IList)Translator.Translate(_info, tableValue);
 
             compareResult.ExpectedPrint = SafeListToString(expectedValue);
             compareResult.IsError = false;
@@ -93,7 +93,7 @@ namespace SpecAid.ColumnActions
         {
             // While the record is missing... this column isn't an error as it is n/a
             var compareResult = new CompareColumnResult();
-            var actualValue = (IList)(target == null ? null : Info.GetValue(target, null));
+            var actualValue = (IList)(target == null ? null : _info.GetValue(target, null));
             compareResult.ActualPrint = SafeListToString(actualValue);
             compareResult.IsError = false;
             return compareResult;
@@ -128,21 +128,21 @@ namespace SpecAid.ColumnActions
 
         public override bool UseWhen()
         {
-            Info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(TargetType, ColumnName);
+            _info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(TargetType, ColumnName);
 
-            if (Info == null)
+            if (_info == null)
                 return false;
 
-            if (typeof(string).IsAssignableFrom(Info.PropertyType))
+            if (typeof(string).IsAssignableFrom(_info.PropertyType))
                 return false;
 
-            if (typeof (IList).IsAssignableFrom(Info.PropertyType))
+            if (typeof (IList).IsAssignableFrom(_info.PropertyType))
                 return true;
 
-            if (IsGenericList(Info.PropertyType))
+            if (IsGenericList(_info.PropertyType))
                 return true;
 
-            if (typeof(IEnumerable).IsAssignableFrom(Info.PropertyType))
+            if (typeof(IEnumerable).IsAssignableFrom(_info.PropertyType))
                 return true;
 
             return false;

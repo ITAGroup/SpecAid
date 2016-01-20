@@ -13,11 +13,11 @@ namespace SpecAid.ColumnActions
 {
     public class IndexerCompareAction : ColumnAction, IComparerColumnAction
     {
+        private PropertyInfo _info;
+        private object _lookUp;
+
         public IndexerCompareAction(Type targetType, string columnName)
             : base(targetType, columnName) { }
-
-        private PropertyInfo Info { get; set; }
-        private object LookUp { get; set; }
 
         public CompareColumnResult GoGoCompareColumnAction(object target, string tableValue)
         {
@@ -26,8 +26,8 @@ namespace SpecAid.ColumnActions
 
             var compareResult = new CompareColumnResult();
 
-            var expectedValue = Translator.Translate(Info, tableValue);
-            expectedValue = SetTranslator.Translate(Info, target, expectedValue);
+            var expectedValue = Translator.Translate(_info, tableValue);
+            expectedValue = SetTranslator.Translate(_info, target, expectedValue);
 
             var actualValue = GetActual(target);
 
@@ -55,7 +55,7 @@ namespace SpecAid.ColumnActions
 
             // While the record is missing... this column isn't an error as it is n/a
             var compareResult = new CompareColumnResult();
-            var expectedValue = Translator.Translate(Info, tableValue);
+            var expectedValue = Translator.Translate(_info, tableValue);
 
             compareResult.ExpectedPrint = ToStringHelper.SafeToString(expectedValue);
             compareResult.IsError = false;
@@ -74,13 +74,13 @@ namespace SpecAid.ColumnActions
 
         public override bool UseWhen()
         {
-            Info = PropertyInfoHelper.GetIndexerPropertyInfo(TargetType, ColumnName);
+            _info = PropertyInfoHelper.GetIndexerPropertyInfo(TargetType, ColumnName);
 
-            if (Info == null)
+            if (_info == null)
                 return false;
 
-            var parameterType = Info.GetIndexParameters().First().ParameterType;
-            LookUp = Convert.ChangeType(ColumnName, parameterType);
+            var parameterType = _info.GetIndexParameters().First().ParameterType;
+            _lookUp = Convert.ChangeType(ColumnName, parameterType);
 
             return true;
         }
@@ -97,7 +97,7 @@ namespace SpecAid.ColumnActions
 
             try
             {
-                var item = Info.GetValue(target, new object[] { LookUp });
+                var item = _info.GetValue(target, new object[] { _lookUp });
                 return item;
             }
             catch (Exception ex)

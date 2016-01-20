@@ -1,8 +1,6 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using SpecAid.Base;
 using SpecAid.Extentions;
-using SpecAid.Helper;
 
 namespace SpecAid.Translations
 {
@@ -10,12 +8,12 @@ namespace SpecAid.Translations
     {
         public object Do(PropertyInfo info, string tableValue)
         {
-            return Boolean.Parse(tableValue);
+            return bool.Parse(tableValue);
         }
 
         public bool UseWhen(PropertyInfo info, string tableValue)
         {
-            return info.PropertyType == typeof(Boolean);
+            return info.PropertyType == typeof(bool);
         }
 
         public int ConsiderOrder

@@ -1,44 +1,17 @@
 ﻿using System.Collections.Generic;
 using SpecAid;
+using SpecAidTests.Vaporware;
 using TechTalk.SpecFlow;
 
 namespace SpecAidTests.BasicTests
 {
-    public class ComplexIndexerObject
-    {
-        private readonly Dictionary<int,string> _ints = new Dictionary<int,string>();
-        private readonly Dictionary<string, string> _strings = new Dictionary<string, string>();
-
-        public string this[int i]
-        {
-            get { return _ints[i]; }
-            set { _ints[i] = value; }
-        }
-
-        public string this[string i]
-        {
-            get { return _strings[i]; }
-            set { _strings[i] = value; }
-        }
-
-        public int CountOfIntLookups
-        {
-            get { return _ints.Count; }
-            set { }
-        }
-
-        public int CountOfStringLookups
-        {
-            get { return _ints.Count; }
-            set { }
-        }
-    }
-
     [Binding]
     [Scope(Tag = "IndexerTestsSteps")]
     public class IndexerTestsSteps
     {
         private readonly List<Dictionary<string, string>> _stringStringDictionaryList = new List<Dictionary<string, string>>();
+        private readonly List<Dictionary<string, decimal>> _stringDecimalDictionaryList = new List<Dictionary<string, decimal>>();
+        private readonly List<Dictionary<string, Informant>> _stringInformantDictionaryList = new List<Dictionary<string, Informant>>();
         private readonly List<Dictionary<int, string>> _intStringDictionaryList = new List<Dictionary<int, string>>();
         private readonly List<ComplexIndexerObject> _complexIndexerObjects = new List<ComplexIndexerObject>();
 
@@ -52,6 +25,30 @@ namespace SpecAidTests.BasicTests
         public void ThenTheStringStringDictionary(Table table)
         {
             TableAid.ObjectComparer(table, _stringStringDictionaryList);
+        }
+
+        [Given(@"The String Decimal Dictionary")]
+        public void GivenTheStringDecimalDictionary(Table table)
+        {
+            TableAid.ObjectCreator<Dictionary<string, decimal>>(table, (tr, o) => { _stringDecimalDictionaryList.Add(o); });
+        }
+
+        [Then(@"The String Decimal Dictionary")]
+        public void ThenTheStringDecimalDictionary(Table table)
+        {
+            TableAid.ObjectComparer(table, _stringDecimalDictionaryList);
+        }
+
+        [Given(@"The String Informant Dictionary")]
+        public void GivenTheStringInformantDictionary(Table table)
+        {
+            TableAid.ObjectCreator<Dictionary<string, Informant>>(table, (tr, o) => { _stringInformantDictionaryList.Add(o); });
+        }
+
+        [Then(@"The String Informant Dictionary")]
+        public void ThenTheStringInformantDictionary(Table table)
+        {
+            TableAid.ObjectComparer(table, _stringInformantDictionaryList);
         }
 
         [Given(@"The Int String Dictionary")]

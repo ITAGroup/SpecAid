@@ -2,14 +2,11 @@
 using System.Reflection;
 using SpecAid.Base;
 using SpecAid.Extentions;
-using SpecAid.Helper;
 
 namespace SpecAid.Translations
 {
     public class NullableEnumTranslation : ITranslation
     {
-        #region Properties
-
         public int ConsiderOrder
         {
             get
@@ -17,10 +14,6 @@ namespace SpecAid.Translations
                 return TranslationOrder.NullableEnum.ToInt32();
             }
         }
-
-        #endregion
-
-        #region Public Methods
 
         public object Do(PropertyInfo info, string tableValue)
         {
@@ -41,7 +34,5 @@ namespace SpecAid.Translations
 
             return innerType.IsEnum;
         }
-
-        #endregion
     }
 }

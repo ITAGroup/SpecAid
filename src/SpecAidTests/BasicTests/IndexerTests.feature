@@ -36,3 +36,22 @@ Scenario: IndexerTests - Match To Indexers to Type
 	Then The Complex Indexer Object
 	    | 0   | Zero | CountOfIntLookups | CountOfStringLookups |
 	    | One | Zero | 1                 | 1                    |
+
+Scenario: IndexerTests - Properly Convert Fields
+	Given The String Decimal Dictionary
+	    | aField   |
+	    | 00012.34 |
+
+	Then The String Decimal Dictionary
+	    | aField    |
+	    | 12.34000  |
+
+Scenario: IndexerTests - Deep Link Indexer To Item
+	Given The String Informant Dictionary
+	    | Sanrio | Sanrio.FirstName | Sanrio.LastName |
+	    | Sanrio | Hello            | Kitty           |
+
+	Then The String Informant Dictionary
+	    | Sanrio.FirstName | Sanrio.LastName |
+	    | Hello            | Kitty           |
+

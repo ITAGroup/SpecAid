@@ -11,21 +11,10 @@ namespace SpecAid.ColumnActions
     //Action for storing items in the dictionary
     public class ThisCompareAction : ColumnAction, IComparerColumnAction
     {
-        // Convert a Object to a Property
-        private class ThisObject
-        {
-            public ThisObject(object obj)
-            {
-                This = obj;
-            }
-
-            public object This { get; set; }
-        }
+        private PropertyInfo _info;
 
         public ThisCompareAction(Type targetType, string columnName)
             : base(targetType, columnName) { }
-
-        private PropertyInfo Info { get; set; }
 
         public CompareColumnResult GoGoCompareColumnAction(object target, string tableValue)
         {
@@ -35,8 +24,8 @@ namespace SpecAid.ColumnActions
             var thisObject = new ThisObject(target);
 
             var compareResult = new CompareColumnResult();
-            var expectedValue = Translator.Translate(Info, tableValue);
-            var actualValue = thisObject == null ? null : Info.GetValue(thisObject, null);
+            var expectedValue = Translator.Translate(_info, tableValue);
+            var actualValue = thisObject == null ? null : _info.GetValue(thisObject, null);
 
             compareResult.ExpectedPrint = ToStringHelper.SafeToString(expectedValue);
             compareResult.ActualPrint = ToStringHelper.SafeToString(actualValue);
@@ -49,7 +38,7 @@ namespace SpecAid.ColumnActions
             catch (Exception)
             {
                 compareResult.IsError = true;
-                compareResult.ErrorMessage = "Error on Property " + Info.Name + ", Expected '" + compareResult.ExpectedPrint + "', Actual '" + compareResult.ActualPrint + "'";
+                compareResult.ErrorMessage = "Error on Property " + _info.Name + ", Expected '" + compareResult.ExpectedPrint + "', Actual '" + compareResult.ActualPrint + "'";
             }
 
             return compareResult;
@@ -62,7 +51,7 @@ namespace SpecAid.ColumnActions
 
             // While the record is missing... this column isn't an error as it is n/a
             var compareResult = new CompareColumnResult();
-            var expectedValue = Translator.Translate(Info, tableValue);
+            var expectedValue = Translator.Translate(_info, tableValue);
 
             compareResult.ExpectedPrint = ToStringHelper.SafeToString(expectedValue);
             compareResult.IsError = false;
@@ -75,7 +64,7 @@ namespace SpecAid.ColumnActions
 
             // While the record is missing... this column isn't an error as it is n/a
             var compareResult = new CompareColumnResult();
-            var actualValue = thisObject == null ? null : Info.GetValue(thisObject, null);
+            var actualValue = thisObject == null ? null : _info.GetValue(thisObject, null);
             compareResult.ActualPrint = ToStringHelper.SafeToString(actualValue);
             compareResult.IsError = false;
             return compareResult;
@@ -86,7 +75,7 @@ namespace SpecAid.ColumnActions
             if (!"This".Equals(ColumnName, StringComparison.InvariantCultureIgnoreCase))
                 return false;
 
-            Info = typeof (ThisObject).GetProperty("This");
+            _info = typeof (ThisObject).GetProperty("This");
 
             return true;
         }

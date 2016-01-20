@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using SpecAid.Base;
 using SpecAid.Helper;
@@ -8,8 +9,10 @@ namespace SpecAid.ColumnActions
 {
     public class DeepCompareAction : ColumnAction, IComparerColumnAction
     {
-        private PropertyInfo Info { get; set; }
         private IComparerColumnAction _deepAction;
+        private PropertyInfo _info;
+        private bool _isIndexer;
+        private object _lookUp;
 
         public DeepCompareAction(Type targetType, string columnName)
             : base(targetType, columnName) { }
@@ -19,10 +22,20 @@ namespace SpecAid.ColumnActions
             if (tableValue == ConstantStrings.IgnoreCell)
                 return new CompareColumnResult();
 
+            var value = GetActual(target);
+
             if (_deepAction != null)
-                return _deepAction.GoGoCompareColumnAction(Info.GetValue(target, null), tableValue);
+                return _deepAction.GoGoCompareColumnAction(value, tableValue);
 
             return new CompareColumnResult();
+        }
+
+        private object GetActual(object target)
+        {
+            if (_isIndexer)
+                return _info.GetValue(target, new[] { _lookUp });
+            
+            return _info.GetValue(target, null);
         }
 
         public CompareColumnResult GoGoCompareColumnAction(string tableValue)
@@ -38,8 +51,10 @@ namespace SpecAid.ColumnActions
 
         public CompareColumnResult GoGoCompareColumnAction(object target)
         {
+            var value = GetActual(target);
+
             if (_deepAction != null)
-                return _deepAction.GoGoCompareColumnAction(Info.GetValue(target, null));
+                return _deepAction.GoGoCompareColumnAction(value);
 
             return new CompareColumnResult();
         }
@@ -51,19 +66,39 @@ namespace SpecAid.ColumnActions
 
             var columnNameParts = DeepHelper.SplitColumnName(ColumnName);
 
-            Info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(
-                TargetType, columnNameParts.FirstColumn);
-
-            //if (Info == null) it might be indexer
+            if (!UseWhenProperty(columnNameParts.FirstColumn))
+                return false;
 
             _deepAction = ColumnActionFactory.GetAction<IComparerColumnAction>(
-                Info.PropertyType, 
+                _info.PropertyType, 
                 columnNameParts.OtherColumns);
 
             if (_deepAction == null)
                 return false;
 
             return _deepAction.UseWhen();
+        }
+
+        private bool UseWhenProperty(string firstColumnName)
+        {
+            _info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(
+                TargetType, firstColumnName);
+
+            if (_info != null)
+                return true;
+
+            _info = PropertyInfoHelper.GetIndexerPropertyInfo(
+                TargetType, firstColumnName);
+
+            if (_info == null)
+                return false;
+
+            _isIndexer = true;
+
+            var parameterType = _info.GetIndexParameters().First().ParameterType;
+            _lookUp = Convert.ChangeType(firstColumnName, parameterType);
+
+            return true;
         }
 
         public override int considerOrder
