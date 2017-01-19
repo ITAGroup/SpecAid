@@ -41,7 +41,7 @@ namespace SpecAid
             return sudoProperty;
         }
 
-        private static PropertyInfo GetPropertyIndo<TObject, TProp>(Expression<Func<TObject, TProp>> selector)
+        private static PropertyInfo GetPropertyInfo<TObject, TProp>(Expression<Func<TObject, TProp>> selector)
         {
             Expression body = selector;
             if (body is LambdaExpression)
