@@ -26,6 +26,7 @@
         // Types
         Boolean = 100,         // true
         DateTime = 110,        // 2014-06-25 08:21 AM
+        DateTimeOffset = 111,  // 2014-06-25 08:21 AM -06:00
         Guid = 120,            // 7e764906-8689-4cc6-b290-461038681c7a
         Enum = 130,            // Blue
         NullableEnum = 135,    // Blue
