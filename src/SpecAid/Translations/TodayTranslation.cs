@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Reflection;
 using SpecAid.Base;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
     public class TodayTranslation : ITranslation
     {
-
         public object Do(PropertyInfo info, string tableValue)
         {
             return DateTime.Today;  
@@ -17,11 +17,9 @@ namespace SpecAid.Translations
             return tableValue.Equals("[today]", StringComparison.InvariantCultureIgnoreCase);
         }
 
-
-        public int considerOrder
+        public int ConsiderOrder
         {
-            get { return 1; }
+            get { return TranslationOrder.Today.ToInt32(); }
         }
-
     }
 }

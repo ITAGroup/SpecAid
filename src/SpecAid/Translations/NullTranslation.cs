@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using SpecAid.Base;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
@@ -17,9 +18,9 @@ namespace SpecAid.Translations
         {
             return tableValue.Equals("null", StringComparison.InvariantCultureIgnoreCase);
         }
-        public int considerOrder
+        public int ConsiderOrder
         {
-            get { return 1; }
+            get { return TranslationOrder.Null.ToInt32(); }
         }
     }
 }

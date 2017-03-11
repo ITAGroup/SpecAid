@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using SpecAid.Base;
+using SpecAid.Extentions;
+using SpecAid.Helper;
 
 namespace SpecAid.Translations
 {
@@ -16,9 +18,9 @@ namespace SpecAid.Translations
             return info.PropertyType.IsEnum;
         }
 
-        public int considerOrder
+        public int ConsiderOrder
         {
-            get { return 8; }
+            get { return TranslationOrder.Enum.ToInt32(); }
         }
 
     }

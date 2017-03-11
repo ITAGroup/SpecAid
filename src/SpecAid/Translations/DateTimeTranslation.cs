@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using SpecAid.Base;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
@@ -16,9 +17,9 @@ namespace SpecAid.Translations
             return info.PropertyType == typeof(DateTime);
         }
 
-        public int considerOrder
+        public int ConsiderOrder
         {
-            get { return 7; }
+            get { return TranslationOrder.DateTime.ToInt32(); }
         }
     }
 }

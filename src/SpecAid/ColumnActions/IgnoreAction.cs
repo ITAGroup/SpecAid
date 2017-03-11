@@ -1,5 +1,6 @@
 ﻿using System;
 using SpecAid.Base;
+using SpecAid.Extentions;
 
 namespace SpecAid.ColumnActions
 {
@@ -7,7 +8,7 @@ namespace SpecAid.ColumnActions
     {
         public IgnoreAction(Type targetType, string columnName) : base(targetType, columnName)
         {
-            //intentionally do nothing
+            // Intentionally do nothing
         }
 
         public CompareColumnResult GoGoCompareColumnAction(object obj, string tableValue)
@@ -54,8 +55,7 @@ namespace SpecAid.ColumnActions
 
         public override int considerOrder
         {
-            get { return 0; }
+            get { return ActionOrder.Ignore.ToInt32(); }
         }
-
     }
 }

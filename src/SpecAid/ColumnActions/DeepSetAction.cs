@@ -1,73 +1,87 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-
 using SpecAid.Base;
-using SpecAid.Translations;
 using SpecAid.Helper;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SpecAid.Extentions;
 
 namespace SpecAid.ColumnActions
 {
-    //Action for setting the value in the object
+    // Action for setting the value in the object nested in other objects
     public class DeepSetAction : ColumnAction, ICreatorColumnAction
     {
-        private ICreatorColumnAction deepAction;
+        private ICreatorColumnAction _deepAction;
+        private PropertyInfo _info;
+        private bool _isIndexer;
+        private object _lookUp;
 
         public DeepSetAction(Type targetType, string columnName)
-            : base(targetType, columnName)
-        {
-        }
-
-        private PropertyInfo Info { get; set; }
+            : base(targetType, columnName) { }
 
         public void GoGoCreateColumnAction(object target, string tableValue)
         {
             if (tableValue == ConstantStrings.IgnoreCell)
                 return;
 
-            if (deepAction != null)
-            {
-                deepAction.GoGoCreateColumnAction(Info.GetValue(target, null), tableValue);
-            }
+            var value = GetActual(target);
+
+            // should never happen....
+            if (_deepAction != null)
+                _deepAction.GoGoCreateColumnAction(value, tableValue);
+        }
+
+        private object GetActual(object target)
+        {
+            if (_isIndexer)
+                return _info.GetValue(target, new[] { _lookUp });
+
+            return _info.GetValue(target, null);
         }
 
         public override bool UseWhen()
         {
-            // do deep property binding
-            if (!(ColumnName.Contains('.')))
-            {
+            if (!DeepHelper.IsDeep(ColumnName))
                 return false;
-            }
 
-            var propertyNames = ColumnName.Split('.');
+            var columnNameParts = DeepHelper.SplitColumnName(ColumnName);
 
-            if (propertyNames.Count() <= 1)
-            {
-                throw new Exception(string.Format("Can not find any property represented by deep-binding syntax: \"{0}\"", ColumnName));
-            }
-
-            Info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(TargetType, propertyNames[0]);
-
-            var nextColumnName = string.Join(".", propertyNames.Skip(1).ToList());
-
-            deepAction = ColumnActionFactory.GetAction<ICreatorColumnAction>(Info.PropertyType, nextColumnName);
-
-            if (deepAction == null)
-            {
+            if (!UseWhenProperty(columnNameParts.FirstColumn))
                 return false;
-            }
 
-            return deepAction.UseWhen();
+            _deepAction = ColumnActionFactory.GetAction<ICreatorColumnAction>(
+                _info.PropertyType, columnNameParts.OtherColumns);
+
+            if (_deepAction == null)
+                return false;
+
+            return _deepAction.UseWhen();
+        }
+
+        private bool UseWhenProperty(string firstColumnName)
+        {
+            _info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(
+                TargetType, firstColumnName);
+
+            if (_info != null)
+                return true;
+
+            _info = PropertyInfoHelper.GetIndexerPropertyInfo(
+                TargetType, firstColumnName);
+
+            if (_info == null)
+                return false;
+
+            _isIndexer = true;
+
+            var parameterType = _info.GetIndexParameters().First().ParameterType;
+            _lookUp = Convert.ChangeType(firstColumnName, parameterType);
+
+            return true;
         }
 
         public override int considerOrder
         {
-            get { return 9; }
+            get { return ActionOrder.DeepSet.ToInt32(); }
         }
-
     }
 }

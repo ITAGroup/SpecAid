@@ -1,7 +1,7 @@
 ﻿
-@SpecflowWiredUp
+@CommonSteps
 Feature: SpecflowWiredUp
-	In order to avoid SpecAid tests to Work
+	In order for SpecAid tests to Work
 	Specflow Must be wired up
 
 Scenario: SpecflowWiredUp Yes It Is

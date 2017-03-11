@@ -13,18 +13,18 @@ namespace SpecAid.Base
         private Table _table;
 
         // Holds a list of compares... Used during Best Matching (finalization)
-        private CompareRowResult[,] tableRowToDataCompares;
+        private CompareRowResult[,] _tableRowToDataCompares;
 
         // Finals... Perfect Matches, Non-Perfect and No-Match
-        private CompareRowFinalResult[] TableRowToDataCompareRowFinals;
-        private CompareRowFinalResult[] DataToTableRowCompareRowFinals;
+        private CompareRowFinalResult[] _tableRowToDataCompareRowFinals;
+        private CompareRowFinalResult[] _dataToTableRowCompareRowFinals;
 
         // How big is it?
         private int _tableRowsCount;
         private int _dataItemsCount;
 
         // Final Messages
-        private List<string> messages = new List<string>();
+        private readonly List<string> _messages = new List<string>();
 
         public void InitCompare(Table table, int dataItemsCount)
         {
@@ -34,15 +34,19 @@ namespace SpecAid.Base
             _dataItemsCount = dataItemsCount;
 
             // We add one to Allow for the Null or (no Match Condition)
-            tableRowToDataCompares = new CompareRowResult[_tableRowsCount + 1, _dataItemsCount + 1];
+            _tableRowToDataCompares = new CompareRowResult[_tableRowsCount + 1, _dataItemsCount + 1];
 
-            // Just incase we index to a blank record...  + 1.
-            TableRowToDataCompareRowFinals = new CompareRowFinalResult[_tableRowsCount];
-            DataToTableRowCompareRowFinals = new CompareRowFinalResult[_dataItemsCount];
+            // Just in case we index to a blank record...  + 1.
+            _tableRowToDataCompareRowFinals = new CompareRowFinalResult[_tableRowsCount];
+            _dataToTableRowCompareRowFinals = new CompareRowFinalResult[_dataItemsCount];
         }
 
         // Used by TableAid to Add a new Result.
-        public void AddRowResult(int tableRowIndex, int dataItemIndex, CompareRowResult rowResult, bool isMatch)
+        public void AddRowResult(
+            int tableRowIndex,
+            int dataItemIndex,
+            CompareRowResult rowResult,
+            bool isMatch)
         {
             // These are for No Matches...
             // We left a little space in the table to make these...
@@ -58,13 +62,13 @@ namespace SpecAid.Base
             }
             else
             {
-                tableRowToDataCompares[tableRowIndex, dataItemIndex] = rowResult;
+                _tableRowToDataCompares[tableRowIndex, dataItemIndex] = rowResult;
             }
         }
 
         public bool DoesDataHaveMatch(int dataItemIndex)
         {
-            if (DataToTableRowCompareRowFinals[dataItemIndex] != null)
+            if (_dataToTableRowCompareRowFinals[dataItemIndex] != null)
                 return true;
 
             return false;
@@ -90,7 +94,7 @@ namespace SpecAid.Base
             (
                 output,
                 'E', 'A',
-                TableRowToDataCompareRowFinals,
+                _tableRowToDataCompareRowFinals,
                 ExpectedPrintToOutput
             );
 
@@ -100,7 +104,7 @@ namespace SpecAid.Base
             (
                 output,
                 'A', 'E',
-                DataToTableRowCompareRowFinals,
+                _dataToTableRowCompareRowFinals,
                 ActualPrintToOutput
             );
 
@@ -131,12 +135,16 @@ namespace SpecAid.Base
                 for (int tableRowIndex = 0; tableRowIndex < _tableRowsCount; tableRowIndex++)
                 {
                     // It a Final Match is already set, then skip.
-                    if (TableRowToDataCompareRowFinals[tableRowIndex] != null)
+                    if (_tableRowToDataCompareRowFinals[tableRowIndex] != null)
                         continue;
 
                     // No Match... find one.
-                    var bestDataIndex = FindBestMatch(tableRowIndex, _dataItemsCount, TableRowToDataRetrieval);
-                    var bestDataFinal = tableRowToDataCompares[tableRowIndex, bestDataIndex];
+                    var bestDataIndex = FindBestMatch(
+                        tableRowIndex, 
+                        _dataItemsCount, 
+                        TableRowToDataRetrieval);
+
+                    var bestDataFinal = _tableRowToDataCompares[tableRowIndex, bestDataIndex];
 
                     // Missing Record (add and continue)
                     if (bestDataIndex == _dataItemsCount)
@@ -146,7 +154,10 @@ namespace SpecAid.Base
                         continue;
                     }
 
-                    var bestTableRowIndexForData = FindBestMatch(bestDataIndex, _tableRowsCount, DataToTableRowRetrieval);
+                    var bestTableRowIndexForData = FindBestMatch(
+                        bestDataIndex, 
+                        _tableRowsCount, 
+                        DataToTableRowRetrieval);
 
                     // Verify the Data believe that the it is also the closes Match
                     if (tableRowIndex != bestTableRowIndexForData)
@@ -170,16 +181,20 @@ namespace SpecAid.Base
                 // if there is a Match Add it.
                 if (bestFinalMisMatch != null)
                 {
-                    AddFinalMatch(bestFinalMisMatchTableRowIndex, bestFinalMisMatchDataIndex, bestFinalMisMatch, MatchQuality.Partial);
+                    AddFinalMatch(
+                        bestFinalMisMatchTableRowIndex, 
+                        bestFinalMisMatchDataIndex, 
+                        bestFinalMisMatch, 
+                        MatchQuality.Partial);
                 }
             }
 
             for (int dataItemIndex = 0; dataItemIndex < _dataItemsCount; dataItemIndex++)
             {
-                if (DataToTableRowCompareRowFinals[dataItemIndex] != null)
+                if (_dataToTableRowCompareRowFinals[dataItemIndex] != null)
                     continue;
 
-                var MissingRow = tableRowToDataCompares[_tableRowsCount, dataItemIndex];
+                var MissingRow = _tableRowToDataCompares[_tableRowsCount, dataItemIndex];
 
                 AddFinalMatch(_tableRowsCount, dataItemIndex, MissingRow, MatchQuality.None);
             }
@@ -187,24 +202,24 @@ namespace SpecAid.Base
 
         public void TheAssert()
         {
-            if (messages.Count == 0)
+            if (_messages.Count == 0)
             {
                 Assert.AreEqual(true,true);
                 return;
             }
 
-            Assert.Fail(messages[0]);
+            Assert.Fail(_messages[0]);
         }
 
         private void FinalMessages()
         {
             for (int tableRowIndex = 0; tableRowIndex < _tableRowsCount; tableRowIndex++)
             {
-                var compare = TableRowToDataCompareRowFinals[tableRowIndex];
+                var compare = _tableRowToDataCompareRowFinals[tableRowIndex];
 
                 if (compare.matchQuality == MatchQuality.None)
                 {
-                    messages.Add("Could Not Match Row E" + (tableRowIndex + 1) + ": Not Enough Data.");
+                    _messages.Add("Could Not Match Row E" + (tableRowIndex + 1) + ": Not Enough Data.");
                     continue;
                 }
 
@@ -217,47 +232,57 @@ namespace SpecAid.Base
                         break;
                     if (compare.matchQuality == MatchQuality.Partial)
                     {
-                        messages.Add("Non-Match on Row E" + (tableRowIndex + 1) + ": Best Guess A" + (compare.index + 1) +
-                                     ": " + column.ErrorMessage);
+                        _messages.Add(
+                            "Non-Match on Row E" + (tableRowIndex + 1) + 
+                            ": Best Guess A" + (compare.index + 1) +
+                            ": " + column.ErrorMessage);
                     }
                     else
                     {
-                        messages.Add("Error on Row E" + (tableRowIndex + 1) + ": " + column.ErrorMessage);
+                        _messages.Add(
+                            "Error on Row E" + (tableRowIndex + 1) + 
+                            ": " + column.ErrorMessage);
                     }
                 }
             }
 
             for (int dataIndex = 0; dataIndex < _dataItemsCount; dataIndex++)
             {
-                var compare = DataToTableRowCompareRowFinals[dataIndex];
+                var compare = _dataToTableRowCompareRowFinals[dataIndex];
 
                 if (compare.matchQuality == MatchQuality.None)
                 {
-                    messages.Add("Could Not Match Row A" + (dataIndex + 1) + ": Not Enough Table Rows.");
+                    _messages.Add(
+                        "Could Not Match Row A" + (dataIndex + 1) + 
+                        ": Not Enough Table Rows.");
                     continue;
                 }
 
             }
         }
 
-        private void AddFinalMatch(int tableRowIndex, int dataIndex, CompareRowResult rowResult, MatchQuality matchQuality)
+        private void AddFinalMatch(
+            int tableRowIndex, 
+            int dataIndex, 
+            CompareRowResult rowResult, 
+            MatchQuality matchQuality)
         {
             // Missing TableRows are not added to final
             if (tableRowIndex != _tableRowsCount)
             {
-                // A Match calls us to action.  
+                // A Match calls us to action.
                 // We need to remove previous compares.
                 // So, that when we finalize... Matches won't get confused with other Match Data
                 for (int dataForIndex = 0; dataForIndex < _dataItemsCount; dataForIndex++)
                 {
-                    tableRowToDataCompares[tableRowIndex, dataForIndex] = null;
+                    _tableRowToDataCompares[tableRowIndex, dataForIndex] = null;
                 }
 
                 var tableRowCompareMatchResult = new CompareRowFinalResult();
                 tableRowCompareMatchResult.compareRowResult = rowResult;
                 tableRowCompareMatchResult.matchQuality = matchQuality;
                 tableRowCompareMatchResult.index = dataIndex;
-                TableRowToDataCompareRowFinals[tableRowIndex] = tableRowCompareMatchResult;
+                _tableRowToDataCompareRowFinals[tableRowIndex] = tableRowCompareMatchResult;
             }
 
             // Missing Datas are not added to final
@@ -265,18 +290,20 @@ namespace SpecAid.Base
             {
                 for (int tableRowForIndex = 0; tableRowForIndex < _tableRowsCount; tableRowForIndex++)
                 {
-                    tableRowToDataCompares[tableRowForIndex, dataIndex] = null;
+                    _tableRowToDataCompares[tableRowForIndex, dataIndex] = null;
                 }
 
                 var dataCompareMatchResult = new CompareRowFinalResult();
                 dataCompareMatchResult.compareRowResult = rowResult;
                 dataCompareMatchResult.matchQuality = matchQuality;
                 dataCompareMatchResult.index = tableRowIndex;
-                DataToTableRowCompareRowFinals[dataIndex] = dataCompareMatchResult;
+                _dataToTableRowCompareRowFinals[dataIndex] = dataCompareMatchResult;
             }
         }
 
-        private void ActualAndExpectedToSpecflowPipeOutput(List<List<string>> output, StringBuilder outputToStringBuilder)
+        private void ActualAndExpectedToSpecflowPipeOutput(
+            List<List<string>> output, 
+            StringBuilder outputToStringBuilder)
         {
             var columnCount = _table.Header.Count + 3;
             var totalWidthOfColumns = new int[columnCount];
@@ -309,7 +336,9 @@ namespace SpecAid.Base
                 outputToStringBuilder.Append("| ");
                 for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
                 {
-                    outputToStringBuilder.Append(outLine[columnIndex].PadRight(totalWidthOfColumns[columnIndex]));
+                    outputToStringBuilder.Append(
+                        outLine[columnIndex].PadRight(totalWidthOfColumns[columnIndex]));
+
                     outputToStringBuilder.Append(" | ");
                 }
                 outputToStringBuilder.AppendLine();
@@ -320,12 +349,12 @@ namespace SpecAid.Base
         {
             outputToStringBuilder.AppendLine("Messages:");
 
-            if (messages.Count == 0)
+            if (_messages.Count == 0)
             {
                 outputToStringBuilder.AppendLine("\tnone");
             }
 
-            foreach (var message in messages)
+            foreach (var message in _messages)
             {
                 outputToStringBuilder.Append("\t");
                 outputToStringBuilder.AppendLine(message);
@@ -357,7 +386,7 @@ namespace SpecAid.Base
                 }
                 else if (compareRowFinal.matchQuality == MatchQuality.Partial)
                 {
-                    outputLine.Add("? " + matchIdentifier + (compareRowFinal.index + 1).ToString());                    
+                    outputLine.Add("? " + matchIdentifier + (compareRowFinal.index + 1).ToString());
                 }
                 else
                 {
@@ -400,17 +429,19 @@ namespace SpecAid.Base
         // Used in Best Match...
         private CompareRowResult TableRowToDataRetrieval(int tableRowIndex, int dataIndex)
         {
-            return tableRowToDataCompares[tableRowIndex, dataIndex];
+            return _tableRowToDataCompares[tableRowIndex, dataIndex];
         }
 
         // Used in Best Match...
         private CompareRowResult DataToTableRowRetrieval(int dataIndex, int tableRowIndex)
         {
-            return tableRowToDataCompares[tableRowIndex, dataIndex];
+            return _tableRowToDataCompares[tableRowIndex, dataIndex];
         }
 
         // Used in CompareRowResultToOutput
-        private static void ActualPrintToOutput(List<CompareColumnResult> columnResults, List<string> outputLine)
+        private static void ActualPrintToOutput(
+            List<CompareColumnResult> columnResults, 
+            List<string> outputLine)
         {
             foreach (var compareColumnResult in columnResults)
             {
@@ -423,7 +454,9 @@ namespace SpecAid.Base
         }
 
         // Used in CompareRowResultToOutput
-        private static void ExpectedPrintToOutput(List<CompareColumnResult> columnResults, List<string> outputLine)
+        private static void ExpectedPrintToOutput(
+            List<CompareColumnResult> columnResults, 
+            List<string> outputLine)
         {
             foreach (var compareColumnResult in columnResults)
             {
@@ -435,7 +468,10 @@ namespace SpecAid.Base
             }
         }
 
-        private static int FindBestMatch(int firstIndex, int secondCount, Func<int, int, CompareRowResult> compares)
+        private static int FindBestMatch(
+            int firstIndex, 
+            int secondCount, 
+            Func<int, int, CompareRowResult> compares)
         {
             CompareRowResult best = null;
             int bestIndex = 0;
@@ -481,9 +517,7 @@ namespace SpecAid.Base
 
             return output;
         }
-
     }
-
 
     public enum MatchQuality
     {

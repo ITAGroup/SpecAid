@@ -29,22 +29,64 @@ namespace SpecAid.Helper
             //Find the property based on a case insensitive compare of the name and return if it's found
             var infos = targetType.GetProperties();
 
-            info = infos.SingleOrDefault(x => x.Name.Equals(spaceLessColumnName, StringComparison.InvariantCultureIgnoreCase));
+            info =
+                infos.SingleOrDefault(
+                    x => x.Name.Equals(spaceLessColumnName, StringComparison.InvariantCultureIgnoreCase));
 
             if (info != null)
                 return info;
-            
+
             //find the property based on a case insensitive compare on a nested interface
             foreach (Type iType in targetType.GetInterfaces())
             {
                 infos = iType.GetProperties();
-                info = infos.SingleOrDefault(x => x.Name.Equals(spaceLessColumnName, StringComparison.InvariantCultureIgnoreCase));
+                info =
+                    infos.SingleOrDefault(
+                        x => x.Name.Equals(spaceLessColumnName, StringComparison.InvariantCultureIgnoreCase));
                 if (info != null)
                     return info;
             }
 
             //Property wasn't found return null
             return null;
+        }
+
+        public static PropertyInfo GetIndexerPropertyInfo(Type targetType, string columnName)
+        {
+            var canidates = targetType
+                .GetProperties()
+                .Where(x => x.GetIndexParameters().Length == 1)
+                .ToArray();
+
+            PropertyInfo theStringParameter = null;
+
+            foreach (var propertyInfo in canidates)
+            {
+                var indexParameter = propertyInfo.GetIndexParameters().First();
+                var indexParameterType = indexParameter.ParameterType;
+
+                // string parm... will always work.
+                // so we skip it for other more interesting parms.
+                if (indexParameterType == typeof (string))
+                {
+                    theStringParameter = propertyInfo;
+                    continue;
+                }
+
+                try
+                {
+                    // later when the type translate lib is added...
+                    // reconsider using that.
+                    Convert.ChangeType(columnName, indexParameterType);
+                    return propertyInfo;
+                }
+                catch (Exception)
+                {
+                    // ignored... because we are treating the try as an if.
+                }
+            } 
+
+            return theStringParameter;
         }
     }
 }

@@ -1,32 +1,34 @@
 ﻿using System;
+using SpecAid.Helper;
 using TechTalk.SpecFlow;
 
 namespace SpecAid
 {
     public class RecallAid
     {
-        private static RecallAid instance;
+        private static RecallAid _instance;
         private RecallAid() {}
 
-        public object this[string index]
+        public object this[string key]
         {
             get
             {
-                string lookup = index.ToLower();
+                var lookup = NormalizeKey(key);
 
                 if (!ScenarioContext.Current.ContainsKey(lookup))
                 {
-                    throw new Exception(string.Format("error: Given key \"{0}\" not found in dictionary", index));
+                    throw new Exception(string.Format("error: Given key \"{0}\" not found in dictionary", key));
                 }
 
                 return ScenarioContext.Current[lookup];
             }
             set
             {
-                string lookup = index.ToLower();
+                var lookup = NormalizeKey(key);
+
                 if (ScenarioContext.Current.ContainsKey(lookup))
                 {
-                    Console.WriteLine("Caution: ScenarioContext all ready has item: " + index);
+                    Console.WriteLine("Caution: ScenarioContext all ready has item: " + key);
                 }
                 ScenarioContext.Current[lookup] = value;
             }
@@ -47,7 +49,7 @@ namespace SpecAid
 
         public bool ContainsKey(string key)
         {
-            string lookup = key.ToLower();
+            var lookup = NormalizeKey(key);
             return ScenarioContext.Current.ContainsKey(lookup);
         }
 
@@ -71,12 +73,19 @@ namespace SpecAid
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new RecallAid();
+                    _instance = new RecallAid();
                 }
-                return instance;
+                return _instance;
             }
+        }
+
+        private string NormalizeKey(string key)
+        {
+            var keyLower = key.ToLowerInvariant();
+            var tagNormal = TagHelper.Normalizer(keyLower);
+            return tagNormal;
         }
     }
 }

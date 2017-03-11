@@ -1,6 +1,6 @@
 ﻿using System;
 using SpecAid.Base;
-using System.Configuration;
+using SpecAid.Extentions;
 
 namespace SpecAid.ColumnActions
 {
@@ -34,14 +34,7 @@ namespace SpecAid.ColumnActions
 
         public override bool UseWhen()
         {
-            // AssertWhenUnknownColumn is the reverse of use the unknown action.
-            // When AssertWhenUnknownColumn is not used... 
-            //   Assume Specflow.Assist behavior and Use UnknownColumn
-
-            var crashWhenUnknown = ConfigurationManager.AppSettings["SpecAidAssertWhenUnknownColumn"];
-
-            if ((crashWhenUnknown == null) || 
-                (bool.Parse(crashWhenUnknown) == false))
+            if (!SpecAidSettings.AssertWhenUnknownColumn)
             {
                 Console.WriteLine("Unable to determine what to do with column:" + base.ColumnName);
                 return true;
@@ -52,8 +45,7 @@ namespace SpecAid.ColumnActions
 
         public override int considerOrder
         {
-            get { return int.MaxValue; }
+            get { return ActionOrder.Unknown.ToInt32(); }
         }
-
     }
 }

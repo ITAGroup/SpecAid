@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using SpecAid.Helper;
 using SpecAid.Base;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
@@ -13,25 +12,27 @@ namespace SpecAid.Translations
     {
         public object Do(PropertyInfo info, string tableValue)
         {
-            var tableValueNoBrackets = tableValue.Substring(1, tableValue.Length - 2);
-            var tableValueEntries = tableValueNoBrackets.Split(',').ToList();
+            var tableValueNoBrackets = ListHelper.NoBrackets(tableValue);
 
-            Type genericType = info.PropertyType.GetGenericArguments()[0];
+            var tableValueEntries = CsvHelper.Split(tableValueNoBrackets);
+
+            // This will allow PlainLists to work.
+            Type innerType = typeof(object);
+
+            if (info.PropertyType.IsGenericType)
+                innerType = info.PropertyType.GetGenericArguments()[0];
 
             // Custom List to Return
-            Type customList = typeof(List<>).MakeGenericType(genericType);
+            Type customList = typeof(List<>).MakeGenericType(innerType);
             IList objectList = (IList)Activator.CreateInstance(customList);
 
-            // For a fake Property
-            Type customInstanceType = typeof(ObjectField<>).MakeGenericType(genericType);
-            var instance = Activator.CreateInstance(customInstanceType);
-            var propertyInfo = instance.GetType().GetProperty("field");
+            var propertyInfo = InstantProperty.FromType(innerType);
 
             foreach (var tableValueEntry in tableValueEntries)
             {
-                var expectedValue = Translator.Translate(propertyInfo, tableValueEntry);
+                var item = Translator.Translate(propertyInfo, tableValueEntry);
 
-                objectList.Add(expectedValue);
+                objectList.Add(item);
             }
 
             return objectList;
@@ -39,30 +40,33 @@ namespace SpecAid.Translations
 
         public bool UseWhen(PropertyInfo info, string tableValue)
         {
-            // Tags are in the form <<TagName>>
-            // Tags can also have Deep-Linked properties using the Tag as a starting point
-            // eg.  <<Dealer001>>.SalesDistrict.Code
+            // UseWhen does not test for Brackets because Brackets are optional
 
-            
-            if (!tableValue.StartsWith("["))
+            // Strings are Enumerable... But Compare Action is the one to use.
+            if (typeof(string).IsAssignableFrom(info.PropertyType))
                 return false;
 
-            if (!tableValue.EndsWith("]"))
-                return false;
-
-            if ((typeof(IList).IsAssignableFrom(info.PropertyType)) ||
-                typeof(IList<>).IsAssignableFrom(info.PropertyType) ||
-                (info.PropertyType.IsGenericType && info.PropertyType.GetGenericTypeDefinition() == typeof(IList<>)))
-            {
+            if (typeof(IList).IsAssignableFrom(info.PropertyType))
                 return true;
-            }
+
+            if (typeof(IList<>).IsAssignableFrom(info.PropertyType))
+                return true;
+
+            if (info.PropertyType.IsGenericType && info.PropertyType.GetGenericTypeDefinition() == typeof(IList<>))
+                return true;
+
+            if (typeof(IEnumerable).IsAssignableFrom(info.PropertyType))
+                return true;
+
+            if (typeof(IEnumerable<>).IsAssignableFrom(info.PropertyType))
+                return true;
 
             return false;
         }
 
-        public int considerOrder
+        public int ConsiderOrder
         {
-            get { return 2; }
+            get { return TranslationOrder.List.ToInt32(); }
         }
     }
 }

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using SpecAid.Base;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using System.Linq;
-using SpecAid.Helper;
 using SpecAid.Linq.Dynamic;
+using SpecAid.Extentions;
 
 namespace SpecAid.Translations
 {
@@ -35,7 +32,6 @@ namespace SpecAid.Translations
             }
         }
 
-
         public object Do(PropertyInfo info, string tableValue)
         {
             var linqObject = new LinqObject();
@@ -43,7 +39,7 @@ namespace SpecAid.Translations
             linqObject.StringAid = new StringAid();
             linqObject.IntAid = new IntAid();
 
-            var code = tableValue.Substring(1, tableValue.Length - 2);
+            var code = TrimLinq(tableValue);
 
             var linqCallResult = (DynamicLinq.CreateValueExpression<LinqObject, object>(code))(linqObject);
 
@@ -52,18 +48,17 @@ namespace SpecAid.Translations
 
         public bool UseWhen(PropertyInfo info, string tableValue)
         {
-            if (!tableValue.StartsWith("{"))
-                return false;
-
-            if (!tableValue.EndsWith("}"))
-                return false;
-
-            return true;
+            return tableValue.StartsWith("do(") && tableValue.EndsWith(")");
         }
 
-        public int considerOrder
+        public int ConsiderOrder
         {
-            get { return 98; }
+            get { return TranslationOrder.Linq.ToInt32(); }
+        }
+
+        public string TrimLinq(string thisValue)
+        {
+            return thisValue.Substring(3, thisValue.Length - 4);
         }
     }
 }

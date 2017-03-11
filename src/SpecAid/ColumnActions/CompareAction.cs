@@ -2,20 +2,19 @@
 using System.Reflection;
 using SpecAid.Base;
 using SpecAid.Helper;
+using SpecAid.SetTranslations;
 using SpecAid.Translations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SpecAid.Extentions;
 
 namespace SpecAid.ColumnActions
 {
     public class CompareAction : ColumnAction, IComparerColumnAction
     {
+        private PropertyInfo _info;
 
         public CompareAction(Type targetType, string columnName)
-            : base(targetType, columnName)
-        {
-        }
-
-        private PropertyInfo Info { get; set; }
+            : base(targetType, columnName) { }
 
         public CompareColumnResult GoGoCompareColumnAction(object target, string tableValue)
         {
@@ -24,8 +23,10 @@ namespace SpecAid.ColumnActions
 
             var compareResult = new CompareColumnResult();
 
-            var expectedValue = Translator.Translate(Info, tableValue);
-            var actualValue = target == null ? null : Info.GetValue(target, null);
+            var expectedValue = Translator.Translate(_info, tableValue);
+            expectedValue = SetTranslator.Translate(_info, target, expectedValue);
+
+            var actualValue = GetActual(target);
 
             compareResult.ExpectedPrint = ToStringHelper.SafeToString(expectedValue);
             compareResult.ActualPrint = ToStringHelper.SafeToString(actualValue);
@@ -38,7 +39,7 @@ namespace SpecAid.ColumnActions
             catch (Exception)
             {
                 compareResult.IsError = true;
-                compareResult.ErrorMessage = "Error on Property " + Info.Name + ", Expected '" + compareResult.ExpectedPrint + "', Actual '" + compareResult.ActualPrint + "'";
+                compareResult.ErrorMessage = "Error on Property " + _info.Name + ", Expected '" + compareResult.ExpectedPrint + "', Actual '" + compareResult.ActualPrint + "'";
             }
 
             return compareResult;
@@ -51,7 +52,7 @@ namespace SpecAid.ColumnActions
 
             // While the record is missing... this column isn't an error as it is n/a
             var compareResult = new CompareColumnResult();
-            var expectedValue = Translator.Translate(Info, tableValue);
+            var expectedValue = Translator.Translate(_info, tableValue);
 
             compareResult.ExpectedPrint = ToStringHelper.SafeToString(expectedValue);
             compareResult.IsError = false;
@@ -62,24 +63,31 @@ namespace SpecAid.ColumnActions
         {
             // While the record is missing... this column isn't an error as it is n/a
             var compareResult = new CompareColumnResult();
-            var actualValue = target == null ? null : Info.GetValue(target, null);
+            var actualValue = GetActual(target);
             compareResult.ActualPrint = ToStringHelper.SafeToString(actualValue);
             compareResult.IsError = false;
             return compareResult;
         }
 
+        private object GetActual(object target)
+        {
+            if (target == null)
+                return null;
+
+            return _info.GetValue(target, null);
+        }
+
         public override bool UseWhen()
         {
-            Info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(TargetType, ColumnName);
+            _info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(TargetType, ColumnName);
 
             //could not find the property on the object
-            return (Info != null);
+            return (_info != null);
         }
 
         public override int considerOrder
         {
-            get { return 5; }
+            get { return ActionOrder.Compare.ToInt32(); }
         }
-
     }
 }

@@ -15,7 +15,7 @@ namespace SpecAid.Helper
             string fullName = item.GetType().FullName;
             string asString = item.ToString();
 
-            // Avoid really gross output when ToString is not overriden
+            // Avoid really gross output when ToString is not overwriting
             if (fullName == asString)
                 return item.GetType().Name;
 

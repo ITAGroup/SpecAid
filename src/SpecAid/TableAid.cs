@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
 using SpecAid.Base;
 using SpecAid.ColumnActions;
-using SpecAid.CustomCompare;
 using SpecAid.Helper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TechTalk.SpecFlow;
@@ -31,7 +27,18 @@ namespace SpecAid
             return ObjectCreatorUpdaterInternal<T>(table, null, null, postFillActions, null);
         }
 
-        public static IEnumerable<T> ObjectCreator<T>(Table table, Func<T> defaultValue, Action<TableRow, T> postFillActions) 
+        public static IEnumerable<T> ObjectCreator<T>(
+            Table table, 
+            Action<TableRow, T> postFillActions, 
+            IEnumerable<ColumnToActionContainer<ICreatorColumnAction>> columnOverrides)
+        {
+            return ObjectCreatorUpdaterInternal<T>(table, null, null, postFillActions, columnOverrides);
+        }
+
+        public static IEnumerable<T> ObjectCreator<T>(
+            Table table, 
+            Func<T> defaultValue, 
+            Action<TableRow, T> postFillActions) 
         {
             return ObjectCreatorUpdaterInternal<T>(table, defaultValue, null, postFillActions, null);
         }
@@ -51,9 +58,17 @@ namespace SpecAid
             return ObjectCreatorUpdaterInternal<T>(table, null, null, postFillActions, null).FirstOrDefault();
         }
 
-        public static T ObjectCreatorOne<T>(Table table, Func<T> defaultValue, Action<TableRow, T> postFillActions) 
+        public static T ObjectCreatorOne<T>(
+            Table table, 
+            Func<T> defaultValue, 
+            Action<TableRow, T> postFillActions) 
         {
-            return ObjectCreatorUpdaterInternal<T>(table, defaultValue, null, postFillActions, null).FirstOrDefault();
+            return ObjectCreatorUpdaterInternal<T>(
+                table, 
+                defaultValue, 
+                null, 
+                postFillActions, 
+                null).FirstOrDefault();
         }
 
 
@@ -65,14 +80,25 @@ namespace SpecAid
             return ObjectCreatorUpdaterInternal<T>(table, null, objectFinder, null, null);
         }
 
-        public static IEnumerable<T> ObjectUpdater<T>(Table table, Func<TableRow, T> objectFinder, Action<TableRow, T> postMatchActions) 
+        public static IEnumerable<T> ObjectUpdater<T>(
+            Table table, 
+            Func<TableRow, T> objectFinder, 
+            Action<TableRow, T> postMatchActions) 
         {
             return ObjectCreatorUpdaterInternal<T>(table, null, objectFinder, postMatchActions, null);
         }
 
-        public static IEnumerable<T> ObjectUpdaterOne<T>(Table table,  T data, Action<TableRow, T> postMatchActions) 
+        public static IEnumerable<T> ObjectUpdaterOne<T>(
+            Table table,
+            T data,
+            Action<TableRow, T> postMatchActions) 
         {
-            return ObjectCreatorUpdaterInternal<T>(table, () => { return data; }, null, postMatchActions, null);
+            return ObjectCreatorUpdaterInternal<T>(
+                table, 
+                () => { return data; }, 
+                null, 
+                postMatchActions, 
+                null);
         }
 
         public static IEnumerable<T> ObjectUpdaterOne<T>(Table table, T data) 
@@ -82,56 +108,229 @@ namespace SpecAid
         #endregion
 
         #region Public ObjectComparer
+        
+        // |        | table | table, overrides | table, postactions | table, overrides, postaction |
+        // | full   | B2    | C2               | D2                 | E2                           |
+        // | sorted | B3    | C3               | D3                 | E3                           |
+        // | find   | B4    | C4               | D4                 | E4                           |
+        // | recall | B5    | C5               | D5                 | E5                           |
+        // | one    | B6    | C6               | D6                 | E6                           |
 
+        // B2
         public static void ObjectComparer<T>(Table table, IEnumerable<T> data)
         {
             ObjectComparerInternal<T>(table, data, null, null);
         }
 
-        public static void ObjectComparer<T>(Table table, IEnumerable<T> data, IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
+        // C2
+        public static void ObjectComparer<T>(
+            Table table, 
+            IEnumerable<T> data, 
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
         {
             ObjectComparerInternal<T>(table, data, null, columnOverrides);
         }
 
+        // D2
+        public static void ObjectComparer<T>(
+            Table table,
+            IEnumerable<T> data,
+            Action<TableRow, T> postCompareActions)
+        {
+            ObjectComparerInternal<T>(table, data, postCompareActions, null);
+        }
+
+        // E2
+        public static void ObjectComparer<T>(
+            Table table,
+            IEnumerable<T> data,
+            Action<TableRow, T> postCompareActions,
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
+        {
+            ObjectComparerInternal<T>(table, data, postCompareActions, columnOverrides);
+        }
+
+        // B3
+        public static void ObjectComparerSorted<T>(Table table, IEnumerable<T> data)
+        {
+            ObjectComparerInternalSorted<T>(table, data, null, null);
+        }
+
+        // C3
+        public static void ObjectComparerSorted<T>(
+            Table table,
+            IEnumerable<T> data,
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
+        {
+            ObjectComparerInternalSorted<T>(table, data, null, columnOverrides);
+        }
+
+        // D3
+        public static void ObjectComparerSorted<T>(
+            Table table,
+            IEnumerable<T> data,
+            Action<TableRow, T> postCompareActions)
+        {
+            ObjectComparerInternalSorted<T>(table, data, postCompareActions, null);
+        }
+
+        // E3
+        public static void ObjectComparerSorted<T>(
+            Table table,
+            IEnumerable<T> data,
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides,
+            Action<TableRow, T> postCompareActions)
+        {
+            ObjectComparerInternalSorted<T>(table, data, postCompareActions, columnOverrides);
+        }
+
+        // B4
+        public static void ObjectComparer<T>(Table table, Func<TableRow, T> objectFinder)
+        {
+            ObjectComparerWithFinderInternal<T>(table, objectFinder, null, null);
+        }
+
+        // C4
+        public static void ObjectComparer<T>(
+            Table table,
+            Func<TableRow, T> objectFinder,
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
+        {
+            ObjectComparerWithFinderInternal<T>(table, objectFinder, null, columnOverrides);
+        }
+
+        // D4
+        public static void ObjectComparer<T>(
+            Table table,
+            Func<TableRow, T> objectFinder,
+            Action<TableRow, T> postCompareActions)
+        {
+            ObjectComparerWithFinderInternal<T>(table, objectFinder, postCompareActions, null);
+        }
+
+        // E4
+        public static void ObjectComparer<T>(
+            Table table,
+            Func<TableRow, T> objectFinder,
+            Action<TableRow, T> postCompareActions,
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
+        {
+            ObjectComparerWithFinderInternal<T>(table, objectFinder, postCompareActions, IgnoreColumnRecallList());
+        }
+
+        // B5
+        public static void ObjectComparerRecall<T>(Table table)
+        {
+            var overrides = new List<ColumnToActionContainer<IComparerColumnAction>> { IgnoreColumnRecall() };
+            ObjectComparerWithFinderInternal<T>(table, RecallFinder<T>(), null, overrides);
+        }
+
+        // C5
+        public static void ObjectComparerRecall<T>(
+            Table table,
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
+        {
+            var overrides = columnOverrides.ToList();
+            overrides.Add(IgnoreColumnRecall());
+            ObjectComparerWithFinderInternal<T>(table, RecallFinder<T>(), null, overrides);
+        }
+
+        // D5
+        public static void ObjectComparerRecall<T>(
+            Table table,
+            Action<TableRow, T> postCompareActions)
+        {
+            ObjectComparerWithFinderInternal<T>(table, RecallFinder<T>(), postCompareActions, IgnoreColumnRecallList());
+        }
+
+        // E5
+        public static void ObjectComparerRecall<T>(
+            Table table,
+            Action<TableRow, T> postCompareActions,
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
+        {
+            ObjectComparerWithFinderInternal<T>(table, RecallFinder<T>(), postCompareActions, columnOverrides);
+        }
+
+        private static Func<TableRow, T> RecallFinder<T>()
+        {
+            return (row)=>
+                {
+                    if (row.ContainsKey("Recall"))
+                    {
+                        var tag = row["Recall"];
+                        return (T)RecallAid.It[tag];
+                    }
+                    return default(T);
+                };
+        }
+
+        private static List<ColumnToActionContainer<IComparerColumnAction>> IgnoreColumnRecallList()
+        {
+            var overrides = new List<ColumnToActionContainer<IComparerColumnAction>> { IgnoreColumnRecall() };
+            return overrides;
+        }
+
+        private static ColumnToActionContainer<IComparerColumnAction> IgnoreColumnRecall()
+        {
+            var anOverride = new ColumnToActionContainer<IComparerColumnAction>();
+            anOverride.ColumnName = "Recall";
+            anOverride.MatchAction = new IgnoreAction(null, "Recall");
+            return anOverride;
+        }
+
+        // B6
         public static void ObjectComparerOne<T>(Table table, T data)
         {
             ObjectComparerInternalOne<T>(table, data, null, null);
         }
 
-        public static void ObjectComparerOne<T>(Table table, T data, IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
+        // C6
+        public static void ObjectComparerOne<T>(
+            Table table, 
+            T data, 
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
         {
             ObjectComparerInternalOne<T>(table, data, null, columnOverrides);
         }
 
-        public static void ObjectComparer<T>(Table table, IEnumerable<T> data, Action<TableRow, T> postCompareActions)
+        // D6
+        public static void ObjectComparerOne<T>(
+            Table table,
+            T data,
+            Action<TableRow, T> postCompareActions)
         {
-            ObjectComparerInternal<T>(table, data, postCompareActions, null);
+            ObjectComparerInternalOne<T>(table, data, postCompareActions, null);
         }
 
-        public static void ObjectComparer<T>(Table table, Func<TableRow, T> objectFinder)
+        // E6
+        public static void ObjectComparerOne<T>(
+            Table table,
+            T data,
+            Action<TableRow, T> postCompareActions,
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
         {
-            ObjectComparerInternal<T>(table, objectFinder, null, null);
-        }
-
-        public static void ObjectComparer<T>(Table table, Func<TableRow, T> objectFinder, Action<TableRow, T> postCompareActions)
-        {
-            ObjectComparerInternal<T>(table, objectFinder, postCompareActions, null);
+            ObjectComparerInternalOne<T>(table, data, postCompareActions, columnOverrides);
         }
 
         #endregion
 
-
-        private static IEnumerable<T> ObjectCreatorUpdaterInternal<T>(Table VOHtable, Func<T> defaultValue, Func<TableRow, T> objectFinder, Action<TableRow, T> postMatchActions, IEnumerable<ColumnToActionContainer<ICreatorColumnAction>> columnOverrides)
+        private static IEnumerable<T> ObjectCreatorUpdaterInternal<T>(
+            Table verticalOrHorizontalTable, 
+            Func<T> defaultValue, 
+            Func<TableRow, T> objectFinder, 
+            Action<TableRow, T> postMatchActions, 
+            IEnumerable<ColumnToActionContainer<ICreatorColumnAction>> columnOverrides)
         {
-            var table = VerticalToHorizonal(VOHtable);
+            var table = VerticalToHorizonal(verticalOrHorizontalTable);
 
             //set up the return value 
-            var ret = new List<T>();
+            var result = new List<T>();
 
             //hold which column maps to which property
-            var matches = ColumnActionFactory.GetActionsFromColumns<ICreatorColumnAction>(table, typeof(T), columnOverrides);
+            var matches = ColumnActionFactory.GetActionsFromColumns(table, typeof(T), columnOverrides);
 
-            Dictionary<T, TableRow> valueToRow = new Dictionary<T, TableRow>();
+            var valueToRow = new Dictionary<T, TableRow>();
 
             //flip through each row and setup the data
             for (var i = 0; i < table.RowCount; i++)
@@ -158,7 +357,8 @@ namespace SpecAid
                     // Until then
 
                     if (!ObjectHelper.ThisTypeHasADefaultConstructor<T>())
-                        throw new Exception("Type needs a Default Constructor if you don't provide a method for creating one.");
+                        throw new Exception(
+                            "Type needs a Default Constructor if you don't provide a method for creating one.");
 
                     obj = ObjectHelper.CreateObjectWithTheDefaultConstructor<T>();
                 }
@@ -168,7 +368,8 @@ namespace SpecAid
                 {
                     //run through each column and set the matching prop
                     foreach (var item in matches)
-                        item.MatchAction.GoGoCreateColumnAction(obj, table.Rows[i][item.ColumnIndex.Value]);
+                        item.MatchAction.GoGoCreateColumnAction(
+                            obj, table.Rows[i][item.ColumnIndex.Value]);
                 }
                 catch (AssertFailedException ex)
                 {
@@ -181,7 +382,7 @@ namespace SpecAid
                 }
 
                 //add this item to our return collection
-                ret.Add(obj);
+                result.Add(obj);
                 valueToRow.Add(obj, table.Rows[i]);
             }
 
@@ -193,12 +394,16 @@ namespace SpecAid
             }
 
             //return the collection of updated items
-            return ret;
+            return result;
         }
 
-        private static void ObjectComparerInternalOne<T>(Table VOHtable, T dataItem, Action<TableRow, T> postCompareActions, IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
+        private static void ObjectComparerInternalOne<T>(
+            Table verticalOrHorizontalTable, 
+            T dataItem, 
+            Action<TableRow, T> postCompareActions, 
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
         {
-            var table = VerticalToHorizonal(VOHtable);
+            var table = VerticalToHorizonal(verticalOrHorizontalTable);
 
             if (table.RowCount != 1)
             {
@@ -209,7 +414,8 @@ namespace SpecAid
             compareTableResult.InitCompare(table, 1);
 
             // hold which column maps to which property
-            var columnActions = ColumnActionFactory.GetActionsFromColumns<IComparerColumnAction>(table, typeof(T), columnOverrides);
+            var columnActions = ColumnActionFactory.GetActionsFromColumns(
+                table, typeof(T), columnOverrides);
 
             var row = table.Rows[0];
             var compareRowResult = ObjectComparerInternalRow<T>(columnActions, row, dataItem);
@@ -232,13 +438,18 @@ namespace SpecAid
             }
         }
 
-        private static void ObjectComparerInternal<T>(Table table, Func<TableRow, T> objectFinder, Action<TableRow, T> postCompareActions, IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
+        private static void ObjectComparerWithFinderInternal<T>(
+            Table table,
+            Func<TableRow, T> objectFinder,
+            Action<TableRow, T> postCompareActions,
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
         {
             var compareTableResult = new CompareTableResult();
             compareTableResult.InitCompare(table, table.RowCount);
 
             // hold which column maps to which property
-            var columnActions = ColumnActionFactory.GetActionsFromColumns<IComparerColumnAction>(table, typeof(T), columnOverrides);
+            var columnActions = ColumnActionFactory.GetActionsFromColumns(
+                table, typeof(T), columnOverrides);
 
             // flip through each row
             for (var tableRowIndex = 0; tableRowIndex < table.RowCount; tableRowIndex++)
@@ -264,8 +475,8 @@ namespace SpecAid
                         postCompareActions(table.Rows[tableRowIndex], dataItem);
                     }
                 }
-
             }
+
             compareTableResult.FinalAnalyst();
 
             // Perform Printing
@@ -274,7 +485,70 @@ namespace SpecAid
             compareTableResult.TheAssert();
         }
 
-        private static void ObjectComparerInternal<T>(Table table, IEnumerable<T> dataList, Action<TableRow, T> postCompareActions, IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
+        private static void ObjectComparerInternalSorted<T>(
+            Table table,
+            IEnumerable<T> dataList,
+            Action<TableRow, T> postCompareActions,
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
+        {
+            var compareTableResult = new CompareTableResult();
+            compareTableResult.InitCompare(table, dataList.Count());
+
+            // hold which column maps to which property
+            var columnActions = ColumnActionFactory.GetActionsFromColumns(
+                table, typeof(T), columnOverrides);
+
+            var actualData = dataList.ToList();
+
+            // flip through each row
+            for (var tableRowIndex = 0; tableRowIndex < table.RowCount; tableRowIndex++)
+            {
+                var row = table.Rows[tableRowIndex];
+
+                // Test for null
+                if (tableRowIndex >= actualData.Count)
+                {
+                    var noRowCompareRowResult = ObjectComparerInternalRow(columnActions, row);
+                    compareTableResult.AddRowResult(
+                        tableRowIndex, int.MaxValue, noRowCompareRowResult, false);
+                    continue;
+                }
+
+                var dataItem = actualData.ElementAt(tableRowIndex);
+
+                // Compare It
+                var compareRowResult = ObjectComparerInternalRow<T>(columnActions, row, dataItem);
+                compareTableResult.AddRowResult(tableRowIndex, tableRowIndex, compareRowResult, true);
+
+                if (compareRowResult.totalErrors == 0)
+                {
+                    if (postCompareActions != null)
+                    {
+                        postCompareActions(table.Rows[tableRowIndex], dataItem);
+                    }
+                }
+            }
+
+            for (var dataIndex = table.RowCount; dataIndex < dataList.Count(); dataIndex++)
+            {
+                var dataItem = dataList.ElementAt(dataIndex);
+                var compareRowResult = ObjectComparerInternalRow(columnActions, dataItem);
+                compareTableResult.AddRowResult(int.MaxValue, dataIndex, compareRowResult, false);
+            }
+
+            compareTableResult.FinalAnalyst();
+
+            // Perform Printing
+            Console.WriteLine(compareTableResult.PrintMeSpecflowStyle());
+
+            compareTableResult.TheAssert();
+        }
+
+        private static void ObjectComparerInternal<T>(
+            Table table,
+            IEnumerable<T> dataList,
+            Action<TableRow, T> postCompareActions,
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnOverrides)
         {
             if (dataList == null)
             {
@@ -285,12 +559,13 @@ namespace SpecAid
             compareTableResult.InitCompare(table,dataList.Count());
 
             // hold which column maps to which property
-            var columnActions = ColumnActionFactory.GetActionsFromColumns<IComparerColumnAction>(table, typeof(T), columnOverrides);
+            var columnActions = ColumnActionFactory.GetActionsFromColumns(
+                table, typeof(T), columnOverrides);
 
             // flip through each row
             for (var tableRowIndex = 0; tableRowIndex < table.RowCount; tableRowIndex++)
             {
-                var IsMatch = false;
+                var isMatch = false;
    
                 // And each data
                 for (var dataIndex = 0; dataIndex < dataList.Count(); dataIndex++)
@@ -306,10 +581,11 @@ namespace SpecAid
                     // Compare It
                     var compareRowResult = ObjectComparerInternalRow<T>(columnActions, row, dataItem);
 
-                    IsMatch = (compareRowResult.totalErrors == 0);
+                    isMatch = (compareRowResult.totalErrors == 0);
 
                     // This makes the Match Happen
-                    compareTableResult.AddRowResult(tableRowIndex, dataIndex, compareRowResult, IsMatch);
+                    compareTableResult.AddRowResult(
+                        tableRowIndex, dataIndex, compareRowResult, isMatch);
 
                     if (compareRowResult.totalErrors == 0)
                     {
@@ -323,11 +599,12 @@ namespace SpecAid
                 }
 
                 // Add the missing Table Records
-                if (IsMatch == false)
+                if (isMatch == false)
                 {
                     var row = table.Rows[tableRowIndex];
                     var compareRowResult = ObjectComparerInternalRow(columnActions, row);
-                    compareTableResult.AddRowResult(tableRowIndex, int.MaxValue, compareRowResult, false);
+                    compareTableResult.AddRowResult(
+                        tableRowIndex, int.MaxValue, compareRowResult, false);
                 }
             }
 
@@ -352,14 +629,18 @@ namespace SpecAid
             compareTableResult.TheAssert();
         }
 
-        private static CompareRowResult ObjectComparerInternalRow<T>(IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnActions, TableRow row, T data)
+        private static CompareRowResult ObjectComparerInternalRow<T>(
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnActions,
+            TableRow row,
+            T data)
         {
             var rowResult = new CompareRowResult();
 
             //run through each column and set the matching prop
             foreach (var item in columnActions)
             {
-                var compareColumnResult = item.MatchAction.GoGoCompareColumnAction(data, row[item.ColumnIndex.Value]);
+                var compareColumnResult = item.MatchAction.GoGoCompareColumnAction(
+                    data, row[item.ColumnIndex.Value]);
 
                 rowResult.columnResults.Add(compareColumnResult);
             }
@@ -367,14 +648,17 @@ namespace SpecAid
             return rowResult;
         }
 
-        private static CompareRowResult ObjectComparerInternalRow(IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnActions, TableRow row)
+        private static CompareRowResult ObjectComparerInternalRow(
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnActions,
+            TableRow row)
         {
             var rowResult = new CompareRowResult();
 
             //run through each column and set the matching prop
             foreach (var item in columnActions)
             {
-                var compareColumnResult = item.MatchAction.GoGoCompareColumnAction(row[item.ColumnIndex.Value]);
+                var compareColumnResult = item.MatchAction.GoGoCompareColumnAction(
+                    row[item.ColumnIndex.Value]);
 
                 rowResult.columnResults.Add(compareColumnResult);
             }
@@ -382,7 +666,9 @@ namespace SpecAid
             return rowResult;
         }
 
-        private static CompareRowResult ObjectComparerInternalRow<T>(IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnActions, T data)
+        private static CompareRowResult ObjectComparerInternalRow<T>(
+            IEnumerable<ColumnToActionContainer<IComparerColumnAction>> columnActions,
+            T data)
         {
             var rowResult = new CompareRowResult();
 
@@ -397,166 +683,9 @@ namespace SpecAid
             return rowResult;
         }
 
-
-
-        /// <summary>
-        /// Output style:
-        ///   FieldName1 = FieldValue1 (tag), FieldName1 = FieldValue2 (tag)
-        /// </summary>
-        public static string ActualCollectionFancyTostring<T>(Table table, IEnumerable<T> actual)
-        {
-            StringBuilder actualStringListing = new StringBuilder();
-            actualStringListing.AppendLine();
-            actualStringListing.AppendLine("Actual:" );
-
-            var comparer = TableAid.ComparerCreator<T>(table);
-
-            foreach (T record in actual)
-            {
-                actualStringListing.AppendLine("\t" + comparer.GetFieldEqualValueStringWithSymbolicLink(record));
-            }
-
-            actualStringListing.AppendLine();
-
-            return actualStringListing.ToString();
-        }
-
-        /// <summary>
-        /// Output style:
-        ///   | FieldName1  | FieldName2  |
-        ///   | FieldValue1 | FieldValue2 |
-        /// </summary>
-        public static string ActualCollectionSpecflowFancyTostring<T>(Table table, IEnumerable<T> actual)
-        {
-            return ActualCollectionWithMatchesSpecflowFancyTostring<T>(table, actual, null);
-        }
-
-        /// <summary>
-        /// Output style:
-        ///   | FieldName1  | FieldName2  |
-        /// </summary>
-        public static string ActualObjectWithMatchesSpecflowFancyTostring<T>(Table table, T actual)
-        {
-            var actualAsCollection = new List<T>();
-            actualAsCollection.Add(actual);
-
-            var dataToTableRowMatches = new Dictionary<int, int>();
-            dataToTableRowMatches.Add(0,0);
-
-            return ActualCollectionWithMatchesSpecflowFancyTostring(table, actualAsCollection, dataToTableRowMatches);
-        }
-
-        /// <summary>
-        /// Output style:
-        ///   | FieldName1  | FieldName2  |
-        ///   | FieldValue1 | FieldValue2 |
-        /// </summary>
-        public static string ActualCollectionWithMatchesSpecflowFancyTostring<T>(Table table, IEnumerable<T> actual, Dictionary<int, int> dataToTableRowMatches)
-        {
-            StringBuilder actualStringListing = new StringBuilder();
-            actualStringListing.AppendLine();
-            actualStringListing.AppendLine("Actual:");
-
-            // Get Header and Column data in Property order.
-
-            var comparer = TableAid.ComparerCreator<T>(table);
-
-            var output = new List<List<string>>();
-
-            output.Add(comparer.GetHeaderValuesInPropertyOrder());
-
-            foreach (T record in actual)
-            {
-                output.Add(comparer.GetColumnValuesInPropertyOrder(record));
-            }
-
-            if (output.Count < 2)
-                return "Actual: Collection is Empty";
-
-            // Add Match List if Avalible.
-
-            if (dataToTableRowMatches != null)
-            {
-                // Add Matched Column
-                output[0].Insert(0, "Matches");
-
-                for (int i = 1 /* Skip the Header*/ ; i < output.Count; i++)
-                {
-                    int zeroRelativeDataIndex = i - 1;
-
-                    if (dataToTableRowMatches.ContainsKey(zeroRelativeDataIndex))
-                    {
-                        int oneRelativeTableRowIndex = dataToTableRowMatches[zeroRelativeDataIndex] + 1;
-                        string tableRowMatch = oneRelativeTableRowIndex.ToString();
-                        output[i].Insert(0, tableRowMatch);
-                    }
-                    else
-                    {
-                        // Bump the column over one
-                        output[i].Insert(0, "");
-                    }
-                }
-            }
-
-            var numberOfTotalColumns = new int[output[0].Count];
-
-            // Get max width of each column
-            foreach (var outLine in output)
-            {
-                for (int i = 0; i < outLine.Count; i++)
-                {
-                    if (numberOfTotalColumns[i] < outLine[i].Length)
-                        numberOfTotalColumns[i] = outLine[i].Length;
-                }
-            }
-
-            // Create pipe delimited fixed with output
-            foreach (var outLine in output)
-            {
-                actualStringListing.Append("\t");
-                actualStringListing.Append("| ");
-                for (int i = 0; i < outLine.Count; i++)
-                {
-                    actualStringListing.Append(outLine[i].PadRight(numberOfTotalColumns[i]));
-                    actualStringListing.Append(" | ");
-                }
-                actualStringListing.AppendLine();
-            }
-            return actualStringListing.ToString();
-        }
-
-
-
-        /// <summary>
-        ///   Used to create a Lambda Member Lookup based on Type and Specflow Table.
-        ///   Resulting CustomComparer can be used in Collection Comparer and Fancy Printers
-        /// </summary>
-        private static CustomComparer<T> ComparerCreator<T>(Table table)
-        {
-            var contentComparer = CustomComparer<T>.CreateNew();
-
-            for (var i = 0; i < table.Header.Count(); i++)
-            {
-                var propertyInfo = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(typeof(T), table.Header.ElementAt(i));
-
-                if (propertyInfo != null)
-                {
-                    // One dynamic property on the fly
-                    var entityParam = Expression.Parameter(typeof(T), "e");
-                    var memberExpressionReal = Expression.MakeMemberAccess(entityParam, propertyInfo);
-                    var memberExpressionObj = Expression.Convert(memberExpressionReal, typeof(object));
-                    var exp = Expression.Lambda<Func<T, object>>(memberExpressionObj, entityParam);
-
-                    contentComparer.Add(exp);
-                }
-            }
-
-            return contentComparer;
-        }
-
         private static Table VerticalToHorizonal(Table table)
         {
-            //| Field | Value             |
+            // | Field | Value |
             if (table.Header.Count != 2)
                 return table;
 

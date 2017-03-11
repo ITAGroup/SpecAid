@@ -1,24 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
-using System.Linq;
 using System.Reflection;
 using System.Collections;
-using System.Collections.Generic;
 using SpecAid.Translations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpecAid.Base;
 using SpecAid.Helper;
+using SpecAid.Extentions;
 
-namespace SpecAid.Base.ColumnActions
+namespace SpecAid.ColumnActions
 {
     public class ListCompareAction : ColumnAction, IComparerColumnAction
     {
-        private PropertyInfo Info { get; set; }
+        private PropertyInfo _info;
 
         public ListCompareAction(Type targetType, string columnName)
-            : base(targetType, columnName)
-        {
-        }
+            : base(targetType, columnName) { }
 
         public CompareColumnResult GoGoCompareColumnAction(object target, string tableValue)
         {
@@ -27,13 +25,13 @@ namespace SpecAid.Base.ColumnActions
 
             var compareResult = new CompareColumnResult();
 
-            var expectedValue = (IList)Translator.Translate(Info, tableValue);
-            var actualValue = (IList)(target == null ? null : Info.GetValue(target, null));
+            var expectedValue = (IList)Translator.Translate(_info, tableValue);
+            var actualValue = GetActual(target);
 
             compareResult.ExpectedPrint = SafeListToString(expectedValue);
             compareResult.ActualPrint = SafeListToString(actualValue);
 
-            // Refactor to be blah = blah 
+            // Refactor to be blah = blah
             try
             {
                 CollectionAssert.AreEquivalent(expectedValue, actualValue);
@@ -41,10 +39,41 @@ namespace SpecAid.Base.ColumnActions
             catch (Exception)
             {
                 compareResult.IsError = true;
-                compareResult.ErrorMessage = "Error on Property " + Info.Name + ", Expected '" + compareResult.ExpectedPrint + "', Actual '" + compareResult.ActualPrint + "'";
+                compareResult.ErrorMessage = "Error on Property " + _info.Name + ", Expected '" + compareResult.ExpectedPrint + "', Actual '" + compareResult.ActualPrint + "'";
             }
 
             return compareResult;
+        }
+
+        private IList GetActual(object target)
+        {
+            if (target == null)
+                return null;
+
+            if (typeof(IList).IsAssignableFrom(_info.PropertyType))
+                return (IList)(_info.GetValue(target, null));
+
+            if (IsGenericList(_info.PropertyType))
+                return (IList)(_info.GetValue(target, null));
+
+            // Need to convert the Enumerable Information into a List for Collection Assert.
+            if (typeof(IEnumerable).IsAssignableFrom(_info.PropertyType))
+            {
+                var orginalEnumerable = (IEnumerable)(_info.GetValue(target, null));
+
+                if (orginalEnumerable == null)
+                    return null;
+
+                var actualValue = new ArrayList();
+                foreach (var item in orginalEnumerable)
+                {
+                    actualValue.Add(item);
+                }
+                return actualValue;
+            }
+
+            // This shouldn't happen
+            return null;
         }
 
         public CompareColumnResult GoGoCompareColumnAction(string tableValue)
@@ -53,7 +82,7 @@ namespace SpecAid.Base.ColumnActions
                 return new CompareColumnResult();
 
             var compareResult = new CompareColumnResult();
-            var expectedValue = (IList)Translator.Translate(Info, tableValue);
+            var expectedValue = (IList)Translator.Translate(_info, tableValue);
 
             compareResult.ExpectedPrint = SafeListToString(expectedValue);
             compareResult.IsError = false;
@@ -64,7 +93,7 @@ namespace SpecAid.Base.ColumnActions
         {
             // While the record is missing... this column isn't an error as it is n/a
             var compareResult = new CompareColumnResult();
-            var actualValue = (IList)(target == null ? null : Info.GetValue(target, null));
+            var actualValue = (IList)(target == null ? null : _info.GetValue(target, null));
             compareResult.ActualPrint = SafeListToString(actualValue);
             compareResult.IsError = false;
             return compareResult;
@@ -78,18 +107,19 @@ namespace SpecAid.Base.ColumnActions
             var sb = new StringBuilder();
             sb.Append("[");
 
-            var IsFirst = true;
+            var isFirst = true;
 
             foreach (var item in items)
             {
-                if (IsFirst)
-                    IsFirst = false;
+                if (isFirst)
+                    isFirst = false;
                 else
                     sb.Append(",");
 
                 var outputString = ToStringHelper.SafeToString(item);
+                var csvSafeString = CsvHelper.ToCsv(outputString);
 
-                sb.Append(outputString);
+                sb.Append(csvSafeString);
             }
 
             sb.Append("]");
@@ -98,19 +128,43 @@ namespace SpecAid.Base.ColumnActions
 
         public override bool UseWhen()
         {
-            Info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(TargetType, ColumnName);
+            _info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(TargetType, ColumnName);
 
-            if (Info == null)
+            if (_info == null)
                 return false;
 
-            var assignable = (typeof (IList).IsAssignableFrom(Info.PropertyType));
+            if (typeof(string).IsAssignableFrom(_info.PropertyType))
+                return false;
 
-            return assignable;
+            if (typeof (IList).IsAssignableFrom(_info.PropertyType))
+                return true;
+
+            if (IsGenericList(_info.PropertyType))
+                return true;
+
+            if (typeof(IEnumerable).IsAssignableFrom(_info.PropertyType))
+                return true;
+
+            return false;
+        }
+
+        //http://stackoverflow.com/questions/1177434/isnt-a-generic-ilist-assignable-from-a-generic-list
+        public static bool IsGenericList(Type type)
+        {
+            if (!type.IsGenericType)
+                return false;
+
+            var genericArguments = type.GetGenericArguments();
+            if (genericArguments.Length != 1)
+                return false;
+
+            var listType = typeof(IList<>).MakeGenericType(genericArguments);
+            return listType.IsAssignableFrom(type);
         }
 
         public override int considerOrder
         {
-            get { return 4; }
+            get { return ActionOrder.ListCompare.ToInt32(); }
         }
     }
 }

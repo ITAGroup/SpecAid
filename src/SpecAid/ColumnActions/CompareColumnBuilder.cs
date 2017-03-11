@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using SpecAid.Base;
 
 namespace SpecAid.ColumnActions
 {
     public class CompareColumnBuilder<T>
     {
-        private List<ColumnToActionContainer<IComparerColumnAction>> columnOverrides = new List<ColumnToActionContainer<IComparerColumnAction>>();
+        private readonly List<ColumnToActionContainer<IComparerColumnAction>> _columnOverrides = new List<ColumnToActionContainer<IComparerColumnAction>>();
 
         public CompareColumnBuilder<T> AddIgnore(string columnName)
         {
             var aOverride = new ColumnToActionContainer<IComparerColumnAction>();
             aOverride.ColumnName = columnName;
             aOverride.MatchAction = new IgnoreAction(null, columnName);
-            columnOverrides.Add(aOverride);
+            _columnOverrides.Add(aOverride);
             return this;
         }
 
@@ -26,14 +23,14 @@ namespace SpecAid.ColumnActions
             var aOverride = new ColumnToActionContainer<IComparerColumnAction>();
             aOverride.ColumnName = columnName;
             aOverride.MatchAction = action;
-            columnOverrides.Add(aOverride);
+            _columnOverrides.Add(aOverride);
 
             return this;
         }
 
         public List<ColumnToActionContainer<IComparerColumnAction>> Out
         {
-            get { return columnOverrides; }
+            get { return _columnOverrides; }
         }
     }
 }

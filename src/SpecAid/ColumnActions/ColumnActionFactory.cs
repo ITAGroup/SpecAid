@@ -10,7 +10,6 @@ namespace SpecAid.ColumnActions
 {
     public class ColumnActionFactory
     {
-
         /// <summary>
         /// Gets the appropriate action for the given interface and column name
         /// </summary>
@@ -56,7 +55,7 @@ namespace SpecAid.ColumnActions
                     t => t.considerOrder);
 
 
-            var testAssembly = Assembly.GetExecutingAssembly();
+            var testAssembly = AssemblyEntryFinderInUnitTests.Go();
 
             var testTypes = testAssembly.GetTypes()
                 .Where(typeof(T).IsAssignableFrom)
@@ -81,7 +80,8 @@ namespace SpecAid.ColumnActions
         /// <summary>
         /// Method to match columns in a table to properties in a object
         /// </summary>
-        public static IEnumerable<ColumnToActionContainer<T>> GetActionsFromColumns<T>(Table table, Type target, IEnumerable<ColumnToActionContainer<T>> overrides )
+        public static IEnumerable<ColumnToActionContainer<T>> GetActionsFromColumns<T>(
+            Table table, Type target, IEnumerable<ColumnToActionContainer<T>> overrides )
             where T : IColumnAction
         {
             //setup my return object
@@ -140,6 +140,5 @@ namespace SpecAid.ColumnActions
             //return the mappings of the successful columns
             return sortedActions;
         }
-
     }
 }

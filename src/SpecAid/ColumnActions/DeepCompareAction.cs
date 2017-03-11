@@ -1,33 +1,41 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using SpecAid.Translations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpecAid.Base;
 using SpecAid.Helper;
+using SpecAid.Extentions;
 
 namespace SpecAid.ColumnActions
 {
     public class DeepCompareAction : ColumnAction, IComparerColumnAction
     {
-        private PropertyInfo Info { get; set; }
-        private IComparerColumnAction deepAction;
+        private IComparerColumnAction _deepAction;
+        private PropertyInfo _info;
+        private bool _isIndexer;
+        private object _lookUp;
 
         public DeepCompareAction(Type targetType, string columnName)
-            : base(targetType, columnName)
-        {
-        }
+            : base(targetType, columnName) { }
 
         public CompareColumnResult GoGoCompareColumnAction(object target, string tableValue)
         {
             if (tableValue == ConstantStrings.IgnoreCell)
                 return new CompareColumnResult();
 
-            if (deepAction != null)
-            {
-                return deepAction.GoGoCompareColumnAction(Info.GetValue(target, null), tableValue);
-            }
+            var value = GetActual(target);
+
+            if (_deepAction != null)
+                return _deepAction.GoGoCompareColumnAction(value, tableValue);
+
             return new CompareColumnResult();
+        }
+
+        private object GetActual(object target)
+        {
+            if (_isIndexer)
+                return _info.GetValue(target, new[] { _lookUp });
+            
+            return _info.GetValue(target, null);
         }
 
         public CompareColumnResult GoGoCompareColumnAction(string tableValue)
@@ -35,56 +43,67 @@ namespace SpecAid.ColumnActions
             if (tableValue == ConstantStrings.IgnoreCell)
                 return new CompareColumnResult();
 
-            if (deepAction != null)
-            {
-                return deepAction.GoGoCompareColumnAction(tableValue);
-            }
+            if (_deepAction != null)
+                return _deepAction.GoGoCompareColumnAction(tableValue);
+
             return new CompareColumnResult();
         }
 
         public CompareColumnResult GoGoCompareColumnAction(object target)
         {
-            if (deepAction != null)
-            {
-                return deepAction.GoGoCompareColumnAction(Info.GetValue(target, null));
-            }
+            var value = GetActual(target);
+
+            if (_deepAction != null)
+                return _deepAction.GoGoCompareColumnAction(value);
+
             return new CompareColumnResult();
         }
 
-
-
         public override bool UseWhen()
         {
-            // do deep property binding
-            if (!(ColumnName.Contains('.')))
-            {
+            if (!DeepHelper.IsDeep(ColumnName))
                 return false;
-            }
 
-            var propertyNames = ColumnName.Split('.');
+            var columnNameParts = DeepHelper.SplitColumnName(ColumnName);
 
-            if (propertyNames.Count() <= 1)
-            {
-                throw new Exception(string.Format("Can not find any property represented by deep-binding syntax: \"{0}\"", ColumnName));
-            }
-
-            Info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(TargetType, propertyNames[0]);
-
-            var nextColumnName = string.Join(".", propertyNames.Skip(1).ToList());
-
-            deepAction = ColumnActionFactory.GetAction<IComparerColumnAction>(Info.PropertyType, nextColumnName);
-
-            if (deepAction == null)
-            {
+            if (!UseWhenProperty(columnNameParts.FirstColumn))
                 return false;
-            }
 
-            return deepAction.UseWhen();
+            _deepAction = ColumnActionFactory.GetAction<IComparerColumnAction>(
+                _info.PropertyType, 
+                columnNameParts.OtherColumns);
+
+            if (_deepAction == null)
+                return false;
+
+            return _deepAction.UseWhen();
+        }
+
+        private bool UseWhenProperty(string firstColumnName)
+        {
+            _info = PropertyInfoHelper.GetCaseInsensitivePropertyInfo(
+                TargetType, firstColumnName);
+
+            if (_info != null)
+                return true;
+
+            _info = PropertyInfoHelper.GetIndexerPropertyInfo(
+                TargetType, firstColumnName);
+
+            if (_info == null)
+                return false;
+
+            _isIndexer = true;
+
+            var parameterType = _info.GetIndexParameters().First().ParameterType;
+            _lookUp = Convert.ChangeType(firstColumnName, parameterType);
+
+            return true;
         }
 
         public override int considerOrder
         {
-            get { return 9; }
+            get { return ActionOrder.DeepCompare.ToInt32(); }
         }
     }
 }
